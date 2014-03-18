@@ -1,0 +1,29 @@
+<rules>
+    <event>
+        <name>NEO II</name>
+    </event>
+    <points>
+        <ship>
+            <type>frigate</type>
+            <points>2</points>
+        </ship>
+        <ship>
+            <type>destroyer</type>
+            <points>2</points>
+        </ship>
+    </points>
+    <restrictions>
+        <restriction>
+            <type>onlyOneModuleAllowed</type>
+            <warning>Only one Ancillary Armor Repairer allowed</warning>
+            <modules>
+                <module>Small Ancillary Armor Repairer</module>
+                <module>Medium Ancillary Armor Repairer</module>
+                <module>Large Ancillary Armor Repairer</module>
+            </modules>
+        </restriction>
+        <restriction>
+            <type>noT2Rigs</type>
+        </restriction>
+    </restrictions>
+</rules>

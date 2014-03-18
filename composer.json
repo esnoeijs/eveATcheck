@@ -1,0 +1,17 @@
+{
+    "name": "eve-AT-checker/0",
+    "type": "project",
+    "description": "Check tournament fits/setups versus CCP's rules",
+    "autoload": {
+        "psr-4": {
+            "eveATcheck\\": "app/"
+        }
+    },
+    "require":
+    {
+        "slim/slim": "2.*",
+        "slim/views": "*",
+        "twig/twig": "*",
+        "twig/extensions": "*"
+    }
+}
