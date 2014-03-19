@@ -18,12 +18,7 @@ class fit {
         $fit = $app->request()->post('fit');
         $db  = $app->db;
 
-        $evefit = new evefit($db);
-        $fits = $evefit->parseEFT($fit);
-
-        if (!isset($_SESSION['fits'])) $_SESSION['fits'] = array();
-        $_SESSION['fits'] = array_merge($fits, $_SESSION['fits']);
-
+        $app->evefit->addFit($fit);
 
         if ($app->request()->isAjax())
         {
@@ -38,9 +33,9 @@ class fit {
 
     public function action_list(\Slim\Slim $app)
     {
-        if (!isset($_SESSION['fits'])) $_SESSION['fits'] = array();
+        $fits = $app->evefit->getFits();
 
-        foreach ($_SESSION['fits'] as $fit)
+        foreach ($fits as $fit)
         {
             $app->render('fit/fit.twig', array('test' => 'hank', 'fit' => $fit ));
         }

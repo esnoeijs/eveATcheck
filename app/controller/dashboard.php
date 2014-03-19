@@ -16,19 +16,15 @@ class dashboard
      */
     public function action_index(\Slim\Slim $app)
     {
-        $fits = array();
-        if (isset($_SESSION['fits']))
-        {
-            $fits = $_SESSION['fits'];
+        $fits = $app->evefit->getFits();
 
-            if (count($_SESSION['fits'])!=0)
+        if (count($fits)!=0)
+        {
+            $rules = new rulechecker($app->db);
+            /** fit $fit */
+            foreach ($fits as &$fit)
             {
-                $rules = new rulechecker($app->db);
-                /** fit $fit */
-                foreach ($_SESSION['fits'] as &$fit)
-                {
-                    $rules->checkFit($fit);
-                }
+                $rules->checkFit($fit);
             }
         }
 

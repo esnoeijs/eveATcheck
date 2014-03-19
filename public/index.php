@@ -27,24 +27,12 @@ $app = new \Slim\Slim(
     $slimOptions)
 );
 
-$app->db = new \eveATcheck\lib\database\database($dbhost,$dbport,$dbname,$dbuser,$dbpass);
 
-
-// Let's just use a normal session for now.
 session_start();
-//$app->add(new \Slim\Middleware\SessionCookie(array(
-//    'expires' => '20 minutes',
-//    'path' => '/',
-//    'domain' => null,
-//    'secure' => false,
-//    'httponly' => false,
-//    'name' => 'slim_session',
-//    'secret' => 'asdjfhasd@#$32423jh4k2j3h4jb kbksdafsjkdhfu 2u3h42;l;lk',
-//    'cipher' => MCRYPT_RIJNDAEL_256,
-//    'cipher_mode' => MCRYPT_MODE_CBC
-//)));
 
 
+$app->db = new \eveATcheck\lib\database\database($dbhost,$dbport,$dbname,$dbuser,$dbpass);
+$app->evefit = new \eveATcheck\lib\evefit\evefit($app->db);
 
 require '../app/routes.php';
 

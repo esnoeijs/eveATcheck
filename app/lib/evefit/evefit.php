@@ -14,10 +14,54 @@ use eveATcheck\lib\evefit\lib\fit;
 class evefit
 {
     protected $db;
+    protected $fits = array();
 
     public function __construct($db)
     {
         $this->db = $db;
+        $this->loadFits();
+    }
+
+    /**
+     * Takes EFT format fit, parses it and adds it to the list of fits.
+     *
+     * @param string $fit
+     */
+    public function addFit($fit)
+    {
+        $fits = $this->parseEFT($fit);
+        $this->fits = array_merge($fits, $this->fits);
+        $this->saveFits();
+    }
+
+    /**
+     * Returns array of fits
+     *
+     * @return fit[]
+     */
+    public function getFits()
+    {
+        return $this->fits;
+    }
+
+    /**
+     * Loads fits from session
+     * @todo load from database, probably via another class
+     */
+    protected function loadFits()
+    {
+        if (!isset($_SESSION['fits'])) $_SESSION['fits'] = array();
+        $this->fits = $_SESSION['fits'];
+    }
+
+    /**
+     * Saves fits to session
+     * @todo see loadFits
+     */
+    protected function saveFits()
+    {
+        if (!isset($_SESSION['fits'])) $_SESSION['fits'] = array();
+        $_SESSION['fits'] = $this->fits;
     }
 
     /**
@@ -45,7 +89,7 @@ class evefit
      * @todo rewrite fit parsing to use the DB to find out which slot an item belongs too and not try to guess it
      * @param $fit
      */
-    public function parseEFT($fitEFT)
+    protected function parseEFT($fitEFT)
     {
         $fitEFT = new \ArrayIterator(explode(PHP_EOL, $fitEFT));
 
