@@ -26,12 +26,12 @@ class fit
 
     protected $type;
     protected $name;
+    protected $group;
 
     protected $slots = array();
 
     protected $warnings = array();
 
-    protected $db;
 
     /**
      * instantiate new ship fit with name and type
@@ -39,12 +39,11 @@ class fit
      * @param String $type
      * @param String $name
      */
-    public function __construct(database $db, $type, $name)
+    public function __construct($type, $name, $group)
     {
-        $this->type = $type;
-        $this->name = $name;
-
-        $this->groupName = $this->getGroupName($db, $type);
+        $this->type  = $type;
+        $this->name  = $name;
+        $this->group = $group;
     }
 
     /**
@@ -122,14 +121,5 @@ class fit
     }
 
 
-    protected function getGroupName($db, $type)
-    {
-        $conn = $db->getConnection();
-        $sth  = $conn->prepare('SELECT ig.groupName FROM invTypes it LEFT JOIN invGroups ig ON it.groupID = ig.groupID WHERE it.typeName = :moduleName');
-        $sth->bindValue(':moduleName', $type, \PDO::PARAM_STR);
-        $sth->execute();
-        $row = $sth->fetch(\PDO::FETCH_ASSOC);
 
-        return $row['groupName'];
-    }
 } 

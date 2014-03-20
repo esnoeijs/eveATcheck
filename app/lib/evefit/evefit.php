@@ -10,16 +10,21 @@ namespace eveATcheck\lib\evefit;
 
 
 use eveATcheck\lib\evefit\lib\fit;
+use eveATcheck\lib\evemodel\evemodel;
 
 class evefit
 {
-    protected $db;
     protected $fits = array();
 
-    public function __construct($db)
+    /**
+     * @var \eveATcheck\lib\evemodel\evemodel
+     */
+    protected $model;
+
+    public function __construct(evemodel $model)
     {
-        $this->db = $db;
         $this->loadFits();
+        $this->model = $model;
     }
 
     /**
@@ -104,7 +109,7 @@ class evefit
 
             if (count($matches)!==0)
             {
-                $fit = new fit($this->db, $matches[1], $matches[2]);
+                $fit = $this->getNewFit($matches[1], $matches[2]);
 
                 // EFT will have listed modules separated by a double linebreak to separate between slot types
                 foreach (array(fit::LOWSLOT, fit::MIDSLOT, fit::HIGHSLOT, fit::RIGSLOT, fit::SUBSYSTEM) as $slotType)
@@ -137,13 +142,17 @@ class evefit
                         $fitEFT->next();
                     }
                 }
-
                 $fits[] = $fit;
             }
-
         }
 
         return $fits;
+    }
+
+    protected function getNewFit($name, $shipName)
+    {
+        $groupName = $this->model->getModel('ship')->getGroupName($shipName);
+        return new fit($name, $shipName, $groupName);
     }
 
 

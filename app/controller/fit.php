@@ -31,13 +31,18 @@ class fit {
         }
     }
 
+    /**
+     * Returns partialHTML of a list of fits.
+     *
+     * @param \Slim\Slim $app
+     */
     public function action_list(\Slim\Slim $app)
     {
         $fits = $app->evefit->getFits();
 
         foreach ($fits as $fit)
         {
-            $app->render('fit/fit.twig', array('test' => 'hank', 'fit' => $fit ));
+            $app->render('fit/fit.twig', array('fit' => $fit ));
         }
     }
 
