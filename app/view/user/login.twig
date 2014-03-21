@@ -1,0 +1,91 @@
+{% extends 'base.twig' %}
+
+
+{% block content %}
+
+    <section>
+        <h2>User Login</h2>
+
+        <div id="userLogin_success" class="notification success" style="display:none">
+            <p>You have been successfully logged in</p>
+        </div>
+
+        <div class="notification error general" style="display: none">
+
+        </div>
+
+        <form id="userLogin" method="POST" action="/index.php/user/login">
+            <p><label>Username:</label><input type="text" name="username" /><span class="errorMessage username"></span></p>
+            <p><label>Password:</label><input type="password" name="password" /><span class="errorMessage password"></span></p>
+            <input type="submit" value="submit" />
+        </form>
+    </section>
+
+<style>
+#userRegistration label
+{
+    width: 250px;
+    display: inline-block;
+}
+#userRegistration input.error
+{
+    background-color: red;
+}
+#userRegistration .errorMessage
+{
+    font-size: 0.8em;
+}
+
+.notification
+{
+    display: block;
+    padding: 15px;
+    background-color: greenyellow;
+    border: solid 2px green;
+
+}
+.notification.error
+{
+    background-color: #f99;
+}
+</style>
+    <script>
+        $(document).ready(function(){
+
+            $('#userLogin').ajaxForm({
+                dataType:  'json',
+                beforeSubmit: function()
+                {
+                    $('.error.general').hide();
+                    $('input','#userLogin').removeClass('error');
+                    $('.errorMessage','#userLogin').text('');
+                },
+                success:   function(data)
+                {
+                    if (!data.success)
+                    {
+                        $.each(data.errors, function (idx, val)
+                        {
+                            if (idx=='general')
+                            {
+                                $('.error.general').show();
+                                $('.error.general').text(val);
+                            }
+                            else
+                            {
+                                $('input[name='+idx+']','#userLogin').addClass('error');
+                                $('.errorMessage.'+idx,'#userLogin').text(val);
+                            }
+                        })
+                    }
+                    else
+                    {
+                        $('.error.general').hide();
+                        $('#userLogin').hide();
+                        $('#userLogin_success').show();
+                    }
+                }
+            });
+        })
+    </script>
+{% endblock %}

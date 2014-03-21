@@ -11,20 +11,29 @@ namespace eveATcheck\lib\evefit;
 
 use eveATcheck\lib\evefit\lib\fit;
 use eveATcheck\lib\evemodel\evemodel;
+use eveATcheck\lib\user\user;
 
 class evefit
 {
     protected $fits = array();
 
     /**
-     * @var \eveATcheck\lib\evemodel\evemodel
+     * @var evemodel
      */
     protected $model;
 
-    public function __construct(evemodel $model)
+    /**
+     * @var user
+     */
+    protected $user;
+
+    public function __construct(evemodel $model,user $user)
     {
-        $this->loadFits();
         $this->model = $model;
+        $this->user  = $user;
+
+        $this->loadFits();
+
     }
 
     /**
@@ -51,22 +60,18 @@ class evefit
 
     /**
      * Loads fits from session
-     * @todo load from database, probably via another class
      */
     protected function loadFits()
     {
-        if (!isset($_SESSION['fits'])) $_SESSION['fits'] = array();
-        $this->fits = $_SESSION['fits'];
+        $this->fits = $this->user->getFits();
     }
 
     /**
-     * Saves fits to session
-     * @todo see loadFits
+     * Saves fits
      */
     protected function saveFits()
     {
-        if (!isset($_SESSION['fits'])) $_SESSION['fits'] = array();
-        $_SESSION['fits'] = $this->fits;
+        $this->user->saveFits($this->fits);
     }
 
     /**

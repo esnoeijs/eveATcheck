@@ -7,7 +7,6 @@
  */
 
 namespace eveATcheck\lib\evefit\lib;
-use eveATcheck\lib\database\database;
 
 /**
  * Class fit

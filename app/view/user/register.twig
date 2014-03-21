@@ -1,0 +1,75 @@
+{% extends 'base.twig' %}
+
+
+{% block content %}
+
+    <section>
+        <h2>User Registration</h2>
+
+        <div id="userRegistration_success" class="notification success" style="display:none">
+            <p>Your account has been successfully created.</p>
+            <p>You can now login with your credentials</p>
+        </div>
+
+        <form id="userRegistration" method="POST" action="/index.php/user/register">
+            <p><label>Username:</label><input type="text" name="username" /><span class="errorMessage username"></span></p>
+            <p><label>Password:</label><input type="password" name="password" /><span class="errorMessage password"></span></p>
+            <p><label>Password verification:</label><input type="password" name="password_verification" /><span class="errorMessage password_verification"></span></p>
+            <input type="submit" value="submit" />
+        </form>
+    </section>
+
+<style>
+#userRegistration label
+{
+    width: 250px;
+    display: inline-block;
+}
+#userRegistration input.error
+{
+    background-color: red;
+}
+#userRegistration .errorMessage
+{
+    font-size: 0.8em;
+}
+
+.notification
+{
+    display: block;
+    padding: 15px;
+    background-color: greenyellow;
+    border: solid 2px green;
+
+}
+</style>
+    <script>
+        $(document).ready(function(){
+
+            $('#userRegistration').ajaxForm({
+                dataType:  'json',
+                beforeSubmit: function()
+                {
+                    $('input','#userRegistration').removeClass('error');
+                    $('.errorMessage','#userRegistration').text('');
+                },
+                success:   function(data)
+                {
+                    if (!data.success)
+                    {
+                        $.each(data.errors, function (idx, val)
+                        {
+                            $('input[name='+idx+']','#userRegistration').addClass('error');
+                            $('.errorMessage.'+idx,'#userRegistration').text(val);
+                        })
+                    }
+                    else
+                    {
+                        $('#userRegistration').hide();
+                        $('#userRegistration_success').show();
+                    }
+                }
+            });
+        })
+    </script>
+{% endblock %}

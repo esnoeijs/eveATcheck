@@ -33,7 +33,8 @@ session_start();
 
 $app->db = new \eveATcheck\lib\database\database($dbhost,$dbport,$dbname,$dbuser,$dbpass);
 $app->model = new \eveATcheck\lib\evemodel\evemodel($app->db);
-$app->evefit = new \eveATcheck\lib\evefit\evefit($app->model);
+$app->user  = new \eveATcheck\lib\user\user($app->model, new \eveATcheck\lib\user\auth\database($app->model));
+$app->evefit = new \eveATcheck\lib\evefit\evefit($app->model, $app->user);
 
 
 require '../app/routes.php';
