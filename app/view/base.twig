@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <title>{% block title %}Eve Tournament Checker{% endblock %}</title>
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/ui-lightness/jquery-ui-1.10.4.custom.min.css" />
     <script src="/js/jquery.js"></script>
     <script src="/js/jquery-ui.custom.js"></script>
@@ -11,23 +13,25 @@
 </head>
 <body>
 <div>
-    <div>
+    <div id="header">
         <a href="/">
             <h1>Eve Tournament Checker</h1>
         </a>
-    </div>
 
-    {% block content_header %}
+        {% block content_header %}
         <ul id="menu">
             {% block content_header_more %}
                 <li><a href="/">Home</a></li>
+                <li><a href="/index.php/user/register">Register</a></li>
+                <li><a href="/index.php/user/login">Login</a></li>
             {% endblock %}
         </ul>
 
         <div style="clear: both"></div>
-    {% endblock %}
+        {% endblock %}
+    </div>
 
-    <div class="symfony-content">
+    <div id="content">
         {% block content %}
         {% endblock %}
     </div>
@@ -41,10 +45,6 @@
             By <a href="http://evewho.com/pilot/roigon" target="_blank">Roigon</a>
         </div>
     </div>
-    {% if code is defined %}
-        <h2>Code behind this page</h2>
-        <div class="symfony-content">{{ code|raw }}</div>
-    {% endif %}
 </div>
 </body>
 </html>
