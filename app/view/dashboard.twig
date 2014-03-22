@@ -15,28 +15,12 @@
 
 <section class="column">
     <h2>fits</h2>
-    <a id="refreshFits" >refresh</a>
+    <div class="menu" >
+        <a id="refreshFits" ><img width="25" src="/img/icon/Black_Pie-Circle.png" /></a>
+    </div>
     <ul class="sortable" id="fits">
         {% for fit in fits %}
-            <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" ><b>{{ fit.type }}</b> - {{ fit.name }}
-                <div class="detail" style="display:none">
-                    {% if fit.hasWarning() %}
-                        <ul class="warning">
-                            {% for warning in fit.getWarnings() %}
-                                <li>{{ warning.tournament }} - {{ warning.text }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    <ul>
-                    {% for slotName,slot in fit.slots %}
-                        <b>{{ slotName }}</b>
-                        {% for module in slot %}
-                            <li>{{ module.moduleName }}</li>
-                        {% endfor %}
-                    {% endfor %}
-                    </ul>
-                </div>
-            </li>
+            {% include 'fit/fit.twig' with {'fit': fit} %}
         {% endfor %}
     </ul>
 </section>
@@ -49,8 +33,37 @@
 </section>
 <style>
 
-.sortable {
+.column h2
+{
+    display: inline-block;
+}
+.column .menu
+{
+    float: right;
+    display: block;
+    padding-right: 5px;
+    padding-top: 3px;
+}
+
+h3
+{
+    padding: 5px;
+    padding-left: 2px;
+    color: #1c94c4;
+}
+.sortable
+{
+    padding:5px;
+    margin: 5px;
+    border: solid 2px #1c94c4;
+    background-color: white;
     min-height: 1em;
+}
+.sortable li.fit
+{
+    border-bottom: solid 1px grey;
+    padding: 2px;
+    font-size: 0.8em;
 }
 
 section.column {
@@ -64,14 +77,22 @@ ul.warning {
     background-color: #ffff99;
 }
 .fit.error {
-    background-color: #ff0000;
+    background-color: #faa;
 }
 div.detail {
     position: absolute;
     border: solid 1px #333333;
-    background-color: #cccccc;
+    background-color: #eee;
     margin-left: 200px;
 
+}
+ul.detailFit
+{
+    padding-left: 10px;
+}
+ul.detailFit li
+{
+    padding: 2px;
 }
 </style>
 <script>

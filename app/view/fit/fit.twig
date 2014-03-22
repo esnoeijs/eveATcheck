@@ -7,9 +7,9 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        <ul>
+        <ul class="detailFit">
             {% for slotName,slot in fit.slots %}
-                <b>{{ slotName }}</b>
+                <h3>{{ slotName }}</h3>
                 {% for module in slot %}
                     <li>{{ module.moduleName }}</li>
                 {% endfor %}
