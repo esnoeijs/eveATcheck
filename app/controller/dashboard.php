@@ -24,7 +24,7 @@ class dashboard
             /** fit $fit */
             foreach ($fits as &$fit)
             {
-                $rules->checkFit($fit);
+                $fit = $rules->checkFit($fit);
             }
         }
 
