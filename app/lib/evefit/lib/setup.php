@@ -19,7 +19,7 @@ class setup
 
     public function __construct($name, $desc)
     {
-        $this->id   = uniqid($name);
+        $this->id   = str_replace(' ','_', uniqid($name));
         $this->name = $name;
         $this->desc = $desc;
     }

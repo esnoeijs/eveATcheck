@@ -1,39 +1,11 @@
 <section>
     <form id="setupAdd_form" method="POST" action="/index.php/setup/add">
-        <p><label>Name:</label><br/>
+        <p>
+            <label>Name:</label><br/>
             <input class="text ui-widget-content ui-corner-all" type="text" name="name" /><span class="errorMessage username"></span></p>
-        <p><label>Description:</label><br/>
-
+        <p>
+            <label>Description:</label><br/>
             <textarea class="text ui-widget-content ui-corner-all" name="description"></textarea>
+        </p>
     </form>
 </section>
-
-
-<style>
-    #setupAdd label
-    {
-        display: inline-block;
-    }
-    #setupAdd input.error
-    {
-        background-color: red;
-    }
-    #setupAdd .errorMessage
-    {
-        font-size: 0.8em;
-    }
-
-    #setupAdd textarea, #setupAdd input.text
-    {
-        width: 70%;
-        display: block;
-    }
-
-    .notification
-    {
-        display: block;
-        padding: 15px;
-        background-color: greenyellow;
-        border: solid 2px green;
-    }
-</style>

@@ -8,6 +8,9 @@
             <a class="deleteSetup"   href="/index.php/setup/{{ setup.id }}/delete" ><img width="25" src="/img/icon/Black_Remove.png" alt="remove Setup" /></a>
         </div>
     </div>
+    <div class="description">
+        {{ setup.desc }}
+    </div>
     <ul class="sortable fits">
     {% for fit in setup.fits %}
         <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" ><b>{{ fit.type }}</b> - {{ fit.name }}

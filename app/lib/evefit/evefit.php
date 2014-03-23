@@ -61,7 +61,7 @@ class evefit
     public function addSetup($setup)
     {
         $this->setups[] = $setup;
-        $this->saveSetups();
+        $this->save();
     }
 
     /**
@@ -76,9 +76,8 @@ class evefit
             if ($setup->getId() == $setupId)
                 unset($this->setups[$key]);
         }
-        $this->saveSetups();
+        $this->save();
     }
-
 
     /**
      * Returns array of setups
@@ -106,9 +105,6 @@ class evefit
         return false;
     }
 
-
-
-
     /**
      * Loads setups from user session
      */
@@ -124,8 +120,6 @@ class evefit
     {
         $this->user->saveSetups($this->setups);
     }
-
-
 
 
     /**
@@ -208,6 +202,13 @@ class evefit
         return $fits;
     }
 
+    /**
+     * Creates a new fit object.
+     *
+     * @param String $name
+     * @param String $shipName
+     * @return fit
+     */
     protected function getNewFit($name, $shipName)
     {
         $groupName = $this->model->getModel('ship')->getGroupName($shipName);
