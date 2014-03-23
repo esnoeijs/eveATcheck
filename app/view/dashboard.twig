@@ -3,54 +3,67 @@
 
 {% block content %}
 
-<section>
-    <h2>submit fit</h2>
-    {{ flash }}
-
-    <form id="addFit" method="POST" action="index.php/fit/add">
-        <textarea name="fit"></textarea>
-        <input type="submit" value="submit" />
-    </form>
-</section>
-
 <section class="column">
-    <h2>fits</h2>
-    <div class="menu" >
-        <a id="refreshFits" ><img width="25" src="/img/icon/Black_Pie-Circle.png" /></a>
+    <div class="header">
+        <h2>Setups</h2>
+        <div class="menu" >
+            <a id="addSetup" ><img width="25" src="/img/icon/Black_New-Page.png" alt="add setup" /></a>
+            <a id="refreshSetups" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh list" /></a>
+        </div>
     </div>
-    <ul class="sortable" id="fits">
-        {% for fit in fits %}
-            {% include 'fit/fit.twig' with {'fit': fit} %}
+    <ul id="setupList" >
+        {% for setup in setups %}
+            {% include 'setup/setup.twig' with {'setup': setup} %}
         {% endfor %}
     </ul>
 </section>
-
-<section class="column">
-    <h2>Setups</h2>
-    <ul >
-        <li>test setup<ul class="sortable setup"></ul></li>
-    </ul>
-</section>
 <style>
-
+.menu a
+{
+    cursor: pointer;
+}
+.column .header
+{
+    border-bottom: solid 3px #aaa;
+    margin-bottom: 4px;
+    height: 2em;
+}
 .column h2
 {
     display: inline-block;
 }
 .column .menu
 {
+    vertical-align: top;;
     float: right;
     display: block;
     padding-right: 5px;
     padding-top: 3px;
 }
 
-h3
+.column h3
 {
     padding: 5px;
     padding-left: 2px;
     color: #1c94c4;
 }
+
+.column .setup h3
+{
+    display: inline-block;
+}
+
+.setup
+{
+    display: inline-block;
+    background-color: #eee;
+    margin: 5px;
+    vertical-align: top;
+    width: 32%;
+    max-width: 400px;
+    min-width: 250px;
+}
+
 .sortable
 {
     padding:5px;
@@ -67,10 +80,6 @@ h3
 }
 
 section.column {
-    width: 49%;
-    display:inline-block;
-    vertical-align:top;
-    margin: 20px 0;
     background: #ccc;
 }
 ul.warning {
@@ -98,10 +107,6 @@ ul.detailFit li
 <script>
 $(document).ready(function(){
 
-    $( ".sortable" ).sortable({
-        connectWith: ".sortable"
-    }).disableSelection();
-
     addFitDetailhover = function ()
     {
         $('li.fit').hover(function(){
@@ -111,26 +116,197 @@ $(document).ready(function(){
         })
     }
 
-    $('#addFit').ajaxForm(function() {
-        // @todo this really is a bit of a waste.
-        $('#refreshFits').click();
-    });
-
-
-    $('#refreshFits').click(function()
+    var setupHelper = function(setupDiv)
     {
-        $.get(
-            'index.php/fit/list',
-            function(data)
-            {
-                $("#fits").html(data);
-                addFitDetailhover()
-            }
-        );
-    });
+        this.id = $(setupDiv).attr('id');
+        this.selfEl = setupDiv;
+        this.name = $('.setupName',setupDiv).text();
+        this.self = this;
+        this.fitListEl = null;
+        this.dialogEl = $("<div></div>");
+        this.deleteDialog = $('<div id="dialog-confirm" title="Delete Setup?"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This will permanently remove "'+this.name+'". Are you sure?</p></div>');
+
+        this.refreshUrl = $('.refreshSetup', $('#'+this.id)).attr('href');
+
+        this.init = function ()
+        {
+            var self = this;
+            var selfEl = $('#'+this.id);
+            $('.refreshSetup', selfEl).off('click');
+            $('.refreshSetup', selfEl).click(function() { self.refresh(self); return false; });
 
 
+            $('.deleteSetup', selfEl).off('click');
+            $('.deleteSetup', selfEl).click(function(){
+                var url = this.href;
+
+                self.deleteDialog.dialog({
+                    resizable: false,
+                    modal: true,
+                    buttons: {
+                        "Delete Setup": function() {
+                            $.get(url);
+                            $('#'+self.id).remove();
+                            $( this ).dialog( "close" );
+                        },
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+
+                return false;
+            });
+
+            $('.addFit', selfEl).off('click');
+            $('.addFit', selfEl).click(function(){
+                var url = this.href;
+                $.get(
+                        url,
+                        function (htmlForm) {
+                            self.dialogEl
+                                    .html(htmlForm)
+                                    .dialog({
+                                        autoOpen: true,
+                                        title: 'Add new fit',
+                                        width: 500,
+                                        height: 300,
+                                        buttons: [
+                                            { text: "Add new fit", click: function () { self.addNewFit(self) } },
+                                            { text: "Close", click: function() { self.dialogClose(self) } }
+                                        ]
+                                    });
+                            return false;
+                        });
+                return false;
+            });
+
+
+//
+//            this.dialogEl.self = this;
+//
+//            $(this.addButtonEl).click(function(){ self.dialogEl.dialog("open") });
+//
+//            $('#refreshFits').click(function()
+//            {
+//
+//            });
+        }
+
+        this.dialogClose = function(self)
+        {
+            self.dialogEl.dialog("close");
+        }
+
+        this.addNewFit = function (self)
+        {
+            $('#addFit_form').ajaxForm(function() {
+                self.refresh(self);
+                self.dialogClose(self);
+            }).submit();
+        }
+
+        this.refresh = function (self)
+        {
+            $.get(
+                    self.refreshUrl,
+                    function(data)
+                    {
+                        $(self.selfEl).replaceWith(data);
+                        self.init();
+                        addFitDetailhover()
+                    }
+            );
+        }
+    }
+
+    var dashboardHelper = function(){
+
+        this.self = this;
+        this.setupListEl = null,
+        this.addButtonEl = null,
+        this.dialogEl = $("<div></div>"),
+
+        this.setups = [];
+
+        this.init = function (setupListEl,addButtonEl)
+        {
+            var self = this;
+            this.setupListEl = setupListEl;
+            this.addButtonEl = addButtonEl;
+
+
+            this.dialogEl
+                    .load('/index.php/setup/addDialog')
+                    .dialog({
+                        autoOpen: false,
+                        title: 'Add new setup',
+                        width: 500,
+                        height: 300,
+                        buttons: [
+                            { text: "Add new setup", click: function () { self.addNewSetup(self) } },
+                            { text: "Close", click: function() { self.dialogClose(self) } }
+                        ]
+                    });
+
+            this.dialogEl.self = this;
+
+            $(this.addButtonEl).click(function(){self.dialogEl.dialog("open")});
+
+            $('#refreshSetups').click(function(){self.refreshSetups(self)});
+        }
+
+        this.dialogClose = function(self)
+        {
+            self.dialogEl.dialog("close");
+        }
+
+        this.addNewSetup = function (self)
+        {
+            $('#setupAdd_form').ajaxForm(function() {
+                self.refreshSetups(self);
+                self.dialogClose(self);
+
+            }).submit();
+        }
+
+        this.refreshSetups = function (self)
+        {
+            $.get(
+                    'index.php/setup/list',
+                    function(data)
+                    {
+                        $("#setupList").html(data);
+                        addFitDetailhover()
+                    }
+            );
+        }
+
+
+        this.addSetup = function (setup)
+        {
+            this.setups.push(setup);
+        }
+    }
+
+
+
+    var dashboard = new dashboardHelper;
+    dashboard.init($('#setupList'), $('#addSetup'));
+
+
+    $('#setupList .setup').each(function(){
+        var setup = new setupHelper(this);
+        setup.init();
+        dashboard.addSetup(setup);
+    })
+
+
+    window.dashboard = dashboard;
     addFitDetailhover()
 })
 </script>
+
+
+<div id="dialog"></div>
 {% endblock %}

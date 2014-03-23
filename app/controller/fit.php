@@ -5,7 +5,15 @@ namespace eveATcheck\controller;
 use eveATcheck\lib\database\database;
 use eveATcheck\lib\evefit\evefit;
 
-class fit {
+class fit
+{
+
+
+    public function action_addDialog(\Slim\Slim $app, $setupId)
+    {
+
+        $app->render('fit/addDialog.twig', array('setupId' => $setupId));
+    }
 
     /**
      * Add a fit to the user session
@@ -13,22 +21,12 @@ class fit {
      * @method POST
      * @param \Slim\Slim $app
      */
-    public function action_add(\Slim\Slim $app)
+    public function action_add(\Slim\Slim $app, $setupId)
     {
-        $fit = $app->request()->post('fit');
-        $db  = $app->db;
+        $fit  = $app->request()->post('fit');
+        $desc = $app->request()->post('description');
 
-        $app->evefit->addFit($fit);
-
-        if ($app->request()->isAjax())
-        {
-            return;
-        }
-        else
-        {
-            $app->flash('messageGood','Fits successfully added');
-            $app->redirect('/');
-        }
+        $app->evefit->addFit($fit, $setupId);
     }
 
     /**

@@ -81,4 +81,37 @@ class user
         }
         return true;
     }
+
+    /**
+     * Retrieves fits from the database or session depending on if the user is loggedin
+     * @return array
+     */
+    public function getSetups()
+    {
+        if ($this->loggedin)
+        {
+
+        } else {
+            if (!isset($_SESSION['setups'])) $_SESSION['setups'] = array();
+            $setups = $_SESSION['setups'];
+        }
+        return $setups;
+    }
+
+    /**
+     * Saves fits to session or database depending on if the user is loggedin.
+     * @return bool
+     */
+    public function saveSetups($setups)
+    {
+        if ($this->loggedin)
+        {
+
+        } else {
+            if (!isset($_SESSION['setups'])) $_SESSION['setups'] = array();
+            $_SESSION['setups'] = $setups;
+        }
+        var_dump($_SESSION['setups']);
+        return true;
+    }
 } 

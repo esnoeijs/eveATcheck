@@ -7,19 +7,51 @@ $app->get("/", function () use ($app){
     $controller->action_index($app);
 });
 
-// Add fit to user session
-$app->post("/fit/add", function () use ($app) {
-    $controller = new eveATcheck\controller\fit();
+// Get dialog form
+$app->get("/setup/addDialog", function () use ($app) {
+    $controller = new eveATcheck\controller\setup();
+    $controller->action_addDialog($app);
+});
+
+// Add setup to user session
+$app->post("/setup/add", function () use ($app) {
+    $controller = new eveATcheck\controller\setup();
     $controller->action_add($app);
 });
 
-// get fits from user session
-$app->get("/fit/list", function () use ($app) {
+// get setups from user session
+$app->get("/setup/list", function () use ($app) {
+    $controller = new eveATcheck\controller\setup();
+    $controller->action_listAll($app);
+});
+
+// Actions for specific setups
+
+// get setups from user session
+$app->get("/setup/:setup/refresh", function ($setup) use ($app) {
+    $controller = new eveATcheck\controller\setup();
+    $controller->action_list($app, $setup);
+});
+
+// get delete setup from user session
+$app->get("/setup/:setup/delete", function ($setup) use ($app) {
+    $controller = new eveATcheck\controller\setup();
+    $controller->action_delete($app, $setup);
+});
+
+$app->get("/setup/:setup/fit/addDialog", function ($setupId) use ($app) {
     $controller = new eveATcheck\controller\fit();
-    $controller->action_list($app);
+    $controller->action_addDialog($app, $setupId);
+});
+
+// Add fit to user session
+$app->post("/setup/:setup/fit/add", function ($setupId) use ($app) {
+    $controller = new eveATcheck\controller\fit();
+    $controller->action_add($app, $setupId);
 });
 
 
+// User stuff
 
 // user registration
 $app->get("/user/register", function () use ($app) {

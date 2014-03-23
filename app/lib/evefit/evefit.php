@@ -10,12 +10,14 @@ namespace eveATcheck\lib\evefit;
 
 
 use eveATcheck\lib\evefit\lib\fit;
+use eveATcheck\lib\evefit\lib\setup;
 use eveATcheck\lib\evemodel\evemodel;
 use eveATcheck\lib\user\user;
 
 class evefit
 {
-    protected $fits = array();
+    protected $fits   = array();
+    protected $setups = array();
 
     /**
      * @var evemodel
@@ -32,7 +34,7 @@ class evefit
         $this->model = $model;
         $this->user  = $user;
 
-        $this->loadFits();
+        $this->loadSetups();
 
     }
 
@@ -41,38 +43,90 @@ class evefit
      *
      * @param string $fit
      */
-    public function addFit($fit)
+    public function addFit($fit, $setupId)
     {
         $fits = $this->parseEFT($fit);
-        $this->fits = array_merge($fits, $this->fits);
-        $this->saveFits();
+
+
+        foreach ($fits as $fit)
+            $this->getSetup($setupId)->addFit($fit);
+
+        $this->save();
     }
 
     /**
-     * Returns array of fits
+     * Add new setup to the list
+     * @param setup $setup
+     */
+    public function addSetup($setup)
+    {
+        $this->setups[] = $setup;
+        $this->saveSetups();
+    }
+
+    /**
+     * Removes a given setup from the user session
      *
-     * @return fit[]
+     * @param String $setupId
      */
-    public function getFits()
+    public function deleteSetup($setupId)
     {
-        return $this->fits;
+        foreach ($this->setups as $key => $setup)
+        {
+            if ($setup->getId() == $setupId)
+                unset($this->setups[$key]);
+        }
+        $this->saveSetups();
+    }
+
+
+    /**
+     * Returns array of setups
+     *
+     * @return setup[]
+     */
+    public function getSetups()
+    {
+        return $this->setups;
     }
 
     /**
-     * Loads fits from session
+     * Return setup by setupId
+     *
+     * @param String $setupId
+     * @return bool|setup
      */
-    protected function loadFits()
+    public function getSetup($setupId)
     {
-        $this->fits = $this->user->getFits();
+        foreach ($this->setups as $setup)
+        {
+            if ($setup->getId() == $setupId)
+                return $setup;
+        }
+        return false;
+    }
+
+
+
+
+    /**
+     * Loads setups from user session
+     */
+    protected function loadSetups()
+    {
+        $this->setups = $this->user->getSetups();
     }
 
     /**
      * Saves fits
      */
-    protected function saveFits()
+    protected function save()
     {
-        $this->user->saveFits($this->fits);
+        $this->user->saveSetups($this->setups);
     }
+
+
+
 
     /**
      * Parses EFT format text to extract eve fits

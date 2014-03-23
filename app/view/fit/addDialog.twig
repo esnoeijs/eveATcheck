@@ -1,0 +1,38 @@
+<section>
+    <form id="addFit_form" method="POST" action="/index.php/setup/{{ setupId }}/fit/add">
+        <p><label>EFT format fit:</label><br/>
+            <textarea class="text ui-widget-content ui-corner-all" name="fit"></textarea>
+        <p><label>Description:</label><br/>
+            <textarea class="text ui-widget-content ui-corner-all" name="description"></textarea>
+    </form>
+</section>
+
+
+<style>
+    #addFit label
+    {
+        display: inline-block;
+    }
+    #addFit input.error
+    {
+        background-color: red;
+    }
+    #addFit .errorMessage
+    {
+        font-size: 0.8em;
+    }
+
+    #addFit textarea, #addFit input.text
+    {
+        width: 70%;
+        display: block;
+    }
+
+    .notification
+    {
+        display: block;
+        padding: 15px;
+        background-color: greenyellow;
+        border: solid 2px green;
+    }
+</style>

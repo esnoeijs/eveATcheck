@@ -3,7 +3,6 @@
 
 /**
  * @todo Add user with login/logout persistant fit storage
- * @todo Add fleet setups which can contain fits
  * @todo Add check for fits and fleet setups and the fits within.
  */
 
