@@ -47,7 +47,6 @@ class evefit
     {
         $fits = $this->parseEFT($fit);
 
-
         foreach ($fits as $fit)
             $this->getSetup($setupId)->addFit($fit);
 
@@ -144,16 +143,15 @@ class evefit
      * Small Ancillary Current Router I
      *
      *
-     * @todo rewrite fit parsing to use the DB to find out which slot an item belongs too and not try to guess it
      * @param $fit
      */
     protected function parseEFT($fitEFT)
     {
         $fitEFT = new \ArrayIterator(explode(PHP_EOL, $fitEFT));
+        $fits    = array();
 
         while ($fitEFT->valid())
         {
-            $fits    = array();
             $fitline = $fitEFT->current();
 
             // Look for EFT format header
@@ -164,36 +162,54 @@ class evefit
             {
                 $fit = $this->getNewFit($matches[1], $matches[2]);
 
-                // EFT will have listed modules separated by a double linebreak to separate between slot types
-                foreach (array(fit::LOWSLOT, fit::MIDSLOT, fit::HIGHSLOT, fit::RIGSLOT, fit::SUBSYSTEM) as $slotType)
+                while ($fitEFT->valid())
                 {
-                    while ($fitEFT->valid())
+                    $fitline = $fitEFT->current();
+
+                    // Module Name, Charge type
+                    preg_match('/([^,]*)(,(.*))?/', $fitline, $matches);
+
+                    // If we stumbled on a new fit. (new fits start with "[")
+                    if (preg_match('/^\[/',$fitline))
                     {
-                        $fitline = $fitEFT->current();
+                        break;
+                    }
 
-                        // Module Name, Charge type
-                        preg_match('/([^,]*)(,(.*))?/', $fitline, $matches);
+                    $charge = null;
+                    $moduleName = $matches[1];
 
-                        // Empty line signifies end of block of modules for this slot type.
-                        if (trim($matches[0])=="")
+                    // If white line just skip.
+                    if (trim($moduleName)!=='')
+                    {
+                        /**
+                         * @todo this is not really the best solution. But I'm trying to avoid creating half a fitting
+                         * application in this site.
+                         */
+                        $module = $this->getModule($moduleName);
+                        if (!$module)
                         {
-                            $fitEFT->next();
-                            break;
+                            // Check if drone or implant
+                            // Check for implant code AA-000
+                            if (preg_match('/[A-Z]{2}-[0-9]{3}$/', $moduleName))
+                            {
+                                $fit->addModule($moduleName, null, 'Implant');
+                            }
+                            else
+                            {
+                                $fit->addModule($moduleName, null, 'Drones');
+                            }
                         }
                         else
                         {
-                            $charge = null;
-                            $module = $matches[1];
                             if (isset($matches[3]))
                             {
                                 $charge = $matches[3];
                             }
-
-                            $fit->addModule($module, $charge, $slotType);
+                            $fit->addModule($moduleName, $charge, $module['displayName']);
                         }
-
-                        $fitEFT->next();
                     }
+
+                    $fitEFT->next();
                 }
                 $fits[] = $fit;
             }
@@ -214,6 +230,19 @@ class evefit
         $groupName = $this->model->getModel('ship')->getGroupName($shipName);
         return new fit($name, $shipName, $groupName);
     }
+
+    /**
+     * Returns a data row with some information about which slot the module is in.
+     *
+     * @param String $name
+     * @return Array|null
+     */
+    protected function getModule($name)
+    {
+        return $this->model->getModel('item')->getModule($name);
+    }
+
+
 
 
 } 
