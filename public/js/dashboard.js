@@ -1,4 +1,5 @@
 // @todo remove some unnecissary self references.
+// @todo enter key will submit forms without going trough the code. Fix that.
 
 addFitDetailhover = function ()
 {
