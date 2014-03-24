@@ -9,6 +9,7 @@
 namespace eveATcheck\controller;
 
 
+use eveATcheck\lib\evefit\evefit;
 use Slim\Slim;
 
 class setup
@@ -47,9 +48,10 @@ class setup
     {
         $setups = $app->evefit->getSetups();
 
+
         foreach ($setups as $setup)
         {
-            $app->render('setup/setup.twig', array('setup' => $setup ));
+            $app->render('setup/setup.twig', array('setup' => $setup));
         }
     }
 

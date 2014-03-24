@@ -4,6 +4,7 @@
 /**
  * @todo Add user with login/logout persistant fit storage
  * @todo Add check for fits and fleet setups and the fits within.
+ * @todo figure out a way to discern between correct shipclass classifications
  */
 
 require '../config/config.php';
@@ -34,7 +35,11 @@ $app->db = new \eveATcheck\lib\database\database($dbhost,$dbport,$dbname,$dbuser
 $app->model = new \eveATcheck\lib\evemodel\evemodel($app->db);
 $app->user  = new \eveATcheck\lib\user\user($app->model, new \eveATcheck\lib\user\auth\database($app->model));
 $app->evefit = new \eveATcheck\lib\evefit\evefit($app->model, $app->user);
+$app->rulechecker = new \eveATcheck\lib\rulechecker\rulechecker($app->model);
 
+
+
+$app->add(new \eveATcheck\lib\rulechecker\rulecheckerMiddleware());
 
 require '../app/routes.php';
 

@@ -11,6 +11,14 @@
             <type>destroyer</type>
             <points>2</points>
         </ship>
+        <ship>
+            <type>cruiser</type>
+            <points>4</points>
+        </ship>
+        <ship>
+            <type>strategic cruiser</type>
+            <points>9</points>
+        </ship>
     </points>
     <restrictions>
         <restriction>

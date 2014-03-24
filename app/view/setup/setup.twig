@@ -10,6 +10,11 @@
     </div>
     <div class="description">
         {{ setup.desc }}
+
+        Points:<br/>
+        {%  for tournamentName,points in setup.getPoints %}
+        {{ tournamentName }} : {{ points }}
+        {%  endfor  %}
     </div>
     <ul class="sortable fits">
     {% for fit in setup.fits %}

@@ -88,6 +88,11 @@ class evefit
         return $this->setups;
     }
 
+    public function setSetups($setups)
+    {
+        $this->setups = $setups;
+    }
+
     /**
      * Return setup by setupId
      *
@@ -192,11 +197,11 @@ class evefit
                             // Check for implant code AA-000
                             if (preg_match('/[A-Z]{2}-[0-9]{3}$/', $moduleName))
                             {
-                                $fit->addModule($moduleName, null, 'Implant');
+                                $fit->addModule($moduleName, null, fit::IMPLANTS );
                             }
                             else
                             {
-                                $fit->addModule($moduleName, null, 'Drones');
+                                $fit->addModule($moduleName, null, fit::DRONES);
                             }
                         }
                         else
@@ -205,7 +210,21 @@ class evefit
                             {
                                 $charge = $matches[3];
                             }
-                            $fit->addModule($moduleName, $charge, $module['displayName']);
+
+                            $slot = null;
+                            switch (strtolower($module['displayName']))
+                            {
+                                case 'low power': $slot = fit::LOWSLOT; break;
+                                case 'medium power': $slot = fit::MIDSLOT; break;
+                                case 'high power': $slot = fit::HIGHSLOT; break;
+                                case 'rig slot': $slot = fit::RIGSLOT; break;
+                                case 'sub system': $slot = fit::SUBSYSTEM; break;
+                                default:
+                                    throw new \Exception("Don't know slot type: '{$module['displayName']}''");
+                                    break;
+                            }
+
+                            $fit->addModule($moduleName, $charge, $slot);
                         }
                     }
 
@@ -225,10 +244,10 @@ class evefit
      * @param String $shipName
      * @return fit
      */
-    protected function getNewFit($name, $shipName)
+    protected function getNewFit($shipType, $shipName)
     {
-        $groupName = $this->model->getModel('ship')->getGroupName($shipName);
-        return new fit($name, $shipName, $groupName);
+        $groupName = $this->model->getModel('ship')->getGroupName($shipType);
+        return new fit($shipType, $shipName, $groupName);
     }
 
     /**

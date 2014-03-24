@@ -22,6 +22,10 @@ class fit
     const HIGHSLOT = 'High';
     const RIGSLOT  = 'Rig';
     const SUBSYSTEM = 'Subsystem';
+    const DRONES    = 'Drones';
+    const IMPLANTS  = 'Implants';
+
+    public $slotTypes = array(self::LOWSLOT, self::MIDSLOT, self::HIGHSLOT, self::RIGSLOT, self::SUBSYSTEM, self::DRONES, self::IMPLANTS);
 
     protected $type;
     protected $name;
@@ -31,6 +35,11 @@ class fit
 
     protected $warnings = array();
 
+    /**
+     * array with points per tournament type.
+     * @var array
+     */
+    protected $points = array();
 
     /**
      * instantiate new ship fit with name and type
@@ -54,6 +63,8 @@ class fit
      */
     public function addModule($moduleName, $chargeName, $slotType)
     {
+        if (!in_array($slotType, $this->slotTypes)) throw new \Exception('Invalid slot type given');
+
         if (!isset($this->slots[$slotType])) $this->slots[$slotType] = array();
         $this->slots[$slotType][] = array('moduleName' => trim($moduleName), 'chargeName' => trim($chargeName));
     }
@@ -72,6 +83,14 @@ class fit
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @return String
+     */
+    public function getGroup()
+    {
+        return $this->group;
     }
 
     /**
@@ -120,5 +139,14 @@ class fit
     }
 
 
+    public function setPoints($tournament, $points)
+    {
+        $this->points[$tournament] = $points;
+    }
 
-} 
+    public function getPoints($tournament)
+    {
+        if (!isset($this->points[$tournament])) return 0;
+        return $this->points[$tournament];
+    }
+}

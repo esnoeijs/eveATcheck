@@ -15,7 +15,12 @@ class setup
     protected $name;
     protected $desc;
 
-    protected $fits;
+    protected $points = array();
+
+    /**
+     * @var fit[]
+     */
+    protected $fits = array();
 
     public function __construct($name, $desc)
     {
@@ -44,9 +49,31 @@ class setup
         return $this->fits;
     }
 
+    public function setFits($fits)
+    {
+        $this->fits = $fits;
+    }
+
     public function addFit($fit)
     {
         $this->fits[] = $fit;
+    }
+
+    public function setPoints($tournament, $points)
+    {
+        $this->points[$tournament] = $points;
+    }
+
+    public function getPoints($tournament=null)
+    {
+        if ($tournament!==null)
+        {
+            return $this->points[$tournament];
+        }
+        else
+        {
+            return $this->points;
+        }
     }
 
 } 

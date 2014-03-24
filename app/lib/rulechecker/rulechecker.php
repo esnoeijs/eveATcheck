@@ -12,6 +12,8 @@ namespace eveATcheck\lib\rulechecker;
 use eveATcheck\lib\database\database;
 use eveATcheck\lib\evefit\evefit;
 use eveATcheck\lib\evefit\lib\fit;
+use eveATcheck\lib\evefit\lib\setup;
+use eveATcheck\lib\evemodel\evemodel;
 use eveATcheck\lib\rulechecker\lib\tournament;
 
 /**
@@ -23,23 +25,23 @@ use eveATcheck\lib\rulechecker\lib\tournament;
  */
 class rulechecker
 {
-    private $db;
-    private $files;
+    protected $model;
+    protected $files;
 
     /**
      * @var tournament[]
      */
-    private $tournaments;
+    protected $tournaments;
 
     /**
      * return instance of rulechecker
      *
      * @param database $db
      */
-    public function __construct($db)
+    public function __construct(evemodel $model)
     {
-        $this->db = $db;
-        $this->tournaments = $this->getTournaments();
+        $this->model = $model;
+        $this->tournaments = $this->loadTournaments();
     }
 
     /**
@@ -48,7 +50,7 @@ class rulechecker
      * @todo add XML error checking.
      * @return array
      */
-    protected function getTournaments()
+    protected function loadTournaments()
     {
         $tournaments = array();
         $dir = new \DirectoryIterator('../rules/');
@@ -72,12 +74,15 @@ class rulechecker
         return $fit;
     }
 
-    public function checkSetup(evesetup $setup)
+    public function checkSetup(setup $setup)
     {
+
+        foreach ($this->tournaments as $tournament)
+        {
+            $setup = $tournament->checkSetup($setup);
+        }
+
+        return $setup;
         // check setup against the rules
     }
-
-
-
-
-} 
+}

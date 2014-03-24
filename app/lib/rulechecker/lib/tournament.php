@@ -8,6 +8,7 @@
 
 namespace eveATcheck\lib\rulechecker\lib;
 use eveATcheck\lib\evefit\lib\fit;
+use eveATcheck\lib\evefit\lib\setup;
 use eveATcheck\lib\rulechecker\rules\rule;
 
 
@@ -49,10 +50,7 @@ class tournament
         // Load up the points for ships
         foreach ($xml->points->ship as $ship)
         {
-            $this->points[] = array(
-                'shiptype' => (string)$ship->type,
-                'points' => (int)$ship->points
-            );
+            $this->points[(string)$ship->type] = (int)$ship->points;
         }
 
         // Load complex rules
@@ -78,8 +76,28 @@ class tournament
     }
 
 
+    public function checkSetup(setup $setup)
+    {
+        $points = 0;
+
+        // check fits
+        $fits = $setup->getFits();
+        /** @var fit $fit  */
+        foreach ($fits as &$fit)
+        {
+            $fit = $this->checkFit($fit);
+            $points += $fit->getPoints($this->getName());
+        }
+
+        $setup->setPoints($this->getName(), $points);
+        return $setup;
+    }
+
     public function checkFit(fit $fit)
     {
+        if (!isset($this->points[strtolower($fit->getGroup())])) throw new \Exception("Unknown ship group '{$fit->getGroup()}' for fit '{$fit->getName()}'");
+        $fit->setPoints($this->getName(), $this->points[strtolower($fit->getGroup())]);
+
         foreach ($this->rules as $rule)
         {
             if (!$rule->run($fit))
@@ -87,6 +105,7 @@ class tournament
                 $fit->setWarning($this->getName(), $rule->getWarning());
             }
         }
+        return $fit;
     }
 
 } 
