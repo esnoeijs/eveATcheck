@@ -58,7 +58,7 @@ class rulechecker
             if($fileInfo->isDot()) continue;
             if (strstr($fileInfo->getFilename(), '.xml'))
             {
-                $tournaments[] = new tournament(simplexml_load_file($dir->getPath() . DIRECTORY_SEPARATOR .  $fileInfo->getFilename()));
+                $tournaments[] = new tournament(simplexml_load_file($dir->getPath() . DIRECTORY_SEPARATOR .  $fileInfo->getFilename()), $this->model);
             }
         }
         return $tournaments;

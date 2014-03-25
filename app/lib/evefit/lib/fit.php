@@ -27,6 +27,7 @@ class fit
 
     public $slotTypes = array(self::LOWSLOT, self::MIDSLOT, self::HIGHSLOT, self::RIGSLOT, self::SUBSYSTEM, self::DRONES, self::IMPLANTS);
 
+    protected $typeId;
     protected $type;
     protected $name;
     protected $group;
@@ -36,7 +37,7 @@ class fit
     protected $warnings = array();
 
     /**
-     * array with points per tournament type.
+     * array with point category per tournament type.
      * @var array
      */
     protected $points = array();
@@ -47,11 +48,12 @@ class fit
      * @param String $type
      * @param String $name
      */
-    public function __construct($type, $name, $group)
+    public function __construct($typeId, $type, $name, $group)
     {
-        $this->type  = $type;
-        $this->name  = $name;
-        $this->group = $group;
+        $this->typeId = $typeId;
+        $this->type   = $type;
+        $this->name   = $name;
+        $this->group  = $group;
     }
 
     /**
@@ -75,6 +77,11 @@ class fit
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getTypeId()
+    {
+        return $this->typeId;
     }
 
     /**
@@ -139,14 +146,21 @@ class fit
     }
 
 
-    public function setPoints($tournament, $points)
+    public function setPointCategory($tournament, $pointCategory)
     {
-        $this->points[$tournament] = $points;
+        $this->points[$tournament] = $pointCategory;
+    }
+
+
+    public function getPointCategoryName($tournament)
+    {
+        if (!isset($this->points[$tournament])) return 'Unknown';
+        return $this->points[$tournament]['name'];
     }
 
     public function getPoints($tournament)
     {
         if (!isset($this->points[$tournament])) return 0;
-        return $this->points[$tournament];
+        return $this->points[$tournament]['points'];
     }
 }

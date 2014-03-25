@@ -27,6 +27,12 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
+                <div>
+                    <span>Point categories:</span>
+                {%  for tournamentName,points in setup.getPoints %}
+                    {{ tournamentName }}: {{ fit.getPointCategoryName(tournamentName) }} - {{ fit.getPoints(tournamentName) }}
+                {% endfor %}
+                </div>
                 <ul class="detailFit">
                     {% for slotName,slot in fit.slots %}
                         <h3>{{ slotName }}</h3>

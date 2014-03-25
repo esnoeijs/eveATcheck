@@ -9,6 +9,7 @@
 namespace eveATcheck\lib\rulechecker\lib;
 use eveATcheck\lib\evefit\lib\fit;
 use eveATcheck\lib\evefit\lib\setup;
+use eveATcheck\lib\evemodel\evemodel;
 use eveATcheck\lib\rulechecker\rules\rule;
 
 
@@ -33,9 +34,9 @@ class tournament
     /**
      * @param \SimpleXMLElement $xml
      */
-    public function __construct(\SimpleXMLElement $xml)
+    public function __construct(\SimpleXMLElement $xml, evemodel $model)
     {
-        $this->parseXML($xml);
+        $this->parseXML($xml, $model);
     }
 
     /**
@@ -43,15 +44,10 @@ class tournament
      *
      * @param \SimpleXMLElement $xml
      */
-    protected function parseXML(\SimpleXMLElement $xml)
+    protected function parseXML(\SimpleXMLElement $xml, evemodel $model)
     {
-        $this->name = (string)$xml->event->name;
-
-        // Load up the points for ships
-        foreach ($xml->points->ship as $ship)
-        {
-            $this->points[(string)$ship->type] = (int)$ship->points;
-        }
+        $this->name   = (string)$xml->event->name;
+        $this->points = $this->loadShipPoints($xml->points->ship, $model);
 
         // Load complex rules
         foreach ($xml->restrictions->restriction as $rule)
@@ -64,6 +60,96 @@ class tournament
                 $this->rules[] = new $class($rule);
             }else{ die("class $type not found"); }
         }
+    }
+
+    protected function loadShipPoints(\SimpleXMLElement $xml, evemodel $model)
+    {
+        $points = array();
+        foreach ($xml as $rule)
+        {
+            $shipCat = array();
+            $shipCat['name'] = (string)$rule->type;
+            $shipCat['points'] = (int)$rule->points;
+            $shipCat['ships']  = array();
+
+
+            // ship groups can be defined by either groups or specific ships.
+            // If specific ships are defined they will be removed from those listings that defined those ships via groups
+
+            // Get ships by groups
+            if (isset($rule->define->group))
+            {
+                foreach ($rule->define->group as $definedGroup)
+                {
+                    $shipsRows = $model->getModel('ship')->getShipsByGroup($definedGroup);
+                    $ships = array();
+                    foreach ($shipsRows as $row)
+                    {
+                        $ships[$row['typeID']] = $row['typeName'];
+                    }
+
+                    // Check trough previous assigned points and remove ships from the list that are already defined.
+                    // As a rule, specifically assigned ships get precedence over blanked shipType assigned lists
+                    foreach ($points as $prevSetShip)
+                    {
+                        foreach ($prevSetShip['ships'] as $prevTypeID => $prevShipName)
+                        {
+                            if (isset($ships[$prevTypeID])) unset($ships[$prevTypeID]);
+                        }
+                    }
+                    $shipCat['ships'] = $ships + $shipCat['ships'];
+                }
+            }
+
+            //  If specific ships are defined we'll take those
+            // If not we fetch them from the database by the given type
+            if (isset($rule->define->ship))
+            {
+                $shipNames = (array)$rule->define->ship;
+                $shipsRows = $model->getModel('ship')->getShipsByType($shipNames);
+                $ships = array();
+                foreach ($shipsRows as $row)
+                {
+                    $ships[$row['typeID']] = $row['typeName'];
+                }
+
+                if (count($shipNames) !== count($ships))
+                {
+                    $foundShips = array_map("strtolower", $ships);
+
+                    $notFound = array();
+                    foreach ($shipNames as $shipName)
+                    {
+                        if (!in_array(strtolower($shipName), $foundShips))
+                        {
+                            throw new \Exception("Rule XML error ship name '$shipName' not found.");
+                        }
+                    }
+                }
+
+
+                // Check trough previously assigned points and remove ships from their lists that have been found here
+                // As a rule, specifically assigned ships get precedence over blanked shipType assigned lists
+                foreach ($points as $key => $prevSetShip)
+                {
+                    foreach ($prevSetShip['ships'] as $prevTypeID => $prevShipName)
+                    {
+                        if (isset($ships[$prevTypeID]))
+                        {
+                            unset($points[$key]['ships'][$prevTypeID]);
+                        }
+                    }
+                }
+                unset($prevSetShip);
+
+                $shipCat['ships'] = $ships;
+            }
+
+
+            $points[] = $shipCat;
+        }
+
+        return $points;
     }
 
 
@@ -95,8 +181,7 @@ class tournament
 
     public function checkFit(fit $fit)
     {
-        if (!isset($this->points[strtolower($fit->getGroup())])) throw new \Exception("Unknown ship group '{$fit->getGroup()}' for fit '{$fit->getName()}'");
-        $fit->setPoints($this->getName(), $this->points[strtolower($fit->getGroup())]);
+        $fit->setPointCategory($this->getName(), $this->getPointCategory($fit));
 
         foreach ($this->rules as $rule)
         {
@@ -106,6 +191,17 @@ class tournament
             }
         }
         return $fit;
+    }
+
+    protected function getPointCategory(fit $fit)
+    {
+        foreach ($this->points as $pointGroup)
+        {
+            if (isset($pointGroup['ships'][$fit->getTypeId()]))
+                return $pointGroup;
+        }
+
+        return -1;
     }
 
 } 

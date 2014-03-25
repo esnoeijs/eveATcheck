@@ -35,7 +35,6 @@ class evefit
         $this->user  = $user;
 
         $this->loadSetups();
-
     }
 
     /**
@@ -166,6 +165,8 @@ class evefit
             if (count($matches)!==0)
             {
                 $fit = $this->getNewFit($matches[1], $matches[2]);
+                // @todo add some kind of error message back about not finding a good fit
+                if (!$fit) continue;
 
                 while ($fitEFT->valid())
                 {
@@ -246,8 +247,11 @@ class evefit
      */
     protected function getNewFit($shipType, $shipName)
     {
-        $groupName = $this->model->getModel('ship')->getGroupName($shipType);
-        return new fit($shipType, $shipName, $groupName);
+        $result = $this->model->getModel('ship')->getShipsByType($shipType);
+        if (count($result)==0) return false;
+        $ship = array_shift($result);
+
+        return new fit($ship['typeID'], $ship['typeName'], $shipName, $ship['groupName']);
     }
 
     /**
