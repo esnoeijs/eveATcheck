@@ -27,6 +27,7 @@ var setupHelper = function(setupDiv)
     {
         var self = this;
         var selfEl = $('#'+this.id);
+        self.selfEl = selfEl;
         $('.refreshSetup', selfEl).off('click');
         $('.refreshSetup', selfEl).click(function() { self.refresh(self); return false; });
 
@@ -98,6 +99,7 @@ var setupHelper = function(setupDiv)
             self.refreshUrl,
             function(data)
             {
+                if (console) console.log($(self.selfEl));
                 $(self.selfEl).replaceWith(data);
                 self.init();
                 addFitDetailhover()
@@ -124,7 +126,6 @@ var dashboardHelper = function(){
         var self = this;
         this.setupListEl = setupListEl;
         this.addButtonEl = addButtonEl;
-
 
         this.dialogEl
             .load('/index.php/setup/addDialog')
@@ -186,7 +187,7 @@ var dashboardHelper = function(){
                     {
                         var setup = new setupHelper(this);
                         setup.init();
-                        dashboard.addSetup(setup);
+                        self.addSetup(setup);
                     }
 
                 });
