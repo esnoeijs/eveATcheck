@@ -99,7 +99,6 @@ var setupHelper = function(setupDiv)
             self.refreshUrl,
             function(data)
             {
-                if (console) console.log($(self.selfEl));
                 $(self.selfEl).replaceWith(data);
                 self.init();
                 addFitDetailhover()
