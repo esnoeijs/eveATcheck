@@ -18,9 +18,7 @@ class dashboard
     {
         $setups = $app->evefit->getSetups();
 
-        $app->render('dashboard.twig', array('setups' => $setups ));
+        $app->render('dashboard.twig', array('setups' => $setups));
     }
+
 }
-
-
-

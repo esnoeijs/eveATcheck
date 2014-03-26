@@ -20,3 +20,8 @@ $twigOptions = array(
     'debug' => true
 );
 
+
+$activeTournament='NEO2.xml';
+
+
+$ruleDir = '/../rules/';

@@ -29,60 +29,50 @@ class rulechecker
     protected $files;
 
     /**
-     * @var tournament[]
+     * @var tournament
      */
-    protected $tournaments;
+    protected $tournament;
 
     /**
      * return instance of rulechecker
      *
      * @param database $db
      */
-    public function __construct(evemodel $model)
+    public function __construct(evemodel $model, $tournamentFile)
     {
         $this->model = $model;
-        $this->tournaments = $this->loadTournaments();
+        $this->tournament = $this->loadTournament($tournamentFile);
     }
 
     /**
-     * Returns array of tournament objects from found XML files.
+     * Returns tournament objects from found XML file.
      *
      * @todo add XML error checking.
-     * @return array
+     * @return tournament
      */
-    protected function loadTournaments()
+    protected function loadTournament($tournamentFile)
     {
-        $tournaments = array();
-        $dir = new \DirectoryIterator('../rules/');
-        foreach ($dir as $fileInfo) {
-            if($fileInfo->isDot()) continue;
-            if (strstr($fileInfo->getFilename(), '.xml'))
-            {
-                $tournaments[] = new tournament(simplexml_load_file($dir->getPath() . DIRECTORY_SEPARATOR .  $fileInfo->getFilename()), $this->model);
-            }
-        }
-        return $tournaments;
+        if (!is_file($tournamentFile)) throw new \Exception('Could not find tournament rules for: '.$tournamentFile);
+
+        return new tournament(simplexml_load_file($tournamentFile), $this->model);
     }
 
     public function checkFit(fit $fit)
     {
-        foreach ($this->tournaments as $tournament)
-        {
-            $tournament->checkFit($fit);
-        }
+        $this->tournament->checkFit($fit);
 
         return $fit;
     }
 
     public function checkSetup(setup $setup)
     {
-
-        foreach ($this->tournaments as $tournament)
-        {
-            $setup = $tournament->checkSetup($setup);
-        }
+        $this->tournament->checkSetup($setup);
 
         return $setup;
-        // check setup against the rules
+    }
+
+    public function getTournament()
+    {
+        return $this->tournament;
     }
 }

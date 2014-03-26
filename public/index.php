@@ -16,7 +16,9 @@ Twig_Autoloader::register();
 
 $twig = new \Slim\Views\Twig();
 $twig->parserOptions = $twigOptions;
-$twig->parserExtensions = array(new Twig_Extension_Debug());
+$twig->parserExtensions = array(
+    new Twig_Extension_Debug()
+);
 
 $app = new \Slim\Slim(
     array_merge(
@@ -27,16 +29,15 @@ $app = new \Slim\Slim(
     $slimOptions)
 );
 
-
 session_start();
 
+$ruleDir = realpath(__DIR__ . DIRECTORY_SEPARATOR . $ruleDir) . DIRECTORY_SEPARATOR;
 
 $app->db = new \eveATcheck\lib\database\database($dbhost,$dbport,$dbname,$dbuser,$dbpass);
 $app->model = new \eveATcheck\lib\evemodel\evemodel($app->db);
 $app->user  = new \eveATcheck\lib\user\user($app->model, new \eveATcheck\lib\user\auth\database($app->model));
 $app->evefit = new \eveATcheck\lib\evefit\evefit($app->model, $app->user);
-$app->rulechecker = new \eveATcheck\lib\rulechecker\rulechecker($app->model);
-
+$app->rulechecker = new \eveATcheck\lib\rulechecker\rulechecker($app->model, $ruleDir . $activeTournament);
 
 
 $app->add(new \eveATcheck\lib\rulechecker\rulecheckerMiddleware());
