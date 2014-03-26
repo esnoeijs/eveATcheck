@@ -26,6 +26,7 @@ h2
     display: inline-block;
     float: left;
     font-size: 2em;
+    margin-top: 0.5em;
     font-style: normal;
     color: #1c94c4;
     overflow: visible;
@@ -80,6 +81,8 @@ h2
 }
 .column h2
 {
+    margin-top: 0.2em;
+    font-size: 1.2em;
     display: inline-block;
 }
 .column .menu
@@ -93,6 +96,8 @@ h2
 
 .column h3
 {
+    margin-top: 0.2em;
+    font-size: 1em;
     padding: 5px;
     padding-left: 2px;
     color: #1c94c4;
