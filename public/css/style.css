@@ -1,3 +1,7 @@
+/***************
+GLOBAL
+***************/
+
 h2
 {
     color: #1c94c4;
@@ -5,6 +9,130 @@ h2
     padding: 3px;
 }
 
+#content
+{
+    margin: 0 50px;
+}
+
+.menu a
+{
+    cursor: pointer;
+}
+
+.main .header
+{
+    border-bottom: solid 3px #aaa;
+    margin-bottom: 4px;
+    height: 2em;
+}
+.main h2
+{
+    margin-top: 0.2em;
+    font-size: 1.2em;
+    display: inline-block;
+}
+.main .menu
+{
+    vertical-align: top;;
+    float: right;
+    display: block;
+    padding-right: 5px;
+    padding-top: 3px;
+}
+
+.main h3
+{
+    display: inline-block;
+    margin-top: 0.2em;
+    font-size: 1em;
+    padding: 5px;
+    padding-left: 2px;
+    color: #1c94c4;
+}
+
+.main {
+    background: #ccc;
+}
+ul.warning {
+    background-color: #ffff99;
+}
+.fit.error {
+    background-color: #faa;
+}
+ul.detailFit
+{
+    padding-left: 10px;
+}
+ul.detailFit li
+{
+    padding: 2px;
+}
+
+.box .segment
+{
+    border-bottom: solid 3px #aaa;
+    padding: 10px 5px;
+}
+
+
+
+.box
+{
+    display: inline-block;
+    background-color: #eee;
+    margin: 5px;
+    vertical-align: top;
+    width: 32%;
+    max-width: 400px;
+    min-width: 250px;
+
+}
+
+/***************************
+ Dashboard
+***************************/
+
+
+
+#dashboard #detail .fit
+{
+    display: inline-block;
+    background-color: #eee;
+    margin: 5px;
+    vertical-align: top;
+    width: 32%;
+    max-width: 400px;
+    min-width: 250px;
+}
+
+#dashboard .sortable
+{
+    padding:5px;
+    margin: 5px;
+    border: solid 2px #1c94c4;
+    background-color: white;
+    min-height: 1em;
+}
+#dashboard .sortable li.fit
+{
+    border-bottom: solid 1px grey;
+    padding: 2px;
+    font-size: 0.8em;
+}
+
+
+#dashboard div.detail {
+    position: absolute;
+    border: solid 1px #333333;
+    background-color: #eee;
+    margin-left: 200px;
+
+}
+
+
+/********************
+TOP BAR
+*******************/
 
 #header
 {
@@ -52,6 +180,12 @@ h2
     color: #1c94c4;
 }
 
+
+/******************
+FOOTER
+*****************/
+
+
 #footer
 {
     display: block;
@@ -63,110 +197,6 @@ h2
     padding: 10px 10px;
     font-size: 0.8em;
 }
-
-#content
-{
-    margin: 0 50px;
-}
-
-.menu a
-{
-    cursor: pointer;
-}
-.column .header
-{
-    border-bottom: solid 3px #aaa;
-    margin-bottom: 4px;
-    height: 2em;
-}
-.column h2
-{
-    margin-top: 0.2em;
-    font-size: 1.2em;
-    display: inline-block;
-}
-.column .menu
-{
-    vertical-align: top;;
-    float: right;
-    display: block;
-    padding-right: 5px;
-    padding-top: 3px;
-}
-
-.column h3
-{
-    margin-top: 0.2em;
-    font-size: 1em;
-    padding: 5px;
-    padding-left: 2px;
-    color: #1c94c4;
-}
-
-.column .setup h3
-{
-    display: inline-block;
-}
-
-.setup
-{
-    display: inline-block;
-    background-color: #eee;
-    margin: 5px;
-    vertical-align: top;
-    width: 32%;
-    max-width: 400px;
-    min-width: 250px;
-}
-
-.sortable
-{
-    padding:5px;
-    margin: 5px;
-    border: solid 2px #1c94c4;
-    background-color: white;
-    min-height: 1em;
-}
-.sortable li.fit
-{
-    border-bottom: solid 1px grey;
-    padding: 2px;
-    font-size: 0.8em;
-}
-
-section.column {
-    background: #ccc;
-}
-ul.warning {
-    background-color: #ffff99;
-}
-.fit.error {
-    background-color: #faa;
-}
-div.detail {
-    position: absolute;
-    border: solid 1px #333333;
-    background-color: #eee;
-    margin-left: 200px;
-
-}
-ul.detailFit
-{
-    padding-left: 10px;
-}
-ul.detailFit li
-{
-    padding: 2px;
-}
-
-.setup .description
-{
-    border-bottom: solid 3px #aaa;
-    font-size: 0.8em;
-    padding: 10px 5px;
-}
-
-
 
 /*******************
 setup/addDialog styles

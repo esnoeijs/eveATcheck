@@ -1,4 +1,4 @@
-<li class="setup" id="setup_{{ setup.id }}">
+<li class="setup box" id="setup_{{ setup.id }}" >
     <div class="header">
         <h3 class="setupName">{{ setup.name }}</h3>
         <div class="menu" >
@@ -8,24 +8,28 @@
             <a class="deleteSetup"   href="/index.php/setup/{{ setup.id }}/delete" ><img width="25" src="/img/icon/Black_Remove.png" alt="remove Setup" /></a>
         </div>
     </div>
-    <div class="description">
+    <div class="description segment">
         <p>{{ setup.desc }}</p>
+    </div>
+    <div class="segment">
 
         Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
         Pilots: {{ setup.fits|length }}/{{ tournament.getMaxPilots }}
     </div>
-    <ul class="sortable fits">
+    <ul class="sortable fits segment">
     {% for fit in setup.fits %}
         <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" ><b>{{ fit.type }}</b> - {{ fit.name }}
             <div class="detail" style="display:none">
                 {% if fit.hasWarning() %}
+                <div class="warning segment" >
                     <ul class="warning">
                         {% for warning in fit.getWarnings() %}
                             <li>{{ warning.tournament }} - {{ warning.text }}</li>
                         {% endfor %}
                     </ul>
+                </div>
                 {% endif %}
-                <div>
+                <div class="segment">
                     {{ fit.getPointCategoryName() }} - {{ fit.getPoints() }}
                 </div>
                 <ul class="detailFit">

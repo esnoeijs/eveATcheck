@@ -27,6 +27,13 @@ $app->get("/setup/list", function () use ($app) {
 
 // Actions for specific setups
 
+// Add fit to user session
+$app->get("/setup/:setup/details", function ($setupId) use ($app) {
+    $controller = new eveATcheck\controller\setup();
+    $controller->action_details($app, $setupId);
+});
+
+
 // get setups from user session
 $app->get("/setup/:setup/refresh", function ($setup) use ($app) {
     $controller = new eveATcheck\controller\setup();

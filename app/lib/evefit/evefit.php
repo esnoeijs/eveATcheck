@@ -42,12 +42,15 @@ class evefit
      *
      * @param string $fit
      */
-    public function addFit($fit, $setupId)
+    public function addFit($fit, $desc, $setupId)
     {
         $fits = $this->parseEFT($fit);
 
         foreach ($fits as $fit)
+        {
+            $fit->setDescription($desc);
             $this->getSetup($setupId)->addFit($fit);
+        }
 
         $this->save();
     }

@@ -26,7 +26,7 @@ class fit
         $fit  = $app->request()->post('fit');
         $desc = $app->request()->post('description');
 
-        $app->evefit->addFit($fit, $setupId);
+        $app->evefit->addFit($fit, $desc, $setupId);
     }
 
     /**

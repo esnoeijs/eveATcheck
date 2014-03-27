@@ -31,6 +31,7 @@ class fit
     protected $type;
     protected $name;
     protected $group;
+    protected $description;
 
     protected $slots = array();
 
@@ -55,6 +56,16 @@ class fit
         $this->type   = $type;
         $this->name   = $name;
         $this->group  = $group;
+    }
+
+    public function setDescription($desc)
+    {
+        $this->description = $desc;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**

@@ -1,0 +1,77 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+    <section class="main" id="detail">
+        <div class="header">
+            <h2>{{ setup.name }}</h2>
+            <div class="menu" >
+                <a class="addFit"        href="/index.php/setup/{{ setup.id }}/fit/addDialog" ><img width="25" src="/img/icon/Black_New-Page.png" alt="add fit" /></a>
+                <a class="refreshSetup"  href="/index.php/setup/{{ setup.id }}/refresh" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Setup" /></a>
+            </div>
+        </div>
+        <div class="description segment">
+            <p>{{ setup.desc }}</p>
+        </div>
+        <div class="segment">
+
+            Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
+            Pilots: {{ setup.fits|length }}/{{ tournament.getMaxPilots }}
+        </div>
+        <ul id="setupList" >
+            {% for fit in setup.fits %}
+                <li class="fit box" id="fit_{{ setup.id }}">
+                    <div class="header">
+                        <h3 class="setupName">{{ fit.name }}</h3>
+                        <div class="menu" >
+                            <a class="detailsSetup"  href="/index.php/fit/{{ setup.id }}/details" ><img width="25" src="/img/icon/Black_Paperclip.png" alt="show details" /></a>
+                            <a class="addFit"        href="/index.php/fit/{{ setup.id }}/fit/addDialog" ><img width="25" src="/img/icon/Black_New-Page.png" alt="add fit" /></a>
+                            <a class="refreshSetup"  href="/index.php/fit/{{ setup.id }}/refresh" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Setup" /></a>
+                            <a class="deleteSetup"   href="/index.php/fit/{{ setup.id }}/delete" ><img width="25" src="/img/icon/Black_Remove.png" alt="remove Setup" /></a>
+                        </div>
+                    </div>
+                    <div class="description segment">
+                        <p>{{ fit.description }}</p>
+
+                    </div>
+                    <div class="segment">
+                        {{ fit.getPointCategoryName() }} - {{ fit.getPoints() }}
+                    </div>
+                    {% if fit.hasWarning() %}
+                    <div class="warning segment" >
+                        <ul class="warning">
+                            {% for warning in fit.getWarnings() %}
+                                <li>{{ warning.tournament }} - {{ warning.text }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    <div class="segment">
+                        <ul class="detailFit">
+                            {% for slotName,slot in fit.slots %}
+                                <h3>{{ slotName }}</h3>
+                                {% for module in slot %}
+                                    <li>{{ module.moduleName }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+    <div id="dialog"></div>
+{% endblock %}
+
+
+{% block script %}
+    <script>
+//        $(document).ready(function(){
+//
+//            // initiate dashboard
+//            var dashboard = new dashboardHelper;
+//            dashboard.init($('#setupList'), $('#addSetup'));
+//
+//            addFitDetailhover()
+//        })
+    </script>
+{% endblock %}

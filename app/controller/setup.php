@@ -15,6 +15,20 @@ use Slim\Slim;
 class setup
 {
     /**
+     * Detail page
+     *
+     * @param \Slim\Slim $app
+     */
+    public function action_details(\Slim\Slim $app, $setupId)
+    {
+        $setup  = $app->evefit->getSetup($setupId);
+        $tour   = $app->rulechecker->getTournament();
+
+        $app->render('setup/details.twig', array('setup' => $setup, 'tournament' => $tour));
+    }
+
+
+    /**
      * Returns the form HTML to create a new setup.
      * @param Slim $app
      */
