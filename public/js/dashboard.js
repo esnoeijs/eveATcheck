@@ -90,6 +90,8 @@ var setupHelper = function(setupDiv)
         $('#addFit_form').ajaxForm(function() {
             self.refresh(self);
             self.dialogClose(self);
+
+            $('#addFit_form').remove();
         }).submit();
     }
 
