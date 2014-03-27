@@ -119,7 +119,7 @@
         </ship>
         <ship>
             <type>Cruiser, Faction</type>
-            <type>12</type>
+            <points>12</points>
             <define>
                 <ship>augoror navy issue</ship>
                 <ship>omen navy issue</ship>
