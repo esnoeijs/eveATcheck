@@ -59,21 +59,14 @@ class setup
         $this->fits[] = $fit;
     }
 
-    public function setPoints($tournament, $points)
+    public function setPoints($points)
     {
-        $this->points[$tournament] = $points;
+        $this->points = $points;
     }
 
-    public function getPoints($tournament=null)
+    public function getPoints()
     {
-        if ($tournament!==null)
-        {
-            return $this->points[$tournament];
-        }
-        else
-        {
-            return $this->points;
-        }
+        return $this->points;
     }
 
 } 

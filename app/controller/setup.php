@@ -47,11 +47,13 @@ class setup
     public function action_listAll(Slim $app)
     {
         $setups = $app->evefit->getSetups();
+        $tour   = $app->rulechecker->getTournament();
+
 
 
         foreach ($setups as $setup)
         {
-            $app->render('setup/setup.twig', array('setup' => $setup));
+            $app->render('setup/setup.twig', array('setup' => $setup, 'tournament' => $tour));
         }
     }
 
@@ -64,11 +66,13 @@ class setup
     public function action_list(Slim $app, $setupId)
     {
         $setups = $app->evefit->getSetups();
+        $tour   = $app->rulechecker->getTournament();
+
 
         foreach ($setups as $setup)
         {
             if ($setup->getId() == $setupId)
-            $app->render('setup/setup.twig', array('setup' => $setup ));
+            $app->render('setup/setup.twig', array('setup' => $setup, 'tournament' => $tour));
         }
     }
 

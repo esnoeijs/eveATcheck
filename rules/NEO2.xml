@@ -1,6 +1,8 @@
 <rules>
     <event>
         <name>NEO II</name>
+        <points>70</points>
+        <pilots>8</pilots>
     </event>
     <!--
     Points are defined per CCP listed ship group.

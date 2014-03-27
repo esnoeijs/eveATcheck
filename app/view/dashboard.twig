@@ -12,7 +12,7 @@
     </div>
     <ul id="setupList" >
         {% for setup in setups %}
-            {% include 'setup/setup.twig' with {'setup': setup} %}
+            {% include 'setup/setup.twig' with {'setup': setup, 'tournament': tournament} %}
         {% endfor %}
     </ul>
 </section>

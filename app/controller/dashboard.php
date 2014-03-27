@@ -17,8 +17,9 @@ class dashboard
     public function action_index(\Slim\Slim $app)
     {
         $setups = $app->evefit->getSetups();
+        $tour   = $app->rulechecker->getTournament();
 
-        $app->render('dashboard.twig', array('setups' => $setups));
+        $app->render('dashboard.twig', array('setups' => $setups, 'tournament' => $tour));
     }
 
 }

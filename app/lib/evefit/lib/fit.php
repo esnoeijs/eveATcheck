@@ -37,10 +37,11 @@ class fit
     protected $warnings = array();
 
     /**
-     * array with point category per tournament type.
+     * Point category of ship type.
+     *
      * @var array
      */
-    protected $points = array();
+    protected $points;
 
     /**
      * instantiate new ship fit with name and type
@@ -145,22 +146,20 @@ class fit
         $this->warnings[$tournament] = $warning;
     }
 
-
-    public function setPointCategory($tournament, $pointCategory)
+    public function setPointCategory($pointCategory)
     {
-        $this->points[$tournament] = $pointCategory;
+        $this->points = $pointCategory;
     }
 
-
-    public function getPointCategoryName($tournament)
+    public function getPointCategoryName()
     {
-        if (!isset($this->points[$tournament])) return 'Unknown';
-        return $this->points[$tournament]['name'];
+        if (!is_array($this->points)) return 'Unknown';
+        return $this->points['name'];
     }
 
-    public function getPoints($tournament)
+    public function getPoints()
     {
-        if (!isset($this->points[$tournament])) return 0;
-        return $this->points[$tournament]['points'];
+        if (!is_array($this->points)) return 0;
+        return $this->points['points'];
     }
 }

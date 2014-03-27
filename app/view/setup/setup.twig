@@ -9,12 +9,10 @@
         </div>
     </div>
     <div class="description">
-        {{ setup.desc }}
+        <p>{{ setup.desc }}</p>
 
-        Points:<br/>
-        {%  for tournamentName,points in setup.getPoints %}
-        {{ tournamentName }} : {{ points }}
-        {%  endfor  %}
+        Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
+        Pilots: {{ setup.fits|length }}/{{ tournament.getMaxPilots }}
     </div>
     <ul class="sortable fits">
     {% for fit in setup.fits %}
@@ -28,10 +26,7 @@
                     </ul>
                 {% endif %}
                 <div>
-                    <span>Point categories:</span>
-                {%  for tournamentName,points in setup.getPoints %}
-                    {{ tournamentName }}: {{ fit.getPointCategoryName(tournamentName) }} - {{ fit.getPoints(tournamentName) }}
-                {% endfor %}
+                    {{ fit.getPointCategoryName() }} - {{ fit.getPoints() }}
                 </div>
                 <ul class="detailFit">
                     {% for slotName,slot in fit.slots %}

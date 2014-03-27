@@ -25,6 +25,8 @@ class tournament
 {
     protected $name;
     protected $points = array();
+    protected $maxPoints = 0;
+    protected $maxPilots = 0;
 
     /**
      * @var rule[]
@@ -40,6 +42,30 @@ class tournament
     }
 
     /**
+     * @return String
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxPoints()
+    {
+        return $this->maxPoints;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxPilots()
+    {
+        return $this->maxPilots;
+    }
+
+    /**
      * Parse tournament XML to form full tournament object.
      *
      * @param \SimpleXMLElement $xml
@@ -47,6 +73,8 @@ class tournament
     protected function parseXML(\SimpleXMLElement $xml, evemodel $model)
     {
         $this->name   = (string)$xml->event->name;
+        $this->maxPoints = (int)$xml->event->points;
+        $this->maxPilots = (int)$xml->event->pilots;
         $this->points = $this->loadShipPoints($xml->points->ship, $model);
 
         // Load complex rules
@@ -62,6 +90,21 @@ class tournament
         }
     }
 
+    /**
+     * Loop trough the different ship categories as defined in the XML and extract the points and ships from
+     * each category.
+     *
+     * Ships are defined by either groups of ships or specific ships, groups of ships are pulled from their associated
+     * group name from the database. Ships are taken by name from the database.
+     *
+     * Specifically named ships will then be removed from other categories where they where defined via the group method.
+     * A ship can only be defined in one category.
+     *
+     * @param \SimpleXMLElement $xml
+     * @param evemodel $model
+     * @return array
+     * @throws \Exception
+     */
     protected function loadShipPoints(\SimpleXMLElement $xml, evemodel $model)
     {
         $points = array();
@@ -152,16 +195,6 @@ class tournament
         return $points;
     }
 
-
-    /**
-     * @return String
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-
     public function checkSetup(setup $setup)
     {
         $points = 0;
@@ -172,16 +205,16 @@ class tournament
         foreach ($fits as &$fit)
         {
             $fit = $this->checkFit($fit);
-            $points += $fit->getPoints($this->getName());
+            $points += $fit->getPoints();
         }
 
-        $setup->setPoints($this->getName(), $points);
+        $setup->setPoints($points);
         return $setup;
     }
 
     public function checkFit(fit $fit)
     {
-        $fit->setPointCategory($this->getName(), $this->getPointCategory($fit));
+        $fit->setPointCategory($this->getPointCategory($fit));
 
         foreach ($this->rules as $rule)
         {
