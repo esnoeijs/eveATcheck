@@ -14,7 +14,7 @@
     <div class="segment">
 
         Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
-        Pilots: {{ setup.fits|length }}/{{ tournament.getMaxPilots }}
+        Pilots: {{ setup.getPilots }}/{{ tournament.getMaxPilots }}
     </div>
     <ul class="sortable fits segment">
     {% for fit in setup.fits %}

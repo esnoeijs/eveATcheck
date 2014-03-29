@@ -106,4 +106,12 @@ class setup
         return $this->points;
     }
 
+    public function getPilots()
+    {
+        $pilots = 0;
+        foreach ($this->fits as $fit)
+            $pilots += $fit->getQuantity();
+
+        return $pilots;
+    }
 } 
