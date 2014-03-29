@@ -35,15 +35,15 @@ $app->get("/setup/:setup/details", function ($setupId) use ($app) {
 
 
 // get setups from user session
-$app->get("/setup/:setup/refresh", function ($setup) use ($app) {
+$app->get("/setup/:setup/refresh", function ($setupId) use ($app) {
     $controller = new eveATcheck\controller\setup();
-    $controller->action_list($app, $setup);
+    $controller->action_list($app, $setupId);
 });
 
-// get delete setup from user session
-$app->get("/setup/:setup/delete", function ($setup) use ($app) {
+// delete setup from user session
+$app->get("/setup/:setup/delete", function ($setupId) use ($app) {
     $controller = new eveATcheck\controller\setup();
-    $controller->action_delete($app, $setup);
+    $controller->action_delete($app, $setupId);
 });
 
 $app->get("/setup/:setup/fit/addDialog", function ($setupId) use ($app) {
@@ -51,11 +51,36 @@ $app->get("/setup/:setup/fit/addDialog", function ($setupId) use ($app) {
     $controller->action_addDialog($app, $setupId);
 });
 
+// refresh fit on setup detail screen
+$app->get("/setup/:setup/fit/:fit/refresh", function ($setupId, $fitId) use ($app) {
+    $controller = new eveATcheck\controller\fit();
+    $controller->action_list($app, $setupId, $fitId);
+});
+
+// delete fit from user session
+$app->get("/setup/:setup/fit/:fit/delete", function ($setupId, $fitId) use ($app) {
+    $controller = new eveATcheck\controller\fit();
+    $controller->action_delete($app, $setupId, $fitId);
+});
+
+// get edit dialog HTML for fit
+$app->get("/setup/:setup/fit/:fit/editDialog", function ($setupId, $fitId) use ($app) {
+    $controller = new eveATcheck\controller\fit();
+    $controller->action_editDialog($app, $setupId, $fitId);
+});
+
 // Add fit to user session
 $app->post("/setup/:setup/fit/add", function ($setupId) use ($app) {
     $controller = new eveATcheck\controller\fit();
     $controller->action_add($app, $setupId);
 });
+
+// Add fit to user session
+$app->post("/setup/:setup/fit/:fit/update", function ($setupId, $fitId) use ($app) {
+    $controller = new eveATcheck\controller\fit();
+    $controller->action_update($app, $setupId, $fitId);
+});
+
 
 
 // User stuff

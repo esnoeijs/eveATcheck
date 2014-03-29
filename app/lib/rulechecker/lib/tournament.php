@@ -205,7 +205,7 @@ class tournament
         foreach ($fits as &$fit)
         {
             $fit = $this->checkFit($fit);
-            $points += $fit->getPoints();
+            $points += $fit->getPoints() * $fit->getQuantity();
         }
 
         $setup->setPoints($points);

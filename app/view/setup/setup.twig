@@ -18,16 +18,16 @@
     </div>
     <ul class="sortable fits segment">
     {% for fit in setup.fits %}
-        <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" ><b>{{ fit.type }}</b> - {{ fit.name }}
+        <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" ><b>{{ fit.type }}</b> - {{ fit.name }} <span style="float: right">x{{ fit.quantity }}</span>
             <div class="detail" style="display:none">
                 {% if fit.hasWarning() %}
-                <div class="warning segment" >
-                    <ul class="warning">
-                        {% for warning in fit.getWarnings() %}
-                            <li>{{ warning.tournament }} - {{ warning.text }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                    <div class="warning segment" >
+                        <ul class="warning">
+                            {% for warning in fit.getWarnings() %}
+                                <li>{{ warning.tournament }} - {{ warning.text }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 {% endif %}
                 <div class="segment">
                     {{ fit.getPointCategoryName() }} - {{ fit.getPoints() }}

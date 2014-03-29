@@ -27,6 +27,7 @@ class fit
 
     public $slotTypes = array(self::LOWSLOT, self::MIDSLOT, self::HIGHSLOT, self::RIGSLOT, self::SUBSYSTEM, self::DRONES, self::IMPLANTS);
 
+    protected $id;
     protected $typeId;
     protected $type;
     protected $name;
@@ -36,6 +37,12 @@ class fit
     protected $slots = array();
 
     protected $warnings = array();
+
+    /**
+     * Amount of this fit in a setup.
+     * @var int
+     */
+    protected $quantity =1;
 
     /**
      * Point category of ship type.
@@ -56,6 +63,7 @@ class fit
         $this->type   = $type;
         $this->name   = $name;
         $this->group  = $group;
+        $this->id     = str_replace(' ','_', uniqid($name));
     }
 
     public function setDescription($desc)
@@ -66,6 +74,11 @@ class fit
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -172,5 +185,42 @@ class fit
     {
         if (!is_array($this->points)) return 0;
         return $this->points['points'];
+    }
+
+    /**
+     * Get amount of versions of this fit are in a setup
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set amount of version of this fit are in a setup.
+     *
+     * @param int $amount
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+    }
+
+
+    public function getEFT()
+    {
+        $EFT = "[{$this->type}, {$this->name}]".PHP_EOL;
+        foreach ($this->slots as $slotName => $slots)
+        {
+            $EFT .= PHP_EOL;
+            // drone and implant section have 2 new lines
+            if (in_array($slotName, array(self::DRONES, self::IMPLANTS)))
+                $EFT .= PHP_EOL;
+
+            foreach ($slots as $module)
+                $EFT .= $module['moduleName'].PHP_EOL;
+        }
+
+        return $EFT;
     }
 }

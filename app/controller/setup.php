@@ -63,8 +63,6 @@ class setup
         $setups = $app->evefit->getSetups();
         $tour   = $app->rulechecker->getTournament();
 
-
-
         foreach ($setups as $setup)
         {
             $app->render('setup/setup.twig', array('setup' => $setup, 'tournament' => $tour));
@@ -101,6 +99,4 @@ class setup
         $app->evefit->deleteSetup($setupId);
     }
 
-
-
-} 
+}

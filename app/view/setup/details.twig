@@ -2,60 +2,28 @@
 
 {% block content %}
     <section class="main" id="detail">
-        <div class="header">
+        <div class="mainheader header">
             <h2>{{ setup.name }}</h2>
             <div class="menu" >
                 <a class="addFit"        href="/index.php/setup/{{ setup.id }}/fit/addDialog" ><img width="25" src="/img/icon/Black_New-Page.png" alt="add fit" /></a>
                 <a class="refreshSetup"  href="/index.php/setup/{{ setup.id }}/refresh" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Setup" /></a>
             </div>
         </div>
-        <div class="description segment">
-            <p>{{ setup.desc }}</p>
-        </div>
-        <div class="segment">
+        <div class="setup_info">
+            <div class="description">
+                <p>{{ setup.desc }}</p>
+            </div>
+            <div>
 
-            Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
-            Pilots: {{ setup.fits|length }}/{{ tournament.getMaxPilots }}
+                Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
+                Pilots: {{ setup.fits|length }}/{{ tournament.getMaxPilots }}
+            </div>
         </div>
-        <ul id="setupList" >
+        <ul id="fitList" >
             {% for fit in setup.fits %}
-                <li class="fit box" id="fit_{{ setup.id }}">
-                    <div class="header">
-                        <h3 class="setupName">{{ fit.name }}</h3>
-                        <div class="menu" >
-                            <a class="detailsSetup"  href="/index.php/fit/{{ setup.id }}/details" ><img width="25" src="/img/icon/Black_Paperclip.png" alt="show details" /></a>
-                            <a class="addFit"        href="/index.php/fit/{{ setup.id }}/fit/addDialog" ><img width="25" src="/img/icon/Black_New-Page.png" alt="add fit" /></a>
-                            <a class="refreshSetup"  href="/index.php/fit/{{ setup.id }}/refresh" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Setup" /></a>
-                            <a class="deleteSetup"   href="/index.php/fit/{{ setup.id }}/delete" ><img width="25" src="/img/icon/Black_Remove.png" alt="remove Setup" /></a>
-                        </div>
-                    </div>
-                    <div class="description segment">
-                        <p>{{ fit.description }}</p>
+                {% include 'fit/fit.twig' with {'setup': setup, 'fit': fit, 'tournament': tournament} %}
 
-                    </div>
-                    <div class="segment">
-                        {{ fit.getPointCategoryName() }} - {{ fit.getPoints() }}
-                    </div>
-                    {% if fit.hasWarning() %}
-                    <div class="warning segment" >
-                        <ul class="warning">
-                            {% for warning in fit.getWarnings() %}
-                                <li>{{ warning.tournament }} - {{ warning.text }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-                    <div class="segment">
-                        <ul class="detailFit">
-                            {% for slotName,slot in fit.slots %}
-                                <h3>{{ slotName }}</h3>
-                                {% for module in slot %}
-                                    <li>{{ module.moduleName }}</li>
-                                {% endfor %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </li>
+
             {% endfor %}
         </ul>
     </section>
@@ -65,13 +33,16 @@
 
 {% block script %}
     <script>
-//        $(document).ready(function(){
+        $(document).ready(function(){
+            // initiate dashboard
+            var setupDetail = new setupDetailHelper;
+            setupDetail.init($('#detail'), $('#fitList'));
 //
 //            // initiate dashboard
 //            var dashboard = new dashboardHelper;
 //            dashboard.init($('#setupList'), $('#addSetup'));
 //
 //            addFitDetailhover()
-//        })
+        })
     </script>
 {% endblock %}

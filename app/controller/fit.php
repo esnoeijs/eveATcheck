@@ -4,15 +4,23 @@ namespace eveATcheck\controller;
 
 use eveATcheck\lib\database\database;
 use eveATcheck\lib\evefit\evefit;
+use Slim\Slim;
 
 class fit
 {
 
 
-    public function action_addDialog(\Slim\Slim $app, $setupId)
+    public function action_addDialog(Slim $app, $setupId)
     {
-
         $app->render('fit/addDialog.twig', array('setupId' => $setupId));
+    }
+
+    public function action_editDialog(Slim $app, $setupId, $fitId)
+    {
+        $setup = $app->evefit->getSetup($setupId);
+        $fit   = $setup->getFit($fitId);
+
+        $app->render('fit/editDialog.twig', array('setupId' => $setupId, 'fit' => $fit));
     }
 
     /**
@@ -21,12 +29,22 @@ class fit
      * @method POST
      * @param \Slim\Slim $app
      */
-    public function action_add(\Slim\Slim $app, $setupId)
+    public function action_add(Slim $app, $setupId)
     {
         $fit  = $app->request()->post('fit');
         $desc = $app->request()->post('description');
+        $quantity = $app->request()->post('quantity');
 
-        $app->evefit->addFit($fit, $desc, $setupId);
+        $app->evefit->addFit($fit, $desc, $quantity, $setupId);
+    }
+
+    public function action_update(Slim $app, $setupId, $fitId)
+    {
+        $newFit      = $app->request()->post('fit');
+        $newDesc     = $app->request()->post('description');
+        $newQuantity = $app->request()->post('quantity');
+
+        $app->evefit->updateFit($newFit, $newDesc, $newQuantity, $setupId, $fitId);
     }
 
     /**
@@ -34,14 +52,24 @@ class fit
      *
      * @param \Slim\Slim $app
      */
-    public function action_list(\Slim\Slim $app)
+    public function action_list(Slim $app, $setupId, $fitId)
     {
-        $fits = $app->evefit->getFits();
+        $setup = $app->evefit->getSetup($setupId);
+        $fit   = $setup->getFit($fitId);
+        $tour   = $app->rulechecker->getTournament();
 
-        foreach ($fits as $fit)
-        {
-            $app->render('fit/fit.twig', array('fit' => $fit ));
-        }
+        $app->render('fit/fit.twig', array('setup' => $setup, 'fit' => $fit, 'tournament' => $tour ));
+    }
+
+    /**
+     * Deletes a fit from the user session.
+     *
+     * @param Slim $app
+     * @param String $setupId
+     */
+    public function action_delete(Slim $app, $setupId, $fitId)
+    {
+        $app->evefit->getSetup($setupId)->deleteFit($fitId);
     }
 
 

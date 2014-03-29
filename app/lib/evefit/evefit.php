@@ -42,14 +42,29 @@ class evefit
      *
      * @param string $fit
      */
-    public function addFit($fit, $desc, $setupId)
+    public function addFit($fit, $desc, $quantity, $setupId)
     {
         $fits = $this->parseEFT($fit);
 
         foreach ($fits as $fit)
         {
             $fit->setDescription($desc);
+            $fit->setQuantity($quantity);
             $this->getSetup($setupId)->addFit($fit);
+        }
+
+        $this->save();
+    }
+
+    public function updateFit($fit, $desc, $quantity, $setupId, $fitId)
+    {
+        $fits = $this->parseEFT($fit);
+
+        foreach ($fits as $fit)
+        {
+            $fit->setDescription($desc);
+            $fit->setQuantity($quantity);
+            $this->getSetup($setupId)->replaceFit($fitId, $fit);
         }
 
         $this->save();
@@ -126,7 +141,6 @@ class evefit
     {
         $this->user->saveSetups($this->setups);
     }
-
 
     /**
      * Parses EFT format text to extract eve fits

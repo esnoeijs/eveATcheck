@@ -1,10 +1,10 @@
 <section>
-    <form id="addFit_form" method="POST" action="/index.php/setup/{{ setupId }}/fit/add">
+    <form id="editFit_form" method="POST" action="/index.php/setup/{{ setupId }}/fit/{{ fit.id }}/update">
         <p><label>EFT format fit:</label><br/>
-            <textarea rows="10" class="text ui-widget-content ui-corner-all" name="fit"></textarea>
+            <textarea rows="10" class="text ui-widget-content ui-corner-all" name="fit">{{ fit.EFT|escape }}</textarea>
         <p><label>Description:</label><br/>
-            <textarea class="text ui-widget-content ui-corner-all" name="description"></textarea>
-        <p><label>Quantity:</label><input class="number ui-widget-content ui-corner-all" type="number" name="quantity" size="1" value="1" /></p>
+            <textarea class="text ui-widget-content ui-corner-all" name="description">{{ fit.description|escape }}</textarea>
+        <p><label>Quantity:</label><input class="number ui-widget-content ui-corner-all" type="number" name="quantity" size="1" value="{{ fit.quantity|escape }}" /></p>
     </form>
 </section>
 

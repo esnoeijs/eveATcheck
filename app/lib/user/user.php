@@ -111,7 +111,6 @@ class user
             if (!isset($_SESSION['setups'])) $_SESSION['setups'] = array();
             $_SESSION['setups'] = $setups;
         }
-        var_dump($_SESSION['setups']);
         return true;
     }
 } 

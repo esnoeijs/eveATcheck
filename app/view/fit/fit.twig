@@ -1,0 +1,37 @@
+<li class="fit box" id="fit_{{ fit.id }}">
+    <div class="header">
+        <h3 class="name">{{ fit.name }}</h3>
+        <div class="menu" >
+            <a class="edit"     href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/editDialog" ><img width="25" src="/img/icon/Black_New-Page.png" alt="edit fit" /></a>
+            <a class="refresh"  href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/refresh" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Fit" /></a>
+            <a class="delete"   href="/index.php/setup/{{ setup.id }}/fit/{{ fit    .id }}/delete" ><img width="25" src="/img/icon/Black_Remove.png" alt="remove Fit" /></a>
+        </div>
+    </div>
+    <div class="description segment">
+        <p>{{ fit.description }}</p>
+
+    </div>
+    <div class="segment">
+        {{ fit.getPointCategoryName() }} - {{ fit.getPoints() }} <span style="float: right">x{{ fit.quantity }}</span>
+    </div>
+    {% if fit.hasWarning() %}
+        <div class="warning segment" >
+            <ul class="warning">
+                {% for warning in fit.getWarnings() %}
+                    <li>{{ warning.tournament }} - {{ warning.text }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <div class="segment">
+        <ul class="detailFit">
+            {% for slotName,slot in fit.slots %}
+                <h3>{{ slotName }}</h3>
+                {% for module in slot %}
+                    <li>{{ module.moduleName }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+</li>
+
