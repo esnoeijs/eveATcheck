@@ -95,9 +95,9 @@ class tournament
      * each category.
      *
      * Ships are defined by either groups of ships or specific ships, groups of ships are pulled from their associated
-     * group name from the database. Ships are taken by name from the database.
+     * shipGroup name from the database. Ships are taken by name from the database.
      *
-     * Specifically named ships will then be removed from other categories where they where defined via the group method.
+     * Specifically named ships will then be removed from other categories where they where defined via the shipGroup method.
      * A ship can only be defined in one category.
      *
      * @param \SimpleXMLElement $xml

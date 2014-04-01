@@ -29,7 +29,7 @@ class database extends auth
      */
     public function login($username, $password)
     {
-        $user = $this->model->getModel('user')->getUser($username);
+        $user = $this->model->getModel('user')->getPassword($username);
         return password_verify($password, $user['password']);
     }
 

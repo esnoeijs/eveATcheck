@@ -151,17 +151,25 @@ TOP BAR
 #header a
 {
     text-decoration: none;
+    color: #1c94c4;
+
 }
 
 #header h1
 {
     display: inline-block;
-    float: left;
     font-size: 2em;
-    margin-top: 0.5em;
     font-style: normal;
     color: #1c94c4;
     overflow: visible;
+
+    margin-top: 0.2em;
+}
+
+#header #user_mgmnt
+{
+    display: inline-block;
+    margin-left: 2em;
 }
 
 #menu
@@ -176,12 +184,10 @@ TOP BAR
     display: inline-block;
 }
 
-#menu li a
+#menu a
 {
     padding: 0 5px;
-    height: 2em;
     display: inline-block;
-    color: #1c94c4;
 }
 
 
@@ -225,10 +231,19 @@ setup/addDialog styles
     display: block;
 }
 
+/*******************
+Notifications and warnings
+********************/
+
 .notification
 {
     display: block;
     padding: 15px;
     background-color: greenyellow;
     border: solid 2px green;
+
+}
+.notification.error
+{
+    background-color: #f99;
 }

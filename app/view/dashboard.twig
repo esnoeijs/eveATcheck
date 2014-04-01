@@ -2,6 +2,12 @@
 
 
 {% block content %}
+{% if not user.isLoggedin() %}
+
+    <div class="notification error general" >
+        <b>You need to be logged in to use this application</b>
+    </div>
+{% else %}
 <section class="main" id="dashboard">
     <div class="header">
         <h2>Setups</h2>
@@ -17,6 +23,7 @@
     </ul>
 </section>
 <div id="dialog"></div>
+{% endif %}
 {% endblock %}
 
 

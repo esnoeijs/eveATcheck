@@ -11,8 +11,6 @@ namespace eveATcheck\model;
 
 class userModel extends baseModel
 {
-
-
     public function userExists($username)
     {
         $conn = $this->db->getConnection();
@@ -24,10 +22,21 @@ class userModel extends baseModel
         return ($row['username']);
     }
 
-    public function getUser($username)
+    public function getPassword($username)
     {
         $conn = $this->db->getConnection();
         $sth  = $conn->prepare('SELECT username,password FROM user WHERE username = :username');
+        $sth->bindValue(':username', $username, \PDO::PARAM_STR);
+        $sth->execute();
+        $row = $sth->fetch(\PDO::FETCH_ASSOC);
+
+        return $row;
+    }
+
+    public function getUser($username)
+    {
+        $conn = $this->db->getConnection();
+        $sth  = $conn->prepare('SELECT id, username FROM user WHERE username = :username');
         $sth->bindValue(':username', $username, \PDO::PARAM_STR);
         $sth->execute();
         $row = $sth->fetch(\PDO::FETCH_ASSOC);

@@ -4,8 +4,10 @@
 /**
  * @todo Add user with login/logout persistant fit storage
  * @todo Add check for fits and fleet setups and the fits within.
- * @todo figure out a way to discern between correct shipclass classifications
  */
+
+
+date_default_timezone_set('UTC');
 
 require '../config/config.php';
 require '../vendor/autoload.php';

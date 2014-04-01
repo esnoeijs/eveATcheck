@@ -7,8 +7,11 @@
  */
 
 namespace eveATcheck\lib\user;
+use eveATcheck\lib\evefit\lib\fit;
+use eveATcheck\lib\evefit\lib\setup;
 use eveATcheck\lib\evemodel\evemodel;
 use eveATcheck\lib\user\auth\auth;
+use eveATcheck\model\setupModel;
 
 /**
  * Class user
@@ -16,6 +19,10 @@ use eveATcheck\lib\user\auth\auth;
  */
 class user
 {
+
+    protected $userId;
+    protected $userName;
+
     protected $model;
     protected $auth;
     protected $loggedin = false;
@@ -24,8 +31,14 @@ class user
     {
         $this->model = $model;
         $this->auth  = $auth;
-    }
 
+        if (isset($_SESSION['user']))
+        {
+            $this->loggedin = true;
+            $this->userId = $_SESSION['user']['id'];
+            $this->userName = $_SESSION['user']['username'];
+        }
+    }
 
     public function isLoggedin()
     {
@@ -37,12 +50,19 @@ class user
         $login = $this->auth->login($user, $password);
         if (!$login) return false;
 
+        $user = $this->getUser($user);
+        $_SESSION['user'] = $user;
+
+        $this->loggedin = true;
+        $this->userId = $_SESSION['user']['id'];
+        $this->userName = $_SESSION['user']['username'];
+
         return true;
     }
 
     public function logout()
     {
-
+        unset($_SESSION['user']);
     }
 
     public function register($username, $password)
@@ -50,36 +70,14 @@ class user
         return $this->auth->register($username,$password);
     }
 
-    /**
-     * Retrieves fits from the database or session depending on if the user is loggedin
-     * @return array
-     */
-    public function getFits()
+    public function getName()
     {
-        if ($this->loggedin)
-        {
-
-        } else {
-            if (!isset($_SESSION['fits'])) $_SESSION['fits'] = array();
-            $fits = $_SESSION['fits'];
-        }
-        return $fits;
+        return $this->userName;
     }
 
-    /**
-     * Saves fits to session or database depending on if the user is loggedin.
-     * @return bool
-     */
-    public function saveFits($fits)
+    public function getId()
     {
-        if ($this->loggedin)
-        {
-
-        } else {
-            if (!isset($_SESSION['fits'])) $_SESSION['fits'] = array();
-            $_SESSION['fits'] = $fits;
-        }
-        return true;
+        return $this->userId;
     }
 
     /**
@@ -90,11 +88,34 @@ class user
     {
         if ($this->loggedin)
         {
+            $setups = array();
 
-        } else {
-            if (!isset($_SESSION['setups'])) $_SESSION['setups'] = array();
-            $setups = $_SESSION['setups'];
+            // Get setups
+            /** @var setupModel $setupModel */
+            $setupModel = $this->model->getModel('setup');
+            $setupRows = $setupModel->getSetups();
+            foreach ($setupRows as $setupRow)
+            {
+                $setups[$setupRow['id']] = new setup((int)$setupRow['id'], $setupRow['name'], $setupRow['description'], (int)$this->getId(), $setupRow['publishDate'], $setupRow['updateDate']);
+            }
+
+            // Get fits and assign them to the correct setup
+            /** @var fitModel $fitModel */
+            $fitModel = $this->model->getModel('fit');
+            $fitRows = $fitModel->getFits();
+            foreach ($fitRows as $fitRow)
+            {
+                $fit = new fit($fitRow['typeName'], $fitRow['name'], $fitRow['shiptypeId'], $fitRow['groupName'], $this->getId(), $fitRow['description'], $fitRow['id'], $fitRow['publishDate'], $fitRow['updateDate']);
+                $fit->setQuantity($fitRow['qty']);
+                $fit->parseEFT($fitRow['EFTData'], $this->model);
+
+                if (isset($setups[$fitRow['setupId']]))
+                    $setups[$fitRow['setupId']]->addFit($fit);
+            }
+
+
         }
+
         return $setups;
     }
 
@@ -106,11 +127,41 @@ class user
     {
         if ($this->loggedin)
         {
+            /** @var setupModel $setupModel */
+            $setupModel = $this->model->getModel('setup');
 
-        } else {
-            if (!isset($_SESSION['setups'])) $_SESSION['setups'] = array();
-            $_SESSION['setups'] = $setups;
+            /** @var fitModel $fitModel */
+            $fitModel = $this->model->getModel('fit');
+
+            /** @var setup $setup */
+            foreach ($setups as $setup)
+            {
+                if ($setup->isNew())
+                {
+                    $setupId = $setupModel->insertSetup($setup->getName(), $setup->getDesc(), $this->getId());
+                }else{
+                    $setupModel->updateSetup($setup->getId(), $setup->getName(), $setup->getDesc(), $this->getId());
+                    $setupId = $setup->getId();
+                }
+
+                foreach ($setup->getFits() as $fit)
+                {
+                    if ($fit->isNew())
+                    {
+                        $fitModel->insertFit($fit->getName(), $fit->getDescription(), $fit->getQuantity(), $fit->getTypeId(), $fit->getEFT(), $this->getId(), $setupId);
+                    }else{
+
+                    }
+                }
+            }
+
         }
+
         return true;
+    }
+
+    protected function getUser($user)
+    {
+        return $this->model->getModel('user')->getUser($user);
     }
 } 

@@ -12,11 +12,15 @@ class fit
 
     public function action_addDialog(Slim $app, $setupId)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $app->render('fit/addDialog.twig', array('setupId' => $setupId));
     }
 
     public function action_editDialog(Slim $app, $setupId, $fitId)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $setup = $app->evefit->getSetup($setupId);
         $fit   = $setup->getFit($fitId);
 
@@ -31,6 +35,8 @@ class fit
      */
     public function action_add(Slim $app, $setupId)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $fit  = $app->request()->post('fit');
         $desc = $app->request()->post('description');
         $quantity = $app->request()->post('quantity');
@@ -40,6 +46,8 @@ class fit
 
     public function action_update(Slim $app, $setupId, $fitId)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $newFit      = $app->request()->post('fit');
         $newDesc     = $app->request()->post('description');
         $newQuantity = $app->request()->post('quantity');
@@ -54,6 +62,8 @@ class fit
      */
     public function action_list(Slim $app, $setupId, $fitId)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $setup = $app->evefit->getSetup($setupId);
         $fit   = $setup->getFit($fitId);
         $tour   = $app->rulechecker->getTournament();
@@ -69,6 +79,8 @@ class fit
      */
     public function action_delete(Slim $app, $setupId, $fitId)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $app->evefit->getSetup($setupId)->deleteFit($fitId);
     }
 

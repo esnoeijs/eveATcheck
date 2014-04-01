@@ -21,10 +21,12 @@ class setup
      */
     public function action_details(\Slim\Slim $app, $setupId)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $setup  = $app->evefit->getSetup($setupId);
         $tour   = $app->rulechecker->getTournament();
 
-        $app->render('setup/details.twig', array('setup' => $setup, 'tournament' => $tour));
+        $app->render('setup/details.twig', array('setup' => $setup, 'tournament' => $tour, 'user' => $app->user));
     }
 
 
@@ -34,6 +36,8 @@ class setup
      */
     public function action_addDialog(Slim $app)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $app->render('setup/addDialog.twig');
     }
 
@@ -45,10 +49,12 @@ class setup
      */
     public function action_add(Slim $app)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $name = $app->request()->post('name');
         $desc = $app->request()->post('description');
 
-        $app->evefit->addSetup(new \eveATcheck\lib\evefit\lib\setup($name, $desc));
+        $app->evefit->addSetup(new \eveATcheck\lib\evefit\lib\setup(null, $name, $desc, $app->user->getId()));
 
         return;
     }
@@ -60,6 +66,8 @@ class setup
      */
     public function action_listAll(Slim $app)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $setups = $app->evefit->getSetups();
         $tour   = $app->rulechecker->getTournament();
 
@@ -77,6 +85,8 @@ class setup
      */
     public function action_list(Slim $app, $setupId)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $setups = $app->evefit->getSetups();
         $tour   = $app->rulechecker->getTournament();
 
@@ -96,6 +106,8 @@ class setup
      */
     public function action_delete(Slim $app, $setupId)
     {
+        if (!$app->user->isLoggedin()) return false;
+
         $app->evefit->deleteSetup($setupId);
     }
 

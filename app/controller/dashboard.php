@@ -16,10 +16,15 @@ class dashboard
      */
     public function action_index(\Slim\Slim $app)
     {
-        $setups = $app->evefit->getSetups();
+        if (!$app->user->isLoggedin())
+            $setups = array();
+        else
+            $setups = $app->evefit->getSetups();
+
+
         $tour   = $app->rulechecker->getTournament();
 
-        $app->render('dashboard.twig', array('setups' => $setups, 'tournament' => $tour));
+        $app->render('dashboard.twig', array('setups' => $setups, 'tournament' => $tour, 'user' => $app->user));
     }
 
 }

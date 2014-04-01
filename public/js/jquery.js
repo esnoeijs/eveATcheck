@@ -2847,7 +2847,7 @@ function select( selector, context, results, seed ) {
 		match = tokenize( selector );
 
 	if ( !seed ) {
-		// Try to minimize operations if there is only one group
+		// Try to minimize operations if there is only one shipGroup
 		if ( match.length === 1 ) {
 
 			// Take a shortcut and set the context if the root selector is an ID

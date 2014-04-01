@@ -11,9 +11,15 @@ namespace eveATcheck\lib\evefit\lib;
 
 class setup
 {
+    protected $new;
+
     protected $id;
     protected $name;
     protected $desc;
+
+    protected $publishDate;
+    protected $updateDate;
+    protected $ownerId;
 
     protected $points = array();
 
@@ -22,11 +28,24 @@ class setup
      */
     protected $fits = array();
 
-    public function __construct($name, $desc)
+    public function __construct($id, $name, $desc, $ownerId, $publishDate=null, $updateDate=null)
     {
-        $this->id   = str_replace(' ','_', uniqid($name));
+        $this->ownerId = $ownerId;
         $this->name = $name;
         $this->desc = $desc;
+
+        if (!is_numeric($id))
+        {
+            $this->id  = str_replace(' ','_', uniqid($name));
+            $this->new = true;
+            $this->publishDate = new \DateTime('now');
+            $this->updateDate = new \DateTime('now');
+        }else{
+            $this->id  = $id;
+            $this->new = false;
+            $this->publishDate = new \DateTime($publishDate);
+            $this->updateDate = new \DateTime($updateDate);
+        }
     }
 
     public function getId()
@@ -42,6 +61,11 @@ class setup
     public function getDesc()
     {
         return $this->desc;
+    }
+
+    public function isNew()
+    {
+        return $this->new;
     }
 
     public function getFit($fitId)

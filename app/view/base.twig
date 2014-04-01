@@ -18,11 +18,19 @@
             <h1>Eve Tournament Checker</h1>
         </a>
         {% block content_header %}
+
+        <span id="user_mgmnt">
+            {% if user.isLoggedin() %}
+                Welcome {{ user.getName() }} | <a href="/index.php/user/logout">Logout</a>
+            {% else %}
+                <a href="/index.php/user/register">Register</a> | <a href="/index.php/user/login">Login</a>
+            {% endif %}
+
+        </span>
+
         <ul id="menu">
             {% block content_header_more %}
                 <li><a href="/">Home</a></li>
-                <li><a href="/index.php/user/register">Register</a></li>
-                <li><a href="/index.php/user/login">Login</a></li>
             {% endblock %}
         </ul>
 

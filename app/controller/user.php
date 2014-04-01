@@ -23,7 +23,10 @@ class user
 
             $success = $app->user->login($username, $password);
 
-            if (!$success) $errors['general'] = 'Invalid login credentials';
+            if (!$success)
+            {
+                $errors['general'] = 'Invalid login credentials';
+            }
 
             $response = array(
                 'errors' => $errors,
@@ -34,12 +37,13 @@ class user
             return;
         }
 
-        $app->render('user/login.twig', array());
+        $app->render('user/login.twig', array('user' => $app->user));
     }
 
     public function action_logout(\Slim\Slim $app)
     {
-
+        $app->user->logout();
+        $app->redirect("/");
     }
 
     public function action_register(\Slim\Slim $app)
@@ -72,6 +76,6 @@ class user
             return;
         }
 
-        $app->render('user/register.twig', array('flash' => 'whelp'));
+        $app->render('user/register.twig', array('user' => $app->user));
     }
 } 

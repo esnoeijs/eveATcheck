@@ -7,6 +7,7 @@
  */
 
 namespace eveATcheck\lib\evefit\lib;
+use eveATcheck\lib\evemodel\evemodel;
 
 /**
  * Class fit
@@ -31,9 +32,17 @@ class fit
     protected $typeId;
     protected $type;
     protected $name;
-    protected $group;
+    protected $shipGroup;
     protected $description;
 
+    protected $publishDate;
+    protected $updateDate;
+    protected $ownerId;
+
+    /**
+     * Module slots
+     * @var array
+     */
     protected $slots = array();
 
     protected $warnings = array();
@@ -54,16 +63,30 @@ class fit
     /**
      * instantiate new ship fit with name and type
      *
-     * @param String $type
-     * @param String $name
+     * @param String $shipType
+     * @param String $fitName
      */
-    public function __construct($typeId, $type, $name, $group)
+    public function __construct($shipType, $fitName, $typeId, $shipGroup, $ownerId, $description=null, $id=null, $publishDate=null, $updateDate=null)
     {
-        $this->typeId = $typeId;
-        $this->type   = $type;
-        $this->name   = $name;
-        $this->group  = $group;
-        $this->id     = str_replace(' ','_', uniqid($name));
+        $this->typeId  = $typeId;
+        $this->type    = $shipType;
+        $this->name    = $fitName;
+        $this->shipGroup   = $shipGroup;
+        $this->ownerId = $ownerId;
+        $this->description = $description;
+
+        if (!is_numeric($id))
+        {
+            $this->id  = str_replace(' ','_', uniqid($fitName));
+            $this->new = true;
+            $this->publishDate = new \DateTime('now');
+            $this->updateDate = new \DateTime('now');
+        }else{
+            $this->id  = $id;
+            $this->new = false;
+            $this->publishDate = new \DateTime($publishDate);
+            $this->updateDate = new \DateTime($updateDate);
+        }
     }
 
     public function setDescription($desc)
@@ -120,9 +143,9 @@ class fit
     /**
      * @return String
      */
-    public function getGroup()
+    public function getShipGroup()
     {
-        return $this->group;
+        return $this->shipGroup;
     }
 
     /**
@@ -196,6 +219,11 @@ class fit
         return $this->quantity;
     }
 
+    public function isNew()
+    {
+        return $this->new;
+    }
+
     /**
      * Set amount of version of this fit are in a setup.
      *
@@ -222,5 +250,92 @@ class fit
         }
 
         return $EFT;
+    }
+
+    public function parseEFT($fitEFT, evemodel $model)
+    {
+        $fitEFT = new \ArrayIterator(explode(PHP_EOL, $fitEFT));
+
+        while ($fitEFT->valid())
+        {
+            $fitline = $fitEFT->current();
+
+            // Look for EFT format header
+            preg_match('/^\[([a-zA-Z ]+), (.*)]/', $fitline, $matches);
+            $fitEFT->next();
+
+            if (count($matches)!==0)
+            {
+                $type = $matches[1];
+                $name = $matches[2];
+                $this->type   = $type;
+                $this->name   = $name;
+
+
+                while ($fitEFT->valid())
+                {
+                    $fitline = $fitEFT->current();
+
+                    // Module Name, Charge type
+                    preg_match('/([^,]*)(,(.*))?/', $fitline, $matches);
+
+                    // If we stumbled on a new fit. (new fits start with "[")
+                    if (preg_match('/^\[/',$fitline))
+                    {
+                        break;
+                    }
+
+                    $charge = null;
+                    $moduleName = $matches[1];
+
+                    // If white line just skip.
+                    if (trim($moduleName)!=='')
+                    {
+                        /**
+                         * @todo this is not really the best solution. But I'm trying to avoid creating half a fitting
+                         * application in this site.
+                         */
+                        $module = $model->getModel('item')->getModule($moduleName);
+                        if (!$module)
+                        {
+                            // Check if drone or implant
+                            // Check for implant code AA-000
+                            if (preg_match('/[A-Z]{2}-[0-9]{3}$/', $moduleName))
+                            {
+                                $this->addModule($moduleName, null, fit::IMPLANTS );
+                            }
+                            else
+                            {
+                                $this->addModule($moduleName, null, fit::DRONES);
+                            }
+                        }
+                        else
+                        {
+                            if (isset($matches[3]))
+                            {
+                                $charge = $matches[3];
+                            }
+
+                            $slot = null;
+                            switch (strtolower($module['displayName']))
+                            {
+                                case 'low power': $slot = fit::LOWSLOT; break;
+                                case 'medium power': $slot = fit::MIDSLOT; break;
+                                case 'high power': $slot = fit::HIGHSLOT; break;
+                                case 'rig slot': $slot = fit::RIGSLOT; break;
+                                case 'sub system': $slot = fit::SUBSYSTEM; break;
+                                default:
+                                    throw new \Exception("Don't know slot type: '{$module['displayName']}''");
+                                    break;
+                            }
+
+                            $this->addModule($moduleName, $charge, $slot);
+                        }
+                    }
+
+                    $fitEFT->next();
+                }
+            }
+        }
     }
 }

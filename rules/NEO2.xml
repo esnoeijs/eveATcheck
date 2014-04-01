@@ -5,10 +5,10 @@
         <pilots>8</pilots>
     </event>
     <!--
-    Points are defined per CCP listed ship group.
-    Such group then gets assigned points
-    Then we define which ships belong to this group.
-    We can define a group which is a existing name in the CCP static data dump invGroups table.
+    Points are defined per CCP listed ship shipGroup.
+    Such shipGroup then gets assigned points
+    Then we define which ships belong to this shipGroup.
+    We can define a shipGroup which is a existing name in the CCP static data dump invGroups table.
     We can define specif ships which are existing names in the invTypes table of CCP's static data dump.
 
     If specific names are defined these will be removed from other listings.

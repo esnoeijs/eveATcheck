@@ -25,12 +25,15 @@ class rulecheckerMiddleware extends Middleware
         $setups      = $this->app->evefit->getSetups();
         $ruleChecker = $this->app->rulechecker;
 
-        foreach ($setups as &$setup)
+        if (is_array($setups))
         {
-            $setup = $ruleChecker->checkSetup($setup);
+            foreach ($setups as &$setup)
+            {
+                $setup = $ruleChecker->checkSetup($setup);
+            }
+            // @todo I don't like this.
+            $this->app->evefit->setSetups($setups);
         }
-        // @todo I don't like this.
-        $this->app->evefit->setSetups($setups);
 
         $this->next->call();
     }
