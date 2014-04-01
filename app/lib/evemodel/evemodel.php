@@ -26,7 +26,7 @@ class evemodel
 
     public function getModel($modelName)
     {
-        $modelClass = '\\eveATcheck\model\\' . $modelName;
+        $modelClass = '\\eveATcheck\model\\' . $modelName . "Model";
 
         if (class_exists($modelClass))
         {

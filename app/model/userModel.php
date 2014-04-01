@@ -9,7 +9,7 @@
 namespace eveATcheck\model;
 
 
-class user extends baseModel
+class userModel extends baseModel
 {
 
 

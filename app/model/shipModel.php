@@ -11,7 +11,7 @@ namespace eveATcheck\model;
 
 use eveATcheck\lib\evefit\evefit;
 
-class ship extends item
+class shipModel extends itemModel
 {
 
 
