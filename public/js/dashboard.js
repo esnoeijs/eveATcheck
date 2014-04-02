@@ -211,8 +211,13 @@ var setupDetailHelper = function(){
     this.listEl = null,
     this.dialogEl = $("<div></div>"),
 
+    this.setupId =0;
+
     // Will contain all the setup helpers
     this.setups = [];
+
+    // Will contain some urls.
+    this.url = {};
 
     // initialize all the buttons and stuffs.
     this.init = function (mainEl, fitListEl)
@@ -241,11 +246,11 @@ var setupDetailHelper = function(){
             return false;
         });
 
-        $('.mainheader .refreshSetup').click(function(){self.refreshSetups(self)});
+        self.url.refresh = $('.mainheader .refreshSetup').attr('href');
+        $('.mainheader .refreshSetup').click(function(){self.refreshFits(self); return false;});
 //
         // initiate setuphelpers for each setup
         $('#fitList .box').each(function(){
-            if (console) console.log(this);
             var helper = new boxHelper(this);
             helper.init();
             self.addSetup(helper);
@@ -257,23 +262,23 @@ var setupDetailHelper = function(){
         self.dialogEl.dialog("close");
     }
 
-    this.addNewSetup = function (self)
+    this.addNewFit = function (self)
     {
-        $('#setupAdd_form').ajaxForm(function() {
-            self.refreshSetups(self);
+        $('#addFit_form').ajaxForm(function() {
+            self.refreshFits(self);
             self.dialogClose(self);
         }).submit();
     }
 
-    this.refreshSetups = function (self)
+    this.refreshFits = function (self)
     {
         $.get(
-            'index.php/setup/list',
+            self.url.refresh,
             function(data)
             {
-                $("#setupList").html(data);
+                $("#setupDetails").html(data);
 
-                $('#setupList .setup').each(function(){
+                $('#fitList .fit').each(function(){
                     var id = $(this).attr('id');
                     if (id in self.setups)
                     {

@@ -56,16 +56,17 @@ class evefit
         $this->save();
     }
 
-    public function updateFit($fit, $desc, $quantity, $setupId, $fitId)
+    public function updateFit($EFTFit, $desc, $quantity, $setupId, $fitId)
     {
-        $fits = $this->parseEFT($fit);
+        $fitModel = $this->model->getModel('fit');
+        $fitRow  = $fitModel->getFit($fitId);
 
-        foreach ($fits as $fit)
-        {
-            $fit->setDescription($desc);
-            $fit->setQuantity($quantity);
-            $this->getSetup($setupId)->replaceFit($fitId, $fit);
-        }
+        $fit = new fit($fitRow['typeName'], $fitRow['name'], $fitRow['shiptypeId'], $fitRow['groupName'], $this->user->getId(), $desc, $fitRow['id'], $fitRow['publishDate'], $fitRow['updateDate']);
+        $fit->setQuantity($quantity);
+        $fit->parseEFT($EFTFit, $this->model);
+        $fit->setNeedsSave(true);
+
+        $this->getSetup($setupId)->replaceFit($fitId, $fit);
 
         $this->save();
     }
@@ -139,7 +140,7 @@ class evefit
     /**
      * Saves fits
      */
-    protected function save()
+    public function save()
     {
         $this->user->saveSetups($this->setups);
     }

@@ -138,7 +138,7 @@ class user
                 if ($setup->isNew())
                 {
                     $setupId = $setupModel->insertSetup($setup->getName(), $setup->getDesc(), $this->getId());
-                }else{
+                }elseif ($setup->getNeedsSave()) {
                     $setupModel->updateSetup($setup->getId(), $setup->getName(), $setup->getDesc(), $this->getId());
                     $setupId = $setup->getId();
                 }
@@ -148,9 +148,15 @@ class user
                     if ($fit->isNew())
                     {
                         $fitModel->insertFit($fit->getName(), $fit->getDescription(), $fit->getQuantity(), $fit->getTypeId(), $fit->getEFT(), $this->getId(), $setupId);
-                    }else{
+                    }elseif ($fit->getNeedsSave()) {
+                        $fitModel->updateFit($fit->getId(), $fit->getName(), $fit->getDescription(), $fit->getQuantity(), $fit->getTypeId(), $fit->getEFT(), $this->getId());
 
                     }
+                }
+
+                foreach ($setup->getDeletedFits() as $fitId)
+                {
+                    $fitModel->deleteFit($fitId);
                 }
             }
 

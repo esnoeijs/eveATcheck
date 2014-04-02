@@ -71,6 +71,21 @@ class fit
         $app->render('fit/fit.twig', array('setup' => $setup, 'fit' => $fit, 'tournament' => $tour ));
     }
 
+
+    public function action_listAll(Slim $app, $setupId)
+    {
+        if (!$app->user->isLoggedin()) return false;
+
+        $setup = $app->evefit->getSetup($setupId);
+        $tour   = $app->rulechecker->getTournament();
+
+        foreach ($setup->getFits() as $fit)
+        {
+            $app->render('fit/fit.twig', array('setup' => $setup, 'fit' => $fit, 'tournament' => $tour ));
+        }
+    }
+
+
     /**
      * Deletes a fit from the user session.
      *
@@ -82,6 +97,7 @@ class fit
         if (!$app->user->isLoggedin()) return false;
 
         $app->evefit->getSetup($setupId)->deleteFit($fitId);
+        $app->evefit->save();
     }
 
 

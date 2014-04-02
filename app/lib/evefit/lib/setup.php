@@ -23,6 +23,12 @@ class setup
 
     protected $points = array();
 
+
+    protected $deletedFits = array();
+
+    protected $needsSave = false;
+
+
     /**
      * @var fit[]
      */
@@ -68,6 +74,22 @@ class setup
         return $this->new;
     }
 
+    /**
+     * @param boolean $needsSave
+     */
+    public function setNeedsSave($needsSave)
+    {
+        $this->needsSave = $needsSave;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getNeedsSave()
+    {
+        return $this->needsSave;
+    }
+
     public function getFit($fitId)
     {
         foreach ($this->fits as $fit)
@@ -95,6 +117,7 @@ class setup
             if ($fit->getId() == $fitId)
             {
                 unset($this->fits[$key]);
+                $this->deletedFits[] = $fitId;
                 return true;
             }
         }
@@ -137,5 +160,13 @@ class setup
             $pilots += $fit->getQuantity();
 
         return $pilots;
+    }
+
+    /**
+     * @return array of int
+     */
+    public function getDeletedFits()
+    {
+        return $this->deletedFits;
     }
 } 

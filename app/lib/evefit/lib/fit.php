@@ -39,6 +39,11 @@ class fit
     protected $updateDate;
     protected $ownerId;
 
+
+    protected $new;
+    protected $needsSave = false;
+
+
     /**
      * Module slots
      * @var array
@@ -84,6 +89,7 @@ class fit
         }else{
             $this->id  = $id;
             $this->new = false;
+            $this->needsSave = true;
             $this->publishDate = new \DateTime($publishDate);
             $this->updateDate = new \DateTime($updateDate);
         }
@@ -92,6 +98,7 @@ class fit
     public function setDescription($desc)
     {
         $this->description = $desc;
+        $this->setNeedsSave(true);
     }
 
     public function getDescription()
@@ -117,6 +124,8 @@ class fit
 
         if (!isset($this->slots[$slotType])) $this->slots[$slotType] = array();
         $this->slots[$slotType][] = array('moduleName' => trim($moduleName), 'chargeName' => trim($chargeName));
+
+        $this->setNeedsSave(true);
     }
 
     /**
@@ -225,6 +234,22 @@ class fit
     }
 
     /**
+     * @param boolean $needsSave
+     */
+    public function setNeedsSave($needsSave)
+    {
+        $this->needsSave = $needsSave;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getNeedsSave()
+    {
+        return $this->needsSave;
+    }
+
+    /**
      * Set amount of version of this fit are in a setup.
      *
      * @param int $amount
@@ -232,8 +257,8 @@ class fit
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+        $this->setNeedsSave(true);
     }
-
 
     public function getEFT()
     {
@@ -254,6 +279,8 @@ class fit
 
     public function parseEFT($fitEFT, evemodel $model)
     {
+        $this->setNeedsSave(true);
+
         $fitEFT = new \ArrayIterator(explode(PHP_EOL, $fitEFT));
 
         while ($fitEFT->valid())

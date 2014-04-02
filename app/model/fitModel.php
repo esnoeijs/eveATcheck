@@ -62,6 +62,86 @@ class fitModel extends baseModel
     }
 
     /**
+     * Update a fit in the database.
+     *
+     * @param int    $fitId
+     * @param string $name
+     * @param string $description
+     * @param int    $qty
+     * @param int    $shipTypeId
+     * @param string $eftData
+     * @param int    $userId
+     * @param int    $setupId
+     * @return bool
+     * @throws \Exception
+     */
+    public function updateFit($fitId, $name, $description, $qty, $shipTypeId, $eftData, $userId)
+    {
+        $conn = $this->db->getConnection();
+        $conn->beginTransaction();
+        $sth  = $conn->prepare('UPDATE fit SET name = :name, description = :description, qty = :qty, updateDate = now() WHERE id = :fitId');
+        $sth->bindValue(':name', $name, \PDO::PARAM_STR);
+        $sth->bindValue(':description', $description, \PDO::PARAM_STR);
+        $sth->bindValue(':qty', $qty, \PDO::PARAM_INT);
+        $sth->bindValue(':fitId', $fitId, \PDO::PARAM_INT);
+        $success = $sth->execute();
+
+        if (!$success)
+        {
+            $conn->rollBack();
+            throw new \Exception('Error inserting fit: ' . print_r($sth->errorInfo(), true));
+        }
+
+        $sth = $conn->prepare('INSERT INTO fitData (fitId, EFTData, shiptypeId, publishDate, userId)VALUES(:fitId, :eftData, :shiptypeId, NOW(), :userId )');
+        $sth->bindValue(':fitId', $fitId, \PDO::PARAM_INT);
+        $sth->bindValue(':eftData', $eftData, \PDO::PARAM_STR);
+        $sth->bindValue(':shiptypeId', $shipTypeId, \PDO::PARAM_INT);
+        $sth->bindValue(':userId', $userId, \PDO::PARAM_INT);
+        $success = $sth->execute();
+
+        if (!$success)
+        {
+            $conn->rollBack();
+            throw new \Exception('Error inserting fit: ' . print_r($sth->errorInfo(), true));
+        }
+
+        $conn->commit();
+
+        return true;
+    }
+
+    /**
+     * Returns latest data for all fits.
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function getFit($fitId)
+    {
+        $conn = $this->db->getConnection();
+        $sth  = $conn->prepare('
+            SELECT
+                f.id, f.qty, f.name, f.description, f.publishDate, f.updateDate, fd.userId, fd.EFTData, fd.shiptypeId, it.typeName, ig.groupName, f.setupId
+            FROM
+                fit f
+                INNER JOIN fitData fd ON fd.fitId = f.id AND fd.id = (SELECT MAX(id) FROM fitData WHERE fitId = f.id)
+                INNER JOIN invTypes it ON it.typeID = fd.shiptypeId
+                LEFT JOIN invGroups ig ON it.groupID = ig.groupID
+
+            WHERE
+              deleted IS NULL
+              AND
+              f.id = :fitId
+        ');
+        $sth->bindValue(':fitId', $fitId, \PDO::PARAM_INT);
+
+        if (!$sth->execute())
+            throw new \Exception('Error fetching fits: ' . print_r($sth->errorInfo(), true));
+
+        return $sth->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Returns latest data for all fits.
      *
      * @return array
@@ -78,6 +158,9 @@ class fitModel extends baseModel
                 INNER JOIN fitData fd ON fd.fitId = f.id AND fd.id = (SELECT MAX(id) FROM fitData WHERE fitId = f.id)
                 INNER JOIN invTypes it ON it.typeID = fd.shiptypeId
                 LEFT JOIN invGroups ig ON it.groupID = ig.groupID
+
+            WHERE
+              deleted IS NULL
         ');
 
         if (!$sth->execute())
@@ -87,5 +170,19 @@ class fitModel extends baseModel
         $results = $sth->fetchAll(\PDO::FETCH_ASSOC);
 
         return $results;
+    }
+
+
+    public function deleteFit($fitId)
+    {
+        $conn = $this->db->getConnection();
+        $sth  = $conn->prepare('UPDATE fit SET deleted = NOW() WHERE id = :fitId');
+        $sth->bindValue(':fitId', $fitId, \PDO::PARAM_INT);
+        $success = $sth->execute();
+
+        if (!$success)
+            throw new \Exception('Error deleting fit: ' . $sth->errorInfo());
+
+        return true;
     }
 } 

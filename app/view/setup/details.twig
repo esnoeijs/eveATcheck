@@ -6,26 +6,12 @@
             <h2>{{ setup.name }}</h2>
             <div class="menu" >
                 <a class="addFit"        href="/index.php/setup/{{ setup.id }}/fit/addDialog" ><img width="25" src="/img/icon/Black_New-Page.png" alt="add fit" /></a>
-                <a class="refreshSetup"  href="/index.php/setup/{{ setup.id }}/refresh" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Setup" /></a>
+                <a class="refreshSetup"  href="/index.php/setup/{{ setup.id }}/details" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Setup" /></a>
             </div>
         </div>
-        <div class="setup_info">
-            <div class="description">
-                <p>{{ setup.desc }}</p>
-            </div>
-            <div>
-
-                Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
-                Pilots: {{ setup.getPilots }}/{{ tournament.getMaxPilots }}
-            </div>
+        <div id="setupDetails">
+            {% include 'setup/setupDetails.twig' with {'setup': setup, 'tournament': tournament} %}
         </div>
-        <ul id="fitList" >
-            {% for fit in setup.fits %}
-                {% include 'fit/fit.twig' with {'setup': setup, 'fit': fit, 'tournament': tournament} %}
-
-
-            {% endfor %}
-        </ul>
     </section>
     <div id="dialog"></div>
 {% endblock %}
@@ -34,15 +20,8 @@
 {% block script %}
     <script>
         $(document).ready(function(){
-            // initiate dashboard
             var setupDetail = new setupDetailHelper;
             setupDetail.init($('#detail'), $('#fitList'));
-//
-//            // initiate dashboard
-//            var dashboard = new dashboardHelper;
-//            dashboard.init($('#setupList'), $('#addSetup'));
-//
-//            addFitDetailhover()
         })
     </script>
 {% endblock %}

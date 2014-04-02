@@ -14,20 +14,7 @@ use Slim\Slim;
 
 class setup
 {
-    /**
-     * Detail page
-     *
-     * @param \Slim\Slim $app
-     */
-    public function action_details(\Slim\Slim $app, $setupId)
-    {
-        if (!$app->user->isLoggedin()) return false;
 
-        $setup  = $app->evefit->getSetup($setupId);
-        $tour   = $app->rulechecker->getTournament();
-
-        $app->render('setup/details.twig', array('setup' => $setup, 'tournament' => $tour, 'user' => $app->user));
-    }
 
 
     /**
