@@ -84,12 +84,12 @@ class fit
         {
             $this->id  = str_replace(' ','_', uniqid($fitName));
             $this->new = true;
+            $this->needsSave = true;
             $this->publishDate = new \DateTime('now');
             $this->updateDate = new \DateTime('now');
         }else{
             $this->id  = $id;
             $this->new = false;
-            $this->needsSave = true;
             $this->publishDate = new \DateTime($publishDate);
             $this->updateDate = new \DateTime($updateDate);
         }
@@ -243,6 +243,7 @@ class fit
      */
     public function getNeedsSave()
     {
+        var_dump(array('name' => $this->getName(), 'needsSave' => $this->needsSave));
         return $this->needsSave;
     }
 
