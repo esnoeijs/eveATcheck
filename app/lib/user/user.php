@@ -86,10 +86,11 @@ class user
      */
     public function getSetups()
     {
+        $setups = array();
+
+
         if ($this->loggedin)
         {
-            $setups = array();
-
             // Get setups
             /** @var setupModel $setupModel */
             $setupModel = $this->model->getModel('setup');
@@ -112,8 +113,6 @@ class user
                 if (isset($setups[$fitRow['setupId']]))
                     $setups[$fitRow['setupId']]->addFit($fit);
             }
-
-
         }
 
         return $setups;

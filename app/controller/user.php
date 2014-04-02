@@ -64,7 +64,8 @@ class user
 
             if (count($errors)==0)
             {
-                $errors = $app->user->register($username, $password);
+                $success = $app->user->register($username, $password);
+                if (!$success) $errors = array('Failed to create user');
             }
 
             $response = array(
