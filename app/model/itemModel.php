@@ -50,4 +50,20 @@ class itemModel extends baseModel
         return $row;
     }
 
+    public function getItemsByGroup($groupName)
+    {
+        $conn = $this->db->getConnection();
+        $sth  = $conn->prepare('
+            SELECT it.typeID, it.typeName, ig.groupName
+            FROM invGroups ig
+                INNER JOIN invTypes it  ON it.groupID   = ig.groupID
+            WHERE
+                ig.groupName = :groupName');
+        $sth->bindValue(':groupName', $groupName, \PDO::PARAM_STR);
+        $sth->execute();
+        $results = $sth->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
 } 

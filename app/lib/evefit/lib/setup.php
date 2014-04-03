@@ -167,13 +167,7 @@ class setup
 
     public function getWarnings()
     {
-        $warnings = array();
-        foreach ($this->warnings as $tournament => $warning)
-        {
-            $warnings[] = array('tournament' => $tournament, 'text' => $warning);
-        }
-
-        return $warnings;
+        return $this->warnings;
     }
 
     public function hasWarning()
@@ -183,7 +177,7 @@ class setup
 
     public function setWarning($tournament, $warning)
     {
-        $this->warnings[$tournament] = $warning;
+        $this->warnings[] = array('tournament' => $tournament, 'text' => $warning);
     }
 
     /**

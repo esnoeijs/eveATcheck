@@ -85,7 +85,7 @@ class tournament
 
             if (class_exists($class))
             {
-                $this->rules[] = new $class($rule);
+                $this->rules[] = new $class($rule, $model);
             }else{ die("class $type not found"); }
         }
     }

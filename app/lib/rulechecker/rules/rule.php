@@ -10,9 +10,12 @@ namespace eveATcheck\lib\rulechecker\rules;
 
 use eveATcheck\lib\evefit\lib\fit;
 use eveATcheck\lib\evefit\lib\setup;
+use eveATcheck\lib\evemodel\evemodel;
 
 abstract class rule
 {
+    /** @var  evemodel $model */
+    protected $model;
     protected $options = array();
     protected $warning;
 
@@ -21,8 +24,10 @@ abstract class rule
      * @todo Should really make recursive
      * @param \SimpleXMLElement $rule
      */
-    public function __construct(\SimpleXMLElement $rule)
+    public function __construct(\SimpleXMLElement $rule, evemodel $model)
     {
+        $this->model = $model;
+
         foreach ($rule as $key => $node)
         {
             if ($node->count() == 0)
