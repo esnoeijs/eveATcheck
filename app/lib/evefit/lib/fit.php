@@ -65,6 +65,9 @@ class fit
      */
     protected $points;
 
+    protected $flagship=false;
+
+
     /**
      * instantiate new ship fit with name and type
      *
@@ -249,6 +252,22 @@ class fit
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+    }
+
+    /**
+     * sets ship as flagship
+     */
+    public function setFlagship()
+    {
+        $this->flagship = true;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getFlagship()
+    {
+        return $this->flagship;
     }
 
     public function getEFT()

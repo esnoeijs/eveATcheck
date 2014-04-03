@@ -27,8 +27,11 @@
     {% endif %}
     <ul class="sortable fits segment">
     {% for fit in setup.fits %}
-        <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" ><b>{{ fit.type }}</b> - {{ fit.name }} <span style="float: right">x{{ fit.quantity }}</span>
+        <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" >{{ fit.flagship ? '<b>F</b> ': '' }}<b>{{ fit.type }}</b> - {{ fit.name }} <span style="float: right">x{{ fit.quantity }}</span>
             <div class="detail" style="display:none">
+                {% if (fit.flagship) %}
+                    <b>Flagship</b>
+                {% endif %}
                 {% if fit.hasWarning() %}
                     <div class="warning segment" >
                         <ul class="warning">

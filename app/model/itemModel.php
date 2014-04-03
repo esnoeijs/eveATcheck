@@ -66,4 +66,21 @@ class itemModel extends baseModel
         return $results;
     }
 
+    public function getItemMetaGroupByName($itemName)
+    {
+        $conn = $this->db->getConnection();
+        $sth  = $conn->prepare('
+            SELECT it.typeID, it.typeName, img.metaGroupID, img.metaGroupName
+            FROM
+                invTypes it
+                INNER JOIN invMetaTypes imt ON it.typeID = imt.typeID
+                INNER JOIN invMetaGroups img ON imt.metaGroupID = img.metaGroupID
+            WHERE
+            it.typeName = :itemName');
+        $sth->bindValue(':itemName', $itemName, \PDO::PARAM_STR);
+        $sth->execute();
+        $row = $sth->fetch(\PDO::FETCH_ASSOC);
+
+        return $row;
+    }
 } 

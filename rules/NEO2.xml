@@ -270,6 +270,9 @@
             <type>oneLogi</type>
         </restriction>
         <restriction>
+            <type>flagship</type>
+        </restriction>
+        <restriction>
             <type>moduleNotAllowed</type>
             <warning>Remote Energy Transfer modules are NOT allowed</warning>
             <moduleGroup>Remote Capacitor Transmitter</moduleGroup>
