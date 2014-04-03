@@ -141,6 +141,8 @@ class user
                 }elseif ($setup->getNeedsSave()) {
                     $setupModel->updateSetup($setup->getId(), $setup->getName(), $setup->getDesc(), $this->getId());
                     $setupId = $setup->getId();
+                }else{
+                    $setupId = $setup->getId();
                 }
 
                 foreach ($setup->getFits() as $fit)
