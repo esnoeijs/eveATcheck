@@ -14,7 +14,7 @@ class noT2Rigs extends rule
 {
     protected $warning = 'T2 rigs are not allowed';
 
-    protected function _run(fit $fit)
+    protected function _runFit(fit $fit)
     {
         $fitSlots = $fit->getSlots();
         if (!isset($fitSlots['Rig'])) return true;

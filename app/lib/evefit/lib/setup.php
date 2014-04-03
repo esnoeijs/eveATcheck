@@ -29,6 +29,9 @@ class setup
     protected $needsSave = false;
 
 
+    protected $warnings = array();
+
+
     /**
      * @var fit[]
      */
@@ -160,6 +163,27 @@ class setup
             $pilots += $fit->getQuantity();
 
         return $pilots;
+    }
+
+    public function getWarnings()
+    {
+        $warnings = array();
+        foreach ($this->warnings as $tournament => $warning)
+        {
+            $warnings[] = array('tournament' => $tournament, 'text' => $warning);
+        }
+
+        return $warnings;
+    }
+
+    public function hasWarning()
+    {
+        return (count($this->warnings)>0);
+    }
+
+    public function setWarning($tournament, $warning)
+    {
+        $this->warnings[$tournament] = $warning;
     }
 
     /**

@@ -6,6 +6,15 @@
         Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
         Pilots: {{ setup.getPilots }}/{{ tournament.getMaxPilots }}
     </div>
+    {% if setup.hasWarning() %}
+        <div class="warning segment" >
+            <ul class="warning">
+                {% for warning in setup.getWarnings() %}
+                    <li>{{ warning.tournament }} - {{ warning.text }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 </div>
 <ul id="fitList" >
     {% for fit in setup.fits %}

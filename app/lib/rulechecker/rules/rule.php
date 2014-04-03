@@ -9,6 +9,7 @@
 namespace eveATcheck\lib\rulechecker\rules;
 
 use eveATcheck\lib\evefit\lib\fit;
+use eveATcheck\lib\evefit\lib\setup;
 
 abstract class rule
 {
@@ -33,14 +34,24 @@ abstract class rule
         $this->constructWarning();
     }
 
-    public function run(fit $fit)
+    public function runFit(fit $fit)
     {
-        return $this->_run($fit);
+        return $this->_runFit($fit);
     }
 
-    protected function _run()
+    protected function _runFit(fit $fit)
     {
-        throw new \Exception('_run needs to be implemented');
+        return true;
+    }
+
+    public function runSetup(setup $setup)
+    {
+        return $this->_runSetup($setup);
+    }
+
+    protected function _runSetup(setup $fit)
+    {
+        return true;
     }
 
     public function getWarning()

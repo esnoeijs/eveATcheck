@@ -1,4 +1,4 @@
-<li class="setup box" id="setup_{{ setup.id }}" >
+<li class="setup box {{ setup.hasWarning() ? 'error' : '' }}" id="setup_{{ setup.id }}" >
     <div class="header">
         <h3 class="setupName">{{ setup.name }}</h3>
         <div class="menu" >
@@ -16,6 +16,15 @@
         Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
         Pilots: {{ setup.getPilots }}/{{ tournament.getMaxPilots }}
     </div>
+    {% if setup.hasWarning() %}
+        <div class="warning segment" >
+            <ul class="warning">
+                {% for warning in setup.getWarnings() %}
+                    <li>{{ warning.tournament }} - {{ warning.text }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <ul class="sortable fits segment">
     {% for fit in setup.fits %}
         <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" ><b>{{ fit.type }}</b> - {{ fit.name }} <span style="float: right">x{{ fit.quantity }}</span>

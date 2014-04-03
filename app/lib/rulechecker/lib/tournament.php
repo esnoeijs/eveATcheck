@@ -209,6 +209,17 @@ class tournament
         }
 
         $setup->setPoints($points);
+
+
+        foreach ($this->rules as $rule)
+        {
+            if (!$rule->runSetup($setup))
+            {
+                $setup->setWarning($this->getName(), $rule->getWarning());
+            }
+        }
+
+
         return $setup;
     }
 
@@ -218,7 +229,7 @@ class tournament
 
         foreach ($this->rules as $rule)
         {
-            if (!$rule->run($fit))
+            if (!$rule->runFit($fit))
             {
                 $fit->setWarning($this->getName(), $rule->getWarning());
             }

@@ -15,7 +15,7 @@ class onlyOneModuleAllowed extends rule
 {
     protected $warning = "Only one of [] allowed";
 
-    protected function _run(fit $fit)
+    protected function _runFit(fit $fit)
     {
         $found = array();
         $fitModules = $fit->getModuleNames();

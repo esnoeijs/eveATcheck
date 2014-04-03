@@ -236,6 +236,16 @@
             </define>
         </ship>
         <ship>
+            <type>Tech 1 support frigate</type>
+            <points>2</points>
+            <define>
+                <ship>bantam</ship>
+                <ship>inquisitor</ship>
+                <ship>navitas</ship>
+                <ship>burst</ship>
+            </define>
+        </ship>
+        <ship>
             <type>frigate</type>
             <points>2</points>
             <define>
@@ -255,6 +265,9 @@
         </restriction>
         <restriction>
             <type>noT2Rigs</type>
+        </restriction>
+        <restriction>
+            <type>oneLogi</type>
         </restriction>
     </restrictions>
 </rules>
