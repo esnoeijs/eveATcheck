@@ -1,5 +1,6 @@
 <?php
 
+
 /****************************
  * Dashboard Page
  ****************************/
@@ -95,6 +96,18 @@ $app->get("/setup/:setup/fit/:fit/delete", function ($setupId, $fitId) use ($app
 $app->get("/user/register", function () use ($app) {
     $controller = new eveATcheck\controller\user();
     $controller->action_register($app);
+});
+
+// user registration
+$app->post("/user/register", function () use ($app) {
+    $controller = new eveATcheck\controller\user();
+    $controller->action_register($app);
+});
+
+// user login
+$app->get("/user/login", function () use ($app) {
+    $controller = new eveATcheck\controller\user();
+    $controller->action_login($app);
 });
 
 // user login
