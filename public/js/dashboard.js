@@ -324,7 +324,6 @@ var boxHelper = function(Div)
 
     this.init = function ()
     {
-        if(console) console.log(this.id);
         var self = this;
         var selfEl = $('#'+this.id);
         self.selfEl = selfEl;
