@@ -8,8 +8,6 @@ use Slim\Slim;
 
 class fit
 {
-
-
     public function action_addDialog(Slim $app, $setupId)
     {
         if (!$app->user->isLoggedin()) return false;
@@ -54,37 +52,6 @@ class fit
 
         $app->evefit->updateFit($newFit, $newDesc, $newQuantity, $setupId, $fitId);
     }
-
-    /**
-     * Returns partialHTML of a list of fits.
-     *
-     * @param \Slim\Slim $app
-     */
-    public function action_list(Slim $app, $setupId, $fitId)
-    {
-        if (!$app->user->isLoggedin()) return false;
-
-        $setup = $app->evefit->getSetup($setupId);
-        $fit   = $setup->getFit($fitId);
-        $tour   = $app->rulechecker->getTournament();
-
-        $app->render('fit/fit.twig', array('setup' => $setup, 'fit' => $fit, 'tournament' => $tour ));
-    }
-
-
-    public function action_listAll(Slim $app, $setupId)
-    {
-        if (!$app->user->isLoggedin()) return false;
-
-        $setup = $app->evefit->getSetup($setupId);
-        $tour   = $app->rulechecker->getTournament();
-
-        foreach ($setup->getFits() as $fit)
-        {
-            $app->render('fit/fit.twig', array('setup' => $setup, 'fit' => $fit, 'tournament' => $tour ));
-        }
-    }
-
 
     /**
      * Deletes a fit from the user session.

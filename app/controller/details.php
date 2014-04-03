@@ -9,6 +9,8 @@
 namespace eveATcheck\controller;
 
 
+use Slim\Slim;
+
 class details
 {
     /**
@@ -16,7 +18,7 @@ class details
      *
      * @param \Slim\Slim $app
      */
-    public function action_index(\Slim\Slim $app, $setupId)
+    public function action_index(Slim $app, $setupId)
     {
         if (!$app->user->isLoggedin()) return false;
 
@@ -27,5 +29,21 @@ class details
             $app->render('setup/setupDetails.twig', array('setup' => $setup, 'tournament' => $tour, 'user' => $app->user));
         else
             $app->render('setup/details.twig', array('setup' => $setup, 'tournament' => $tour, 'user' => $app->user));
+    }
+
+    /**
+     * Returns partialHTML of a list of fits.
+     *
+     * @param \Slim\Slim $app
+     */
+    public function action_fitList(Slim $app, $setupId, $fitId)
+    {
+        if (!$app->user->isLoggedin()) return false;
+
+        $setup = $app->evefit->getSetup($setupId);
+        $fit   = $setup->getFit($fitId);
+        $tour   = $app->rulechecker->getTournament();
+
+        $app->render('fit/fit.twig', array('setup' => $setup, 'fit' => $fit, 'tournament' => $tour ));
     }
 } 
