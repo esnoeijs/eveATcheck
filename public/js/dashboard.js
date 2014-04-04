@@ -276,7 +276,7 @@ var setupDetailHelper = function(){
             self.url.refresh,
             function(data)
             {
-                $("#setupDetails").html(data+"<h1>hi</h1>");
+                $("#setupDetails").html(data);
 
                 $('#fitList .fit').each(function(){
                     var id = $(this).attr('id');
