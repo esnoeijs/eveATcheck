@@ -282,12 +282,10 @@ var setupDetailHelper = function(){
                     var id = $(this).attr('id');
                     if (id in self.setups)
                     {
-                        if (console) console.log("asking setup "+id+"to refresh itself");
                         self.setups[id].refresh(self.setups[id]);
                     }
                     else
                     {
-                        if (console) console.log("initializing new helper for setup "+id)
                         var setup = new boxHelper(this);
                         setup.init();
                         self.addSetup(setup);
