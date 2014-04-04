@@ -26,6 +26,48 @@ class setup
     }
 
     /**
+     * Returns the form HTML to create a new setup.
+     * @param Slim $app
+     */
+    public function action_quickAddDialog(Slim $app)
+    {
+        if (!$app->user->isLoggedin()) return false;
+
+        $tour   = $app->rulechecker->getTournament();
+
+
+        $app->render('setup/quickAddDialog.twig', array('tournament' => $tour));
+    }
+
+
+    public function action_shipAutocomplete(Slim $app)
+    {
+        $maxRows   = $app->request()->get('maxrows');
+        $nameStart = $app->request()->get('name_startsWith');
+
+
+        $points = $app->rulechecker->getTournament()->getPointCategories();
+
+        $result = array();
+        foreach ($points as $categories)
+        {
+            foreach ($categories['ships'] as $ship)
+            {
+                if (stripos($ship, $nameStart)===0)
+                {
+                    $result[] = array(
+                        'name' => $ship,
+                        'category' => $categories['name'],
+                        'points' => $categories['points']
+                    );
+                }
+            }
+        }
+
+        print json_encode($result);
+    }
+
+    /**
      * Creates a new empty setup with the given name and description and
      * adds it to the user session
      *
@@ -38,7 +80,28 @@ class setup
         $name = $app->request()->post('name');
         $desc = $app->request()->post('description');
 
-        $app->evefit->addSetup(new \eveATcheck\lib\evefit\lib\setup(null, $name, $desc, $app->user->getId()));
+        $setup = new \eveATcheck\lib\evefit\lib\setup(null, $name, $desc, $app->user->getId());
+        $app->evefit->addSetup($setup, false);
+
+        // If this is a quickAdd submission gather the submitted ships and add them to the setup.
+        if ($app->request()->post('quickAdd'))
+        {
+            foreach ($app->request()->post() as $name => $value)
+            {
+                if (preg_match('/ship_([0-9]+$)/', $name, $match))
+                {
+                    $idx = $match[1];
+
+                    $shipName = $app->request()->post('ship_'.$idx);
+                    $shipQty  = $app->request()->post('ship_'.$idx.'_qty');
+
+                    $app->evefit->addFit("[{$shipName}, {$setup->getName()}_{$shipName}]", "auto-generated", $shipQty, $setup->getId(), false);
+                }
+            }
+        }
+
+
+        $app->evefit->save();
 
         return;
     }

@@ -145,6 +145,28 @@ var dashboardHelper = function(){
 
         $('#refreshSetups').click(function(){self.refreshSetups(self)});
 
+        $('#quickAddSetup').click(function(){
+            var url = this.href;
+            $.get(
+                url,
+                function (htmlForm) {
+                    self.dialogEl
+                        .html(htmlForm)
+                        .dialog({
+                            autoOpen: true,
+                            title: 'Add new Setup',
+                            minHeight: 700,
+                            minwidth: 400,
+                            height: 750,
+                            buttons: [
+                                { text: "Add new setup", click: function () { self.addNewSetup(self) } },
+                                { text: "Close", click: function() { self.dialogClose(self) } }
+                            ]
+                        });
+                    return false;
+                });
+            return false;
+        });
 
         // initiate setuphelpers for each setup
         $('#setupList .setup').each(function(){
@@ -304,9 +326,6 @@ var setupDetailHelper = function(){
         this.setups[setup.id] = setup;
     }
 }
-
-
-
 
 // helper object to contain functions for Setup functionality
 var boxHelper = function(Div)

@@ -42,7 +42,7 @@ class evefit
      *
      * @param string $fit
      */
-    public function addFit($fit, $desc, $quantity, $setupId)
+    public function addFit($fit, $desc, $quantity, $setupId, $save=true)
     {
         $fits = $this->parseEFT($fit);
 
@@ -53,7 +53,7 @@ class evefit
             $this->getSetup($setupId)->addFit($fit);
         }
 
-        $this->save();
+        if ($save) $this->save();
     }
 
     public function updateFit($EFTFit, $desc, $quantity, $setupId, $fitId)
@@ -75,10 +75,10 @@ class evefit
      * Add new setup to the list
      * @param setup $setup
      */
-    public function addSetup($setup)
+    public function addSetup($setup, $save=true)
     {
         $this->setups[] = $setup;
-        $this->save();
+        if ($save) $this->save();
     }
 
     /**

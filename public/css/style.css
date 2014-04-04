@@ -2,6 +2,10 @@
 GLOBAL
 ***************/
 
+.ui-autocomplete-loading {
+    background: white url('/css/ui-lightness/images/ui-anim_basic_16x16.gif') right center no-repeat;
+}
+
 h2
 {
     color: #1c94c4;
@@ -229,6 +233,27 @@ setup/addDialog styles
 {
     width: 70%;
     display: block;
+}
+
+
+
+#shipChooser { width: 25em; }
+
+#addedShips li
+{
+    color: #1c94c4;
+    list-style: none;
+}
+
+#addedShips .shipName
+{
+    display: inline-block;
+    width: 80%;
+}
+
+#removeShip
+{
+    cursor: pointer;
 }
 
 /*******************

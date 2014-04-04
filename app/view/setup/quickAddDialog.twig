@@ -1,0 +1,41 @@
+<section>
+    <form id="setupAdd_form" method="POST" action="/index.php/setup/add">
+        <input type="hidden" name="quickAdd" value="true" />
+        <p>
+            <label>Name:</label><br/>
+            <input class="text ui-widget-content ui-corner-all" type="text" name="name" /><span class="errorMessage username"></span></p>
+        <p>
+            <label>Description:</label><br/>
+            <textarea class="text ui-widget-content ui-corner-all" name="description"></textarea>
+        </p>
+
+        <h2>Ships</h2>
+
+        <div id="shipCount" >
+            <p>
+            <span>Pilots:</span> <span id="pilotCount">0</span>/{{ tournament.getMaxPilots }}<br/>
+            <span>Points:</span> <span id="pointCount">0</span>/{{ tournament.getMaxPoints }}
+            </p>
+        </div>
+        <div id="addedShips">
+            <ul>
+
+            </ul>
+        </div>
+        <p>
+            <br/>
+            Ship selector:<br/>
+            <input class="text ui-widget-content ui-corner-all" id="shipChooser"/>
+        </p>
+
+
+        <div id="log"></div>
+    </form>
+</section>
+
+<script>
+$(function() {
+    qaddHelper = new quickAddHelper($('#shipChooser'));
+    qaddHelper.init();
+});
+</script>

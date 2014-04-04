@@ -248,4 +248,9 @@ class tournament
         return -1;
     }
 
+    public function getPointCategories()
+    {
+        return $this->points;
+    }
+
 } 

@@ -43,6 +43,12 @@ $app->get("/setup/addDialog", function () use ($app) {
     $controller->action_addDialog($app);
 });
 
+// Get dialog form
+$app->get("/setup/quickAddDialog", function () use ($app) {
+    $controller = new eveATcheck\controller\setup();
+    $controller->action_quickAddDialog($app);
+});
+
 // Add setup
 $app->post("/setup/add", function () use ($app) {
     $controller = new eveATcheck\controller\setup();
@@ -120,4 +126,15 @@ $app->post("/user/login", function () use ($app) {
 $app->get("/user/logout", function () use ($app) {
     $controller = new eveATcheck\controller\user();
     $controller->action_logout($app);
+});
+
+
+/****************************
+ * Misc pages
+ ****************************/
+
+// user logout
+$app->get("/ships/autocomplete", function () use ($app) {
+    $controller = new eveATcheck\controller\setup();
+    $controller->action_shipAutocomplete($app);
 });
