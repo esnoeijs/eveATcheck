@@ -276,19 +276,22 @@ var setupDetailHelper = function(){
             self.url.refresh,
             function(data)
             {
-                $("#setupDetails").html(data);
+                $("#setupDetails").html(data+"<h1>hi</h1>");
 
                 $('#fitList .fit').each(function(){
                     var id = $(this).attr('id');
                     if (id in self.setups)
                     {
+                        if (console) console.log("asking setup "+id+"to refresh itself");
                         self.setups[id].refresh(self.setups[id]);
                     }
                     else
                     {
-                        var setup = new setupHelper(this);
+                        if (console) console.log("initializing new helper for setup "+id)
+                        var setup = new boxHelper(this);
                         setup.init();
                         self.addSetup(setup);
+//                        self.setups[id].refresh(self.setups[id]);
                     }
 
                 });
