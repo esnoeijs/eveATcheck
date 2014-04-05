@@ -112,36 +112,15 @@ var setupHelper = function(setupDiv)
 var dashboardHelper = function(){
 
     this.self = this;
-    this.setupListEl = null,
-    this.addButtonEl = null,
     this.dialogEl = $("<div></div>"),
 
     // Will contain all the setup helpers
     this.setups = [];
 
     // initialize all the buttons and stuffs.
-    this.init = function (setupListEl,addButtonEl)
+    this.init = function ()
     {
         var self = this;
-        this.setupListEl = setupListEl;
-        this.addButtonEl = addButtonEl;
-
-        this.dialogEl
-            .load('/index.php/setup/addDialog')
-            .dialog({
-                autoOpen: false,
-                title: 'Add new setup',
-                width: 500,
-                height: 300,
-                buttons: [
-                    { text: "Add new setup", click: function () { self.addNewSetup(self) } },
-                    { text: "Close", click: function() { self.dialogClose(self) } }
-                ]
-            });
-
-        this.dialogEl.self = this;
-
-        $(this.addButtonEl).click(function(){self.dialogEl.dialog("open")});
 
         $('#refreshSetups').click(function(){self.refreshSetups(self)});
 

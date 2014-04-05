@@ -12,8 +12,7 @@
     <div class="header">
         <h2>Setups</h2>
         <div class="menu" >
-            <a id="quickAddSetup" href="/index.php/setup/quickAddDialog" >Quick add</a>
-            <a id="addSetup" ><img width="25" src="/img/icon/Black_New-Page.png" alt="add setup" /></a>
+            <a id="quickAddSetup" href="/index.php/setup/quickAddDialog" ><img width="25" src="/img/icon/Black_New-Page.png" alt="add setup" /></a>
             <a id="refreshSetups" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh list" /></a>
         </div>
     </div>
@@ -34,7 +33,7 @@ $(document).ready(function(){
 
     // initiate dashboard
     var dashboard = new dashboardHelper;
-    dashboard.init($('#setupList'), $('#addSetup'));
+    dashboard.init();
 
     addFitDetailhover()
 })
