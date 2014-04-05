@@ -17,6 +17,12 @@ $app->get("/setup/list", function () use ($app) {
     $controller->action_listAll($app);
 });
 
+// partialHTML for a given setup.
+$app->get("/setup/:setup/refresh", function ($setupId) use ($app) {
+    $controller = new eveATcheck\controller\dashboard();
+    $controller->action_list($app, $setupId);
+});
+
 /****************************
  * Setup Details Page
  ****************************/
