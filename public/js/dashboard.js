@@ -134,9 +134,8 @@ var dashboardHelper = function(){
                         .dialog({
                             autoOpen: true,
                             title: 'Add new Setup',
-                            minHeight: 700,
-                            minwidth: 400,
                             height: 750,
+                            width:  500,
                             buttons: [
                                 { text: "Add new setup", click: function () { self.addNewSetup(self) } },
                                 { text: "Close", click: function() { self.dialogClose(self) } }

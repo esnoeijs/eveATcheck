@@ -273,6 +273,11 @@ setup/addDialog styles
     display: block;
 }
 
+#quickAddDialog textarea, #quickAddDialog input.text
+{
+    width: 80%;
+    display: block;
+}
 
 
 #shipChooser { width: 25em; }
