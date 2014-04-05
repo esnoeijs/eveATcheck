@@ -70,8 +70,6 @@ var quickAddHelper = function(el)
 
         $(self.ship).each(function()
         {
-            console.log(this);
-            console.log((this != false));
             if (this != false)
             {
                 var qty = parseInt($('input[name=ship_'+ this.idx +'_qty]').val());
