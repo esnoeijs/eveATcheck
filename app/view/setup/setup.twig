@@ -11,10 +11,9 @@
     <div class="description segment">
         <p>{{ setup.desc }}</p>
     </div>
-    <div class="segment">
-
-        Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
-        Pilots: {{ setup.getPilots }}/{{ tournament.getMaxPilots }}
+    <div class="segment points">
+        <div><span class="label">Points:</span><span class="points"><span class="value">{{ setup.getPoints }}</span>/<span class="maxValue">{{ tournament.getMaxPoints }}</span></span></div>
+        <div><span class="label">Pilots:</span><span class="pilots"><span class="value">{{ setup.getPilots }}</span>/<span class="maxValue">{{ tournament.getMaxPilots }}</span></span></div>
     </div>
     {% if setup.hasWarning() %}
         <div class="warning segment" >
@@ -27,7 +26,7 @@
     {% endif %}
     <ul class="sortable fits segment">
     {% for fit in setup.fits %}
-        <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" >{{ fit.flagship ? '<img src="/img/icon/flag.png" width="16" alt="Flagship" />': '' }}<b>{{ fit.type }}</b> - {{ fit.name }} <span style="float: right">x{{ fit.quantity }}</span>
+        <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" >{{ fit.flagship ? '<img src="/img/icon/flag.png" width="11" alt="Flagship" />&nbsp;': '' }}<b>{{ fit.type }}</b> - {{ fit.name }} <span style="float: right">x{{ fit.quantity }}</span>
             <div class="detail" style="display:none">
                 {% if (fit.flagship) %}
                     <img src="/img/icon/flag.png" width="16" alt="Flagship" />

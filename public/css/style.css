@@ -115,9 +115,7 @@ ul.detailFit li
 #dashboard .sortable li.fit
 {
     border-bottom: solid 1px grey;
-    padding: 2px;
-    font-size: 0.8em;
-}
+    padding: 2px;}
 
 
 #dashboard div.detail {
@@ -126,6 +124,40 @@ ul.detailFit li
     background-color: #eee;
     margin-left: 200px;
 
+}
+
+#dashboard .points .label
+{
+    display: inline-block;
+}
+#dashboard .points .points,
+#dashboard .points .pilots
+{
+    display: inline-block;
+    text-align: right;
+    float: right;
+
+}
+#dashboard .points .maxValue
+{
+    display: inline-block;
+    width: 30px;
+}
+#dashboard .points .value
+{
+    display: inline-block;
+    width: 30px;
+    padding-right: 5px;
+}
+
+#dashboard .warning
+{
+    font-size: 0.9em;
+}
+
+#dashboard .warning li
+{
+    margin-bottom: 10px
 }
 
 /***************************
