@@ -1,6 +1,6 @@
 <div class="setup_info">
     <div class="description">
-        <p>{{ setup.desc }}</p>
+        <p>{{ setup.desc|escape|nl2br }}</p>
     </div>
     <div>
         Points: {{ setup.getPoints }}/{{ tournament.getMaxPoints }}<br/>
@@ -10,7 +10,7 @@
         <div class="warning segment" >
             <ul class="warning">
                 {% for warning in setup.getWarnings() %}
-                    <li>{{ warning.tournament }} - {{ warning.text }}</li>
+                    <li>{{ warning.tournament|escape }} - {{ warning.text|escape }}</li>
                 {% endfor %}
             </ul>
         </div>

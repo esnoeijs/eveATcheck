@@ -1,6 +1,6 @@
 <li class="fit box" id="fit_{{ fit.id }}">
     <div class="header">
-        <h3 class="name"><b>{{ fit.type }}</b> - {{ fit.name }}</h3>
+        <h3 class="name"><b>{{ fit.type|escape }}</b> - {{ fit.name|escape }}</h3>
         <div class="menu" >
             <a class="edit"     href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/editDialog" ><img width="25" src="/img/icon/Black_New-Page.png" alt="edit fit" /></a>
             <a class="refresh"  href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/refresh" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Fit" /></a>
@@ -11,17 +11,17 @@
         {% if (fit.flagship) %}
             <img src="/img/icon/flag.png" width="16" alt="Flagship" />
         {% endif %}
-        <p>{{ fit.description }}</p>
+        <p>{{ fit.description|escape|nl2br }}</p>
 
     </div>
     <div class="segment">
-        {{ fit.getPointCategoryName() }} - {{ fit.getPoints() }} <span style="float: right">x{{ fit.quantity }}</span>
+        {{ fit.getPointCategoryName()|escape }} - {{ fit.getPoints() }} <span style="float: right">x{{ fit.quantity }}</span>
     </div>
     {% if fit.hasWarning() %}
         <div class="warning segment" >
             <ul class="warning">
                 {% for warning in fit.getWarnings() %}
-                    <li>{{ warning.tournament }} - {{ warning.text }}</li>
+                    <li>{{ warning.tournament|escape }} - {{ warning.text|escape }}</li>
                 {% endfor %}
             </ul>
         </div>
@@ -31,7 +31,7 @@
             {% for slotName,slot in fit.slots %}
                 <h3>{{ slotName }}</h3>
                 {% for module in slot %}
-                    <li>{{ module.moduleName }}</li>
+                    <li>{{ module.moduleName|escape }}</li>
                 {% endfor %}
             {% endfor %}
         </ul>

@@ -3,7 +3,7 @@
 {% block content %}
     <section class="main" id="detail">
         <div class="mainheader header">
-            <h2>{{ setup.name }}</h2>
+            <h2>{{ setup.name|escape }}</h2>
             <div class="menu" >
                 <a class="addFit"        href="/index.php/setup/{{ setup.id }}/fit/addDialog" ><img width="25" src="/img/icon/Black_New-Page.png" alt="add fit" /></a>
                 <a class="refreshSetup"  href="/index.php/setup/{{ setup.id }}/details" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Setup" /></a>
