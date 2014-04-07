@@ -36,6 +36,9 @@ $(document).ready(function(){
     dashboard.init();
 
     addFitDetailhover()
+
+    window.hbeat = new heartbeat('/index.php/heartbeat', function() {dashboard.refreshSetups(dashboard)});
+    setInterval("window.hbeat.trigger()", 10000);
 })
 </script>
 {% endblock %}

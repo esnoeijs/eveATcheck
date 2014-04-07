@@ -22,6 +22,9 @@
         $(document).ready(function(){
             var setupDetail = new setupDetailHelper;
             setupDetail.init($('#detail'), $('#fitList'));
+
+            window.hbeat = new heartbeat('/index.php/setup/{{ setup.id }}/heartbeat', function() {setupDetail.refreshFits(setupDetail)});
+            setInterval("window.hbeat.trigger()", 10000);
         })
     </script>
 {% endblock %}

@@ -46,4 +46,21 @@ class details
 
         $app->render('fit/fit.twig', array('setup' => $setup, 'fit' => $fit, 'tournament' => $tour ));
     }
+
+    public function action_heartbeat(Slim $app, $setupId)
+    {
+        if (!$app->user->isLoggedin()) return false;
+
+        $lastModified = new \DateTime('00-00-0000');
+
+        $setup = $app->evefit->getSetup($setupId);
+        foreach ($setup->getFits() as $fit)
+        {
+            $lastModTmp = $fit->getUpdateDate();
+
+            if ($lastModTmp > $lastModified) $lastModified = $lastModTmp;
+        }
+
+        echo $lastModified->format('U');
+    }
 } 

@@ -4,6 +4,7 @@
 namespace eveATcheck\controller;
 
 use eveATcheck\lib\database\database;
+use eveATcheck\lib\evefit\lib\setup;
 use eveATcheck\lib\rulechecker\rulechecker;
 use Slim\Slim;
 
@@ -67,4 +68,24 @@ class dashboard
         }
     }
 
+    public function action_heartbeat(Slim $app)
+    {
+        if (!$app->user->isLoggedin()) return false;
+
+        $lastModified = new \DateTime('00-00-0000');
+
+        $setups = $app->evefit->getSetups();
+        /** @var setup $setup */
+        foreach ($setups as $setup)
+        {
+            foreach ($setup->getFits() as $fit)
+            {
+                $lastModTmp = $fit->getUpdateDate();
+
+                if ($lastModTmp > $lastModified) $lastModified = $lastModTmp;
+            }
+        }
+
+        echo $lastModified->format('U');
+    }
 }

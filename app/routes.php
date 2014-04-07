@@ -23,6 +23,11 @@ $app->get("/setup/:setup/refresh", function ($setupId) use ($app) {
     $controller->action_list($app, $setupId);
 });
 
+$app->get("/heartbeat", function () use ($app) {
+    $controller = new eveATcheck\controller\dashboard();
+    $controller->action_heartbeat($app);
+});
+
 /****************************
  * Setup Details Page
  ****************************/
@@ -38,6 +43,13 @@ $app->get("/setup/:setup/fit/:fit/refresh", function ($setupId, $fitId) use ($ap
     $controller = new eveATcheck\controller\details();
     $controller->action_fitList($app, $setupId, $fitId);
 });
+
+
+$app->get("/setup/:setup/heartbeat", function ($setupId) use ($app) {
+    $controller = new eveATcheck\controller\details();
+    $controller->action_heartbeat($app, $setupId);
+});
+
 
 /****************************
  * Setup

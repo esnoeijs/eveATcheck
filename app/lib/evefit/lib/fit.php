@@ -141,6 +141,11 @@ class fit
         return $this->typeId;
     }
 
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
     /**
      * @return String
      */
