@@ -95,6 +95,13 @@ var setupHelper = function(setupDiv)
 
     this.refresh = function (self)
     {
+        var pos = $(self.selfEl).offset();
+        var overlayId = "overlay"+self.id;
+
+        $('<div class="overlay" id="'+overlayId+'"></div>')
+            .css({top: pos.top, left: pos.left, width: $(self.selfEl).width(), height: $(self.selfEl).height()})
+            .appendTo('body');
+
         $.get(
             self.refreshUrl,
             function(data)
@@ -102,6 +109,8 @@ var setupHelper = function(setupDiv)
                 $(self.selfEl).replaceWith(data);
                 self.init();
                 addFitDetailhover()
+
+                $('#'+overlayId).remove();
             }
         );
     }
@@ -170,6 +179,11 @@ var dashboardHelper = function(){
 
     this.refreshSetups = function (self)
     {
+        var pos = $("#setupList").offset();
+        $('<div class="overlay" id="overlay"></div>')
+            .css({top: pos.top, left: pos.left, width: $("#setupList").width(), height: $("#setupList").height()})
+            .appendTo('body');
+
         $.get(
             'index.php/setup/list',
             function(data)
@@ -180,7 +194,7 @@ var dashboardHelper = function(){
                     var id = $(this).attr('id');
                     if (id in self.setups)
                     {
-                        self.setups[id].refresh(self.setups[id]);
+                        self.setups[id].init();
                     }
                     else
                     {
@@ -192,6 +206,7 @@ var dashboardHelper = function(){
                 });
                 addFitDetailhover()
 
+                $('#overlay').remove();
             }
         );
     }

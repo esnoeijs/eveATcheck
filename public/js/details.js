@@ -67,6 +67,11 @@ var setupDetailHelper = function(){
 
     this.refreshFits = function (self)
     {
+        var pos = $("#setupDetails").offset();
+        $('<div class="overlay" id="overlay"></div>')
+            .css({top: pos.top, left: pos.left, width: $("#setupDetails").width(), height: $("#setupDetails").height()})
+            .appendTo('body');
+
         $.get(
             self.url.refresh,
             function(data)
@@ -77,19 +82,19 @@ var setupDetailHelper = function(){
                     var id = $(this).attr('id');
                     if (id in self.setups)
                     {
-                        self.setups[id].refresh(self.setups[id]);
+                        self.setups[id].init();
                     }
                     else
                     {
                         var setup = new boxHelper(this);
                         setup.init();
                         self.addSetup(setup);
-//                        self.setups[id].refresh(self.setups[id]);
                     }
 
                 });
                 addFitDetailhover()
 
+                $('#overlay').remove();
             }
         );
     }
@@ -211,6 +216,13 @@ var boxHelper = function(Div)
 
     this.refresh = function (self)
     {
+        var pos = $(self.selfEl).offset();
+        var overlayId = "overlay"+self.id;
+
+        $('<div class="overlay" id="'+overlayId+'"></div>')
+            .css({top: pos.top, left: pos.left, width: $(self.selfEl).width(), height: $(self.selfEl).height()})
+            .appendTo('body');
+
         $.get(
             self.urls.refresh,
             function(data)
@@ -218,6 +230,8 @@ var boxHelper = function(Div)
                 $(self.selfEl).replaceWith(data);
                 self.init();
                 addFitDetailhover()
+
+                $('#'+overlayId).remove();
             }
         );
     }
