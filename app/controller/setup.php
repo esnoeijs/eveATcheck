@@ -25,6 +25,29 @@ class setup
         $app->render('setup/addDialog.twig');
     }
 
+
+    public function action_editDialog(Slim $app, $setupId)
+    {
+        if (!$app->user->isLoggedin()) return false;
+
+        $setup = $app->evefit->getSetup($setupId);
+
+        $app->render('setup/editDialog.twig', array('setup' => $setup));
+    }
+
+    public function action_update(Slim $app, $setupId)
+    {
+        if (!$app->user->isLoggedin()) return false;
+
+        /** @var \eveATcheck\lib\evefit\lib\setup $setup */
+        $setup = $app->evefit->getSetup($setupId);
+        $setup->setName($app->request()->post('name'));
+        $setup->setDesc($app->request()->post('description'));
+        $setup->setNeedsSave(true);
+
+        $app->evefit->save();
+    }
+
     /**
      * Returns the form HTML to create a new setup.
      * @param Slim $app

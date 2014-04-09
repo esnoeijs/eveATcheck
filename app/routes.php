@@ -73,6 +73,17 @@ $app->post("/setup/add", function () use ($app) {
     $controller->action_add($app);
 });
 
+$app->get("/setup/:setup/editDialog", function ($setupId) use ($app) {
+    $controller = new eveATcheck\controller\setup();
+    $controller->action_editDialog($app, $setupId);
+});
+
+// update fit
+$app->post("/setup/:setup/update", function ($setupId) use ($app) {
+    $controller = new eveATcheck\controller\setup();
+    $controller->action_update($app, $setupId);
+});
+
 // delete setup
 $app->get("/setup/:setup/delete", function ($setupId) use ($app) {
     $controller = new eveATcheck\controller\setup();

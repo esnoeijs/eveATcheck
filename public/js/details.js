@@ -41,6 +41,27 @@ var setupDetailHelper = function(){
             return false;
         });
 
+        $('.mainheader .editSetup', mainEl).off('click');
+        $('.mainheader .editSetup', mainEl).click(function(){
+            var url = this.href;
+            $.get(
+                url,
+                function (htmlForm) {
+                    self.dialogEl
+                        .html(htmlForm)
+                        .dialog({
+                            autoOpen: true,
+                            title: 'Edit setup',
+                            buttons: [
+                                { text: "Update setup", click: function () { self.submitSetupForm('#editSetup_form', self) } },
+                                { text: "Close", click: function() { self.dialogClose(self) } }
+                            ]
+                        });
+                    return false;
+                });
+            return false;
+        });
+
         self.url.refresh = $('.mainheader .refreshSetup').attr('href');
         $('.mainheader .refreshSetup').click(function(){self.refreshFits(self); return false;});
 //
@@ -62,6 +83,15 @@ var setupDetailHelper = function(){
         $('#addFit_form').ajaxForm(function() {
             self.refreshFits(self);
             self.dialogClose(self);
+        }).submit();
+    }
+
+    this.submitSetupForm = function (formId, self)
+    {
+        $(formId).ajaxForm(function() {
+            self.refreshFits(self);
+            self.dialogClose(self);
+            $(formId).remove();
         }).submit();
     }
 

@@ -1,0 +1,11 @@
+<section>
+    <form id="editSetup_form" method="POST" action="/index.php/setup/{{ setup.id }}/update">
+        <p>
+            <label>Name:</label><br/>
+            <input class="text ui-widget-content ui-corner-all" type="text" name="name" value="{{ setup.name|escape }}" /><span class="errorMessage username"></span></p>
+        <p>
+            <label>Description:</label><br/>
+            <textarea class="text ui-widget-content ui-corner-all" name="description">{{ setup.desc|escape }}</textarea>
+        </p>
+    </form>
+</section>

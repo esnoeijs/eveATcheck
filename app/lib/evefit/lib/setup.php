@@ -86,6 +86,22 @@ class setup
     }
 
     /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param mixed $desc
+     */
+    public function setDesc($desc)
+    {
+        $this->desc = $desc;
+    }
+
+    /**
      * @return boolean
      */
     public function getNeedsSave()
