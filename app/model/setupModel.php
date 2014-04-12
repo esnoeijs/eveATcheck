@@ -47,7 +47,10 @@ class setupModel extends baseModel
     public function getSetups()
     {
         $conn = $this->db->getConnection();
-        $sth  = $conn->prepare('SELECT id, name, description, publishDate, updateDate, userId FROM setup WHERE deleted IS NULL');
+        $sth  = $conn->prepare('SELECT s.id, s.name, s.description, s.publishDate, s.updateDate, s.userId, u.username
+                                FROM setup s
+                                    INNER JOIN user u ON u.id = s.userId
+                                WHERE deleted IS NULL');
         $sth->execute();
         $results = $sth->fetchAll(\PDO::FETCH_ASSOC);
 

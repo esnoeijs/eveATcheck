@@ -103,7 +103,7 @@ class setup
         $name = $app->request()->post('name');
         $desc = $app->request()->post('description');
 
-        $setup = new \eveATcheck\lib\evefit\lib\setup(null, $name, $desc, $app->user->getId());
+        $setup = new \eveATcheck\lib\evefit\lib\setup(null, $name, $desc, $app->user->getId(), $app->user->getName());
         $app->evefit->addSetup($setup, false);
 
         // If this is a quickAdd submission gather the submitted ships and add them to the setup.

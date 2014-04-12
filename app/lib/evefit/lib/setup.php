@@ -20,6 +20,39 @@ class setup
     protected $publishDate;
     protected $updateDate;
     protected $ownerId;
+    protected $ownerName;
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOwnerId()
+    {
+        return $this->ownerId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOwnerName()
+    {
+        return $this->ownerName;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishDate()
+    {
+        return $this->publishDate;
+    }
 
     protected $points = array();
 
@@ -37,9 +70,10 @@ class setup
      */
     protected $fits = array();
 
-    public function __construct($id, $name, $desc, $ownerId, $publishDate=null, $updateDate=null)
+    public function __construct($id, $name, $desc, $ownerId, $ownerName, $publishDate=null, $updateDate=null)
     {
-        $this->ownerId = $ownerId;
+        $this->ownerId   = $ownerId;
+        $this->ownerName = $ownerName;
         $this->name = $name;
         $this->desc = $desc;
 

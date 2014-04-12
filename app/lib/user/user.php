@@ -97,7 +97,7 @@ class user
             $setupRows = $setupModel->getSetups();
             foreach ($setupRows as $setupRow)
             {
-                $setups[$setupRow['id']] = new setup((int)$setupRow['id'], $setupRow['name'], $setupRow['description'], (int)$this->getId(), $setupRow['publishDate'], $setupRow['updateDate']);
+                $setups[$setupRow['id']] = new setup((int)$setupRow['id'], $setupRow['name'], $setupRow['description'], $setupRow['userId'], $setupRow['username'], $setupRow['publishDate'], $setupRow['updateDate']);
             }
 
             // Get fits and assign them to the correct setup

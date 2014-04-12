@@ -78,6 +78,11 @@ ul.detailFit li
     padding: 10px 5px;
 }
 
+.box .segment.footer
+{
+    font-size: 0.7em;
+}
+
 .box
 {
     display: inline-block;
