@@ -50,6 +50,23 @@ class itemModel extends baseModel
         return $row;
     }
 
+    public function getItem($name)
+    {
+        $conn = $this->db->getConnection();
+        $sth  = $conn->prepare('
+            SELECT it.typeName, ig.groupName, ic.categoryName
+            FROM invTypes it
+                INNER JOIN invGroups      ig  ON it.groupID    = ig.groupID
+                INNER JOIN invCategories  ic  ON ig.categoryID = ic.categoryID
+            WHERE
+                it.typeName = :moduleName');
+        $sth->bindValue(':moduleName', $name, \PDO::PARAM_STR);
+        $sth->execute();
+        $row = $sth->fetch(\PDO::FETCH_ASSOC);
+
+        return $row;
+    }
+
     public function getItemsByGroup($groupName)
     {
         $conn = $this->db->getConnection();

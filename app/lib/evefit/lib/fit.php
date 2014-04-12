@@ -316,14 +316,13 @@ class fit
                 {
                     $fitline = $fitEFT->current();
 
-                    // Module Name, Charge type
-                    preg_match('/([^,]*)(,(.*))?/', $fitline, $matches);
-
-                    // If we stumbled on a new fit. (new fits start with "[")
-                    if (preg_match('/^\[/',$fitline))
+                    if (preg_match('/^\[([a-zA-Z ]+), (.*)]/',$fitline))
                     {
                         break;
                     }
+
+                    // Module Name, Charge type
+                    preg_match('/([^,]*)(,(.*))?/', $fitline, $matches);
 
                     $charge = null;
                     $moduleName = $matches[1];
@@ -338,15 +337,18 @@ class fit
                         $module = $model->getModel('item')->getModule($moduleName);
                         if (!$module)
                         {
-                            // Check if drone or implant
-                            // Check for implant code AA-000
-                            if (preg_match('/[A-Z]{2}-[0-9]{3}$/', $moduleName))
-                            {
-                                $this->addModule($moduleName, null, fit::IMPLANTS );
-                            }
-                            else
+
+                            // Drones, becouse they have a " x#" behind their name
+                            // this is really stupid, but meh.
+                            if (preg_match('/(^.*) x[0-9]+$/', $moduleName, $match))
                             {
                                 $this->addModule($moduleName, null, fit::DRONES);
+                            }
+
+                            $item = $model->getModel('item')->getItem($moduleName);
+                            if ($item['categoryName'] == 'Implant')
+                            {
+                                $this->addModule($moduleName, null, fit::IMPLANTS );
                             }
                         }
                         else
