@@ -13,7 +13,7 @@ class auth
 {
 
 
-    public function login()
+    public function login($username, $password)
     {
 
     }
