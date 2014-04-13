@@ -120,12 +120,20 @@ class fit
      * @param String|null $chargeName
      * @param String      $slotType
      */
-    public function addModule($moduleName, $chargeName, $slotType)
+    public function addItem(item $item)
     {
-        if (!in_array($slotType, $this->slotTypes)) throw new \Exception('Invalid slot type given');
-
-        if (!isset($this->slots[$slotType])) $this->slots[$slotType] = array();
-        $this->slots[$slotType][] = array('moduleName' => trim($moduleName), 'chargeName' => trim($chargeName));
+        switch (strtolower($item->getType()))
+        {
+            case 'module':
+                $this->slots[$item->getSlotType()][] = $item;
+                break;
+            case 'drones':
+                $this->slots[fit::DRONES][] = $item;
+                break;
+            case 'implant':
+                $this->slots[fit::IMPLANTS][] = $item;
+                break;
+        }
     }
 
     /**
@@ -181,7 +189,7 @@ class fit
         $modules = array();
         foreach ($this->slots as $slots)
             foreach ($slots as $module)
-                $modules[] = $module['moduleName'];
+                $modules[] = $module->getName();
 
         return $modules;
     }
@@ -286,7 +294,7 @@ class fit
                 $EFT .= PHP_EOL;
 
             foreach ($slots as $module)
-                $EFT .= $module['moduleName'].PHP_EOL;
+                $EFT .= $module->getEFT().PHP_EOL;
         }
 
         return $EFT;
@@ -330,48 +338,41 @@ class fit
                     // If white line just skip.
                     if (trim($moduleName)!=='')
                     {
-                        /**
-                         * @todo this is not really the best solution. But I'm trying to avoid creating half a fitting
-                         * application in this site.
-                         */
-                        $module = $model->getModel('item')->getModule($moduleName);
-                        if (!$module)
-                        {
+                        $module = item::getInstance();
 
+                        $module->hydrate($model->getModel('item')->getItem($moduleName));
+                        if ($module->isModule())
+                            $module->hydrate($model->getModel('item')->getModule($moduleName));
+
+                        if (!$module->isModule())
+                        {
                             // Drones, becouse they have a " x#" behind their name
                             // this is really stupid, but meh.
-                            if (preg_match('/(^.*) x[0-9]+$/', $moduleName, $match))
+                            if (preg_match('/(^.*) x([0-9]+)$/', $moduleName, $match))
                             {
-                                $this->addModule($moduleName, null, fit::DRONES);
+                                $module->hydrate($model->getModel('item')->getItem($match[1]));
+                                $module->setValue('qty', $match[2]);
+                                $this->addItem($module);
                             }
 
-                            $item = $model->getModel('item')->getItem($moduleName);
-                            if ($item['categoryName'] == 'Implant')
+                            $module->hydrate($model->getModel('item')->getItem($moduleName));
+                            if ($module->getValue('categoryName') == 'Implant')
                             {
-                                $this->addModule($moduleName, null, fit::IMPLANTS );
+                                $this->addItem($module);
                             }
                         }
                         else
                         {
-                            if (isset($matches[3]))
+                            // If we have a charge
+                            if (isset($matches[3]) && trim($matches[3])!='')
                             {
-                                $charge = $matches[3];
+                                $chargeItem = item::getInstance();
+                                $chargeItem->hydrate($model->getModel('item')->getItem(trim($matches[3])));
+
+                                $module->setValue('charge', $chargeItem);
                             }
 
-                            $slot = null;
-                            switch (strtolower($module['displayName']))
-                            {
-                                case 'low power': $slot = fit::LOWSLOT; break;
-                                case 'medium power': $slot = fit::MIDSLOT; break;
-                                case 'high power': $slot = fit::HIGHSLOT; break;
-                                case 'rig slot': $slot = fit::RIGSLOT; break;
-                                case 'sub system': $slot = fit::SUBSYSTEM; break;
-                                default:
-                                    throw new \Exception("Don't know slot type: '{$module['displayName']}''");
-                                    break;
-                            }
-
-                            $this->addModule($moduleName, $charge, $slot);
+                            $this->addItem($module);
                         }
                     }
 

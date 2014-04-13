@@ -54,7 +54,10 @@ class itemModel extends baseModel
     {
         $conn = $this->db->getConnection();
         $sth  = $conn->prepare('
-            SELECT it.typeName, ig.groupName, ic.categoryName
+            SELECT
+              it.typeName,
+              ig.groupName,
+              ic.categoryName
             FROM invTypes it
                 INNER JOIN invGroups      ig  ON it.groupID    = ig.groupID
                 INNER JOIN invCategories  ic  ON ig.categoryID = ic.categoryID
