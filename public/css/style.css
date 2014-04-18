@@ -283,6 +283,11 @@ setup/addDialog styles
     font-size: 0.8em;
 }
 
+.ui-autocomplete-loading
+{
+    /* can't figure out why or where this gets overruled, so just slapped important on it */
+    background: white url('/css/ui-lightness/images/ui-anim_basic_16x16.gif') right center no-repeat !important;
+}
 
 #addedShips li
 {
