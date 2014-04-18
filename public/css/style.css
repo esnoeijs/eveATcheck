@@ -259,33 +259,30 @@ FOOTER
 setup/addDialog styles
 ********************/
 
+.ui-dialog-content textarea,
+.ui-dialog-content input.text
+{
+    width: 100%;
+    display: block;
+}
+
+.ui-dialog-content label
+{
+    display: inline-block;
+}
 #setupAdd label
 {
     display: inline-block;
 }
-#setupAdd input.error
+.ui-dialog-content input.error
 {
     background-color: red;
 }
-#setupAdd .errorMessage
+.ui-dialog-content .errorMessage
 {
     font-size: 0.8em;
 }
 
-#setupAdd textarea, #setupAdd input.text
-{
-    width: 70%;
-    display: block;
-}
-
-#quickAddDialog textarea, #quickAddDialog input.text
-{
-    width: 80%;
-    display: block;
-}
-
-
-#shipChooser { width: 25em; }
 
 #addedShips li
 {
