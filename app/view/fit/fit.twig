@@ -2,14 +2,15 @@
     <div class="header">
         <h3 class="name"><b>{{ fit.type|escape }}</b> - {{ fit.name|escape }}</h3>
         <div class="menu" >
-            <a class="edit"     href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/editDialog" ><img width="25" src="/img/icon/Black_Edit.png" alt="edit fit" /></a>
-            <a class="refresh"  href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/refresh" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Fit" /></a>
-            <a class="delete"   href="/index.php/setup/{{ setup.id }}/fit/{{ fit    .id }}/delete" ><img width="25" src="/img/icon/Black_Remove.png" alt="remove Fit" /></a>
+            <a class="export "   href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/exportDialog" ><i class="fa fa-download fa-2x" ></i></a>
+            <a class="edit"     href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/editDialog" ><i class="fa fa-edit fa-2x"></i></a>
+            <a class="refresh"  href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/refresh" ><i class="fa fa-refresh fa-2x"></i></a>
+            <a class="delete"   href="/index.php/setup/{{ setup.id }}/fit/{{ fit    .id }}/delete" ><i class="fa fa-trash-o fa-2x"></i></a>
         </div>
     </div>
     <div class="description segment">
         {% if (fit.flagship) %}
-            <img src="/img/icon/flag.png" width="16" alt="Flagship" />
+            <i class="fa fa-flag" ></i>
         {% endif %}
         <p>{{ fit.description|escape|nl2br }}</p>
 

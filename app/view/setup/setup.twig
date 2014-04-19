@@ -2,10 +2,10 @@
     <div class="header">
         <h3 class="setupName">{{ setup.name }}</h3>
         <div class="menu" >
-            <a class="detailsSetup"  href="/index.php/setup/{{ setup.id }}/details" ><img width="25" src="/img/icon/Black_detail.png" alt="show details" /></a>
-            <a class="addFit"        href="/index.php/setup/{{ setup.id }}/fit/addDialog" ><img width="25" src="/img/icon/Black_New-Page.png" alt="add fit" /></a>
-            <a class="refreshSetup"  href="/index.php/setup/{{ setup.id }}/refresh" ><img width="25" src="/img/icon/Black_Pie-Circle.png" alt="refresh Setup" /></a>
-            <a class="deleteSetup"   href="/index.php/setup/{{ setup.id }}/delete" ><img width="25" src="/img/icon/Black_Remove.png" alt="remove Setup" /></a>
+            <a class="detailsSetup"  href="/index.php/setup/{{ setup.id }}/details" ><i class="fa fa-gear fa-2x" ></i></a>
+            <a class="addFit"        href="/index.php/setup/{{ setup.id }}/fit/addDialog" ><i class="fa fa-plus fa-2x" ></i></a>
+            <a class="refreshSetup"  href="/index.php/setup/{{ setup.id }}/refresh" ><i class="fa fa-refresh fa-2x" ></i></a>
+            <a class="deleteSetup"   href="/index.php/setup/{{ setup.id }}/delete" ><i class="fa fa-trash-o fa-2x" ></i></a>
         </div>
     </div>
     <div class="description segment">
@@ -26,10 +26,10 @@
     {% endif %}
     <ul class="sortable fits segment">
     {% for fit in setup.fits %}
-        <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" ><span class="fitLine">{{ fit.flagship ? '<img src="/img/icon/flag.png" width="11" alt="Flagship" />&nbsp;': '' }}<b>{{ fit.type|escape }}</b> - {{ fit.name|escape }} <span style="float: right">x{{ fit.quantity }}</span></span>
+        <li class="fit {{ fit.hasWarning() ? 'error' : '' }}" ><span class="fitLine">{{ fit.flagship ? '<i class="fa fa-flag fa-1x"></i>&nbsp;': '' }}<b>{{ fit.type|escape }}</b> - {{ fit.name|escape }} <span style="float: right">x{{ fit.quantity }}</span></span>
             <div class="detail" style="display:none">
                 {% if (fit.flagship) %}
-                    <img src="/img/icon/flag.png" width="16" alt="Flagship" />
+                    <i class="fa fa-flag" ></i>
                 {% endif %}
                 {% if fit.hasWarning() %}
                     <div class="warning segment" >
