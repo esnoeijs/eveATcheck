@@ -288,7 +288,6 @@ class fit
 
     public function getDNA()
     {
-        print "<pre>";
         $modules[] = array();
         $slots = $this->getSlots();
         foreach ($slots as $slotType => $slotModules)
@@ -314,7 +313,7 @@ class fit
             }
         }
 
-        $slotOrder = array(self::SUBSYSTEM, self::RIGSLOT, self::LOWSLOT, self::MIDSLOT, self::HIGHSLOT, self::DRONES);
+        $slotOrder = array(self::SUBSYSTEM, self::HIGHSLOT, self::MIDSLOT, self::LOWSLOT, self::RIGSLOT, self::DRONES);
         $dna = $this->getTypeId() . ':';
         foreach ($slotOrder as $slotType)
         {
@@ -323,7 +322,7 @@ class fit
 
             foreach ($modules[$slotType] as $modTypeId => $qty)
             {
-                $dna .= $modTypeId . ":" . $qty . ':' . substr($slotType,0,1) . ":";
+                $dna .= $modTypeId . ";" . $qty . ':';
             }
         }
         return $dna . ':';

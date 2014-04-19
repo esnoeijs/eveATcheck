@@ -14,7 +14,6 @@
             <i class="fa fa-flag" ></i>
         {% endif %}
         <p>{{ fit.description|escape|nl2br }}</p>
-
     </div>
     <div class="segment">
         {{ fit.getPointCategoryName()|escape }} - {{ fit.getPoints() }} <span style="float: right">x{{ fit.quantity }}</span>
