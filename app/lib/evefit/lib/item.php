@@ -32,6 +32,11 @@ class item
         return $this->getValue('categoryName');
     }
 
+    public function getTypeId()
+    {
+        return $this->getValue('typeID');
+    }
+
     public function getSlotType()
     {
         $slot = false;
@@ -75,7 +80,7 @@ class item
     {
         switch (strtolower($this->getType()))
         {
-            case 'drones':
+            case 'drone':
                 return $this->getName() . ' x' . $this->getValue('qty');
                 break;
             case 'module':

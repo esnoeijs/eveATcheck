@@ -127,11 +127,14 @@ class fit
             case 'module':
                 $this->slots[$item->getSlotType()][] = $item;
                 break;
-            case 'drones':
+            case 'drone':
                 $this->slots[fit::DRONES][] = $item;
                 break;
             case 'implant':
                 $this->slots[fit::IMPLANTS][] = $item;
+                break;
+            case 'subsystem':
+                $this->slots[fit::SUBSYSTEM][] = $item;
                 break;
         }
     }
@@ -283,6 +286,49 @@ class fit
         return $this->flagship;
     }
 
+    public function getDNA()
+    {
+        print "<pre>";
+        $modules[] = array();
+        $slots = $this->getSlots();
+        foreach ($slots as $slotType => $slotModules)
+        {
+            if (!isset($modules[$slotType]))
+                $modules[$slotType] = array();
+
+            /** @var item $slotModule */
+            foreach ($slotModules as $slotModule)
+            {
+                if (!isset($modules[$slotType][$slotModule->getTypeId()]))
+                    $modules[$slotType][$slotModule->getTypeId()] = 0;
+
+                switch (strtolower($slotModule->getType()))
+                {
+                    case 'drone':
+                        $modules[$slotType][$slotModule->getTypeId()] = $slotModule->getValue('qty');
+                        break;
+                    default:
+                        $modules[$slotType][$slotModule->getTypeId()] += 1;
+                        break;
+                }
+            }
+        }
+
+        $slotOrder = array(self::SUBSYSTEM, self::RIGSLOT, self::LOWSLOT, self::MIDSLOT, self::HIGHSLOT, self::DRONES);
+        $dna = $this->getTypeId() . ':';
+        foreach ($slotOrder as $slotType)
+        {
+            if (!isset($modules[$slotType]))
+                continue;
+
+            foreach ($modules[$slotType] as $modTypeId => $qty)
+            {
+                $dna .= $modTypeId . ":" . $qty . ':' . substr($slotType,0,1) . ":";
+            }
+        }
+        return $dna . ':';
+    }
+
     public function getEFT()
     {
         $EFT = "[{$this->type}, {$this->name}]".PHP_EOL;
@@ -346,6 +392,12 @@ class fit
 
                         if (!$module->isModule())
                         {
+
+                            if ($module->getType()=='Subsystem')
+                            {
+                                $this->addItem($module);
+                            }
+
                             // Drones, becouse they have a " x#" behind their name
                             // this is really stupid, but meh.
                             if (preg_match('/(^.*) x([0-9]+)$/', $moduleName, $match))

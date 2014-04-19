@@ -55,6 +55,7 @@ class itemModel extends baseModel
         $conn = $this->db->getConnection();
         $sth  = $conn->prepare('
             SELECT
+              it.typeID,
               it.typeName,
               ig.groupName,
               ic.categoryName

@@ -248,7 +248,10 @@ var boxHelper = function(Div)
             return false;
         });
 
-
+        if (typeof CCPEVE !== 'undefined') {
+            $('.exportDNA', selfEl).show()
+            $('.export', selfEl).hide()
+        }
     }
 
     this.dialogClose = function(self)

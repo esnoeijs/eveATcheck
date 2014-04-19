@@ -2,6 +2,7 @@
     <div class="header">
         <h3 class="name"><b>{{ fit.type|escape }}</b> - {{ fit.name|escape }}</h3>
         <div class="menu" >
+            <a class="exportDna" style="display:none"  href='javascript:CCPEVE.showFitting("{{ fit.dna }}");' ><i class="fa fa-download fa-2x" ></i></a>
             <a class="export "   href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/exportDialog" ><i class="fa fa-download fa-2x" ></i></a>
             <a class="edit"     href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/editDialog" ><i class="fa fa-edit fa-2x"></i></a>
             <a class="refresh"  href="/index.php/setup/{{ setup.id }}/fit/{{ fit.id }}/refresh" ><i class="fa fa-refresh fa-2x"></i></a>
