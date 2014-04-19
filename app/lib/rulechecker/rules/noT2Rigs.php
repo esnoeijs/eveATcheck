@@ -20,7 +20,7 @@ class noT2Rigs extends rule
         if (!isset($fitSlots['Rig'])) return true;
         foreach ($fitSlots['Rig'] as $rig)
         {
-            if (strstr($rig['moduleName'], ' II')) return false;
+            if (strstr($rig->getName(), ' II')) return false;
         }
         return true;
     }
