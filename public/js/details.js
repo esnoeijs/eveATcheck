@@ -227,6 +227,28 @@ var boxHelper = function(Div)
                 });
             return false;
         });
+
+        $('.export', selfEl).off('click');
+        $('.export', selfEl).click(function(){
+            var url = this.href;
+            $.get(
+                url,
+                function (htmlForm) {
+                    self.dialogEl
+                        .html(htmlForm)
+                        .dialog({
+                            autoOpen: true,
+                            title: 'export fit',
+                            buttons: [
+                                { text: "Close", click: function() { self.dialogClose(self) } }
+                            ]
+                        });
+                    return false;
+                });
+            return false;
+        });
+
+
     }
 
     this.dialogClose = function(self)

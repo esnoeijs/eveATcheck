@@ -25,6 +25,16 @@ class fit
         $app->render('fit/editDialog.twig', array('setupId' => $setupId, 'fit' => $fit));
     }
 
+    public function action_exportDialog(Slim $app, $setupId, $fitId)
+    {
+        if (!$app->user->isLoggedin()) return false;
+
+        $setup = $app->evefit->getSetup($setupId);
+        $fit   = $setup->getFit($fitId);
+
+        $app->render('fit/exportDialog.twig', array('setupId' => $setupId, 'fit' => $fit));
+    }
+
     /**
      * Add a fit to the user session
      *

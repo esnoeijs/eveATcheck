@@ -111,6 +111,12 @@ $app->get("/setup/:setup/fit/:fit/editDialog", function ($setupId, $fitId) use (
     $controller->action_editDialog($app, $setupId, $fitId);
 });
 
+// get export dialog HTML for fit
+$app->get("/setup/:setup/fit/:fit/exportDialog", function ($setupId, $fitId) use ($app) {
+    $controller = new eveATcheck\controller\fit();
+    $controller->action_exportDialog($app, $setupId, $fitId);
+});
+
 // update fit
 $app->post("/setup/:setup/fit/:fit/update", function ($setupId, $fitId) use ($app) {
     $controller = new eveATcheck\controller\fit();

@@ -1,0 +1,14 @@
+<section>
+    <form>
+        <p><label>EFT format fit:</label><br/>
+            <textarea rows="10" class="text ui-widget-content ui-corner-all" name="fit">{{ fit.EFT|escape }}</textarea>
+        <p>Press copy and paste the fit where ever you want</p>
+    </form>
+</section>
+
+<script>
+$(document).ready(function (){
+    $('textarea[name=fit]').on('focus', function() { $(this).select(); })
+    $('textarea[name=fit]').focus();
+});
+</script>
