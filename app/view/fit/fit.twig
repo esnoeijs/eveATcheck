@@ -32,7 +32,7 @@
             {% for slotName,slot in fit.slots %}
                 <h3>{{ slotName }}</h3>
                 {% for module in slot %}
-                    <li>{{ module.moduleName|escape }}</li>
+                    <li>{{ module.moduleName|escape }} {% if module.hasValue('charge') %}<abbr title="{{ module.getValue('charge').moduleName|escape }}">(*)</abbr>{% endif %}</li>
                 {% endfor %}
             {% endfor %}
         </ul>
