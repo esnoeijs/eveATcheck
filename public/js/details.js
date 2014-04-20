@@ -249,7 +249,7 @@ var boxHelper = function(Div)
         });
 
         if (typeof CCPEVE !== 'undefined') {
-            $('.exportDNA', selfEl).show()
+            $('.exportDna', selfEl).show()
             $('.export', selfEl).hide()
         }
     }

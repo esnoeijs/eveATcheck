@@ -289,6 +289,7 @@ class fit
     public function getDNA()
     {
         $modules[] = array();
+        $modules['charge'] = array();
         $slots = $this->getSlots();
         foreach ($slots as $slotType => $slotModules)
         {
@@ -306,6 +307,16 @@ class fit
                     case 'drone':
                         $modules[$slotType][$slotModule->getTypeId()] = $slotModule->getValue('qty');
                         break;
+                    case 'module':
+                        $modules[$slotType][$slotModule->getTypeId()] += 1;
+                        if ($slotModule->hasValue('charge'))
+                        {
+                            $charge = $slotModule->getValue('charge');
+                            if (!isset($modules['charge'][$charge->getTypeId()]))
+                                $modules['charge'][$charge->getTypeId()] = 0;
+                            $modules['charge'][$charge->getTypeId()] += 1;
+                        }
+                        break;
                     default:
                         $modules[$slotType][$slotModule->getTypeId()] += 1;
                         break;
@@ -313,7 +324,7 @@ class fit
             }
         }
 
-        $slotOrder = array(self::SUBSYSTEM, self::HIGHSLOT, self::MIDSLOT, self::LOWSLOT, self::RIGSLOT, self::DRONES);
+        $slotOrder = array(self::SUBSYSTEM, self::HIGHSLOT, self::MIDSLOT, self::LOWSLOT, self::RIGSLOT, self::DRONES, 'charge');
         $dna = $this->getTypeId() . ':';
         foreach ($slotOrder as $slotType)
         {
