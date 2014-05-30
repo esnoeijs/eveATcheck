@@ -20,15 +20,40 @@ class onlyOneModuleAllowed extends rule
         $found = array();
         $fitModules = $fit->getModuleNames();
 
-        foreach ($this->options['modules']['module'] as $module)
+
+        if (isset($this->options['moduleGroup']))
         {
-            $found[$module] =0;
+            $moduleGroup = $this->options['moduleGroup'];
+            $rows = $this->model->getModel('item')->getItemsByGroup($moduleGroup);
+            foreach ($rows as $row)
+                $items[] = $row['typeName'];
+
             foreach ($fitModules as $moduleName)
             {
-                if ($moduleName == $module)
-                    $found[$module]++;
+                if (in_array($moduleName, $items))
+                {
+                    $found[$moduleName]++;
+                }
             }
-            if ($found[$module]>1) return false;
+
+            foreach ($found as $qty)
+            {
+                if ($qty > 1) return false;
+            }
+        }
+
+        if (isset($this->options['modules']))
+        {
+            foreach ($this->options['modules']['module'] as $module)
+            {
+                $found[$module] =0;
+                foreach ($fitModules as $moduleName)
+                {
+                    if ($moduleName == $module)
+                        $found[$module]++;
+                }
+                if ($found[$module]>1) return false;
+            }
         }
 
         return true;
