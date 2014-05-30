@@ -36,7 +36,7 @@ var quickAddHelper = function(el)
                 ui.item.idx = idx;
                 self.ship[idx]=  ui.item;
 
-                $('#addedShips').append('<li id="ship_'+idx+'_li"><input name="ship_'+idx+'" type="hidden" value="'+ui.item.value+'" /><span class="shipName">'+ui.item.label+'</span> Qty:<input class="shipQty" name="ship_'+idx+'_qty" size="1" type="text" value="1" />&nbsp;<a class="removeShip" idx="'+idx+'"><i class="fa fa-flag fa-1x"></i></a></li>')
+                $('#addedShips').append('<li id="ship_'+idx+'_li"><input name="ship_'+idx+'" type="hidden" value="'+ui.item.value+'" /><span class="shipName">'+ui.item.label+'</span> Qty:<input class="shipQty" name="ship_'+idx+'_qty" size="1" type="text" value="1" />&nbsp;<a class="removeShip" idx="'+idx+'"><i class="fa fa-times fa-1x"></i></a></li>')
 
                 $('.shipQty').off('change');
                 $('.shipQty').on('change', function() { self.updateStats() });

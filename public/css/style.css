@@ -9,6 +9,11 @@ a i.fa {
     font-size: 1.8em !important;
 }
 
+
+a .fa {
+    cursor: pointer;
+}
+
 /***************
 GLOBAL
 ***************/
