@@ -25,6 +25,8 @@
             <type>Battleship, Pirate Faction</type>
             <points>20</points>
             <define>
+                <ship>barghest</ship>
+                <ship>nestor</ship>
                 <ship>bhaalgorn</ship>
                 <ship>vindicator</ship>
                 <ship>machariel</ship>
@@ -149,6 +151,8 @@
                 <ship>ashimmu</ship>
                 <ship>phantasm</ship>
                 <ship>gila</ship>
+		<ship>orthrus</ship>
+		<ship>stratios</ship>
             </define>
         </ship>
         <ship>
@@ -195,6 +199,8 @@
                 <ship>cruor</ship>
                 <ship>succubus</ship>
                 <ship>worm</ship>
+		<ship>astero</ship>
+		<ship>garmur</ship>
             </define>
         </ship>
         <ship>
@@ -230,7 +236,7 @@
         </ship>
         <ship>
             <type>Bomber</type>
-            <points>3</points>
+            <points>4</points>
             <define>
                 <group>stealth bomber</group>
             </define>
@@ -276,15 +282,6 @@
     </points>
     <restrictions>
         <restriction>
-            <type>onlyOneModuleAllowed</type>
-            <warning>Only one Ancillary Armor Repairer allowed</warning>
-            <modules>
-                <module>Small Ancillary Armor Repairer</module>
-                <module>Medium Ancillary Armor Repairer</module>
-                <module>Large Ancillary Armor Repairer</module>
-            </modules>
-        </restriction>
-        <restriction>
             <type>noT2Rigs</type>
         </restriction>
         <restriction>
@@ -292,11 +289,6 @@
         </restriction>
         <restriction>
             <type>flagshipXII</type>
-        </restriction>
-        <restriction>
-            <type>onlyOneModuleAllowed</type>
-            <warning>Remote Energy Transfer modules are NOT allowed</warning>
-            <moduleGroup>Remote Capacitor Transmitter</moduleGroup>
         </restriction>
     </restrictions>
 </rules>
