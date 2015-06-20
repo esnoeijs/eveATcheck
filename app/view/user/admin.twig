@@ -1,0 +1,47 @@
+{% extends 'base.twig' %}
+
+
+{% block content %}
+
+    <section>
+        <h2>User admin</h2>
+        <div class="notification error general" style="display: none">
+        </div>
+
+	<table>
+	{% for user in users %}
+		<tr>
+			<td width="50" >{{ user.id }}</td>
+			<td>{{ user.username}}</td>
+			<td>
+
+			{% if user.valid %}
+				<a href="?user={{ user.id }}" ><i class="fa fa-check fa-1x" style="color: green" ></i></a>
+			{% else %} 
+				<a href="?user={{ user.id }}"><i class="fa fa-ban fa-1x" style="color: red" ></i></a>
+			{% endif %}
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+
+    </section>
+
+    <style>
+        #userRegistration label
+        {
+            width: 250px;
+            display: inline-block;
+        }
+        #userRegistration input.error
+        {
+            background-color: red;
+        }
+        #userRegistration .errorMessage
+        {
+            font-size: 0.8em;
+        }
+
+
+    </style>
+{% endblock %}

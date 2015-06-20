@@ -22,6 +22,8 @@ class user
 
     protected $userId;
     protected $userName;
+    protected $valid;
+    protected $admin;
 
     protected $model;
     protected $auth;
@@ -37,6 +39,8 @@ class user
             $this->loggedin = true;
             $this->userId = $_SESSION['user']['id'];
             $this->userName = $_SESSION['user']['username'];
+            $this->valid = $_SESSION['user']['valid'];
+            $this->admin = $_SESSION['user']['admin'];
         }
     }
 
@@ -51,11 +55,15 @@ class user
         if (!$login) return false;
 
         $user = $this->getUser($user);
+        if (!$user['valid']) return -2; // this sis a stupid way of doing things
+
         $_SESSION['user'] = $user;
 
         $this->loggedin = true;
         $this->userId = $_SESSION['user']['id'];
         $this->userName = $_SESSION['user']['username'];
+        $this->valid = $_SESSION['user']['valid'];
+        $this->admin = $_SESSION['user']['admin'];
 
         return true;
     }
@@ -79,6 +87,10 @@ class user
     {
         return $this->userId;
     }
+    public function isAdmin()
+    {
+	return $this->admin;
+    } 
 
     /**
      * Retrieves fits from the database or session depending on if the user is loggedin

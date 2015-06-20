@@ -17,7 +17,8 @@ $slimOptions =  array(
 );
 
 $twigOptions = array(
-    'debug' => true
+    'debug' => true,
+    'cache' => false
 );
 
 

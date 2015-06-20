@@ -23,9 +23,12 @@ class user
 
             $success = $app->user->login($username, $password);
 
-            if (!$success)
+            if ($success < 0)
             {
                 $errors['general'] = 'Invalid login credentials';
+		if ($success == -2) {
+			$errors['general'] = 'Non validated user. Bugger vand';
+		}
             }
 
             $response = array(
@@ -78,5 +81,20 @@ class user
         }
 
         $app->render('user/register.twig', array('user' => $app->user));
+    }
+
+    public function action_admin(\Slim\Slim $app)
+    {
+        if (!$app->user->isLoggedin()) return false;
+	if (!$app->user->isAdmin()) return false;;
+
+	$userId = $app->request()->get('user',null);
+	if ($userId != null)
+	{
+		$app->model->getModel('user')->toggleValid($userId);
+	}
+
+        $users = $app->model->getModel('user')->getAll();
+        $app->render('user/admin.twig', array('users' => $users, 'user' => $app->user));
     }
 } 

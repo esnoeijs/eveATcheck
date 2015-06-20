@@ -1,0 +1,317 @@
+<rules>
+    <event>
+        <name>AT XIII</name>
+        <points>100</points>
+        <pilots>12</pilots>
+    </event>
+    <!--
+    Points are defined per CCP listed ship shipGroup.
+    Such shipGroup then gets assigned points
+    Then we define which ships belong to this shipGroup.
+    We can define a shipGroup which is a existing name in the CCP static data dump invGroups table.
+    We can define specif ships which are existing names in the invTypes table of CCP's static data dump.
+
+    If specific names are defined these will be removed from other listings.
+    -->
+    <points>
+        <ship>
+            <type>Battleship, Pirate Faction</type>
+            <points>19</points>
+            <define>
+                <ship>barghest</ship>
+                <ship>nestor</ship>
+                <ship>bhaalgorn</ship>
+                <ship>vindicator</ship>
+                <ship>machariel</ship>
+                <ship>nightmare</ship>
+                <ship>rattlesnake</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Marauder</type>
+            <points>19</points>
+            <define>
+                <group>marauder</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Battleship, Navy Faction</type>
+            <points>17</points>
+            <define>
+                <ship>apocalypse navy issue</ship>
+                <ship>armageddon navy issue</ship>
+                <ship>raven navy issue</ship>
+                <ship>scorpion navy issue</ship>
+                <ship>dominix navy issue</ship>
+                <ship>megathron navy issue</ship>
+                <ship>tempest fleet issue</ship>
+                <ship>typhoon fleet issue</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Black Ops Battleship</type>
+            <points>17</points>
+            <define>
+                <ship>redeemer</ship>
+                <ship>widow</ship>
+                <ship>sin</ship>
+                <ship>panther</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Battleship</type>
+            <points>16</points>
+            <define>
+                <group>battleship</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Command Ship</type>
+            <points>16</points>
+            <define>
+                <group>command ship</group>
+            </define>
+        </ship>
+        <ship>
+            <type>strategic cruiser</type>
+            <points>16</points>
+            <define>
+                <group>strategic cruiser</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Recon Ship</type>
+            <points>13</points>
+            <define>
+                <group>force recon ship</group>
+                <group>combat recon ship</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Logistics Cruiser</type>
+            <points>13</points>
+            <define>
+                <group>logistics</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Battlecruiser, Navy Faction</type>
+            <points>13</points>
+            <define>
+                <ship>harbinger navy issue</ship>
+                <ship>drake navy issue</ship>
+                <ship>brutix navy issue</ship>
+                <ship>hurricane fleet issue</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Heavy Assault Cruiser</type>
+            <points>12</points>
+            <define>
+                <group>heavy assault cruiser</group>
+            </define>
+        </ship>
+
+        <ship>
+            <type>Battlecruiser</type>
+            <points>12</points>
+            <define>
+                <group>combat battlecruiser</group>
+                <group>attack battlecruiser</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Cruiser, Faction</type>
+            <points>11</points>
+            <define>
+                <ship>vigilant</ship>
+                <ship>gila</ship>
+                <ship>cynabal</ship>
+                <ship>ashimmu</ship>
+                <ship>phantasm</ship>
+                <ship>gila</ship>
+                <ship>orthrus</ship>
+                <ship>stratios</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Heavy Interdictor</type>
+            <points>11</points>
+            <define>
+                <group>heavy interdiction cruiser</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Tech 1 Support Cruiser</type>
+            <points>10</points>
+            <define>
+                <ship>augoror</ship>
+                <ship>osprey</ship>
+                <ship>exequror</ship>
+                <ship>scythe</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Cruiser, Navy</type>
+            <points>9</points>
+            <define>
+                <ship>augoror navy issue</ship>
+                <ship>omen navy issue</ship>
+                <ship>caracal navy issue</ship>
+                <ship>osprey navy issue</ship>
+                <ship>exequror navy issue</ship>
+                <ship>vexor navy issue</ship>
+                <ship>scythe fleet issue</ship>
+                <ship>stabber fleet issue</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Cruiser</type>
+            <points>6</points>
+            <define>
+                <group>cruiser</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Tactical Destroyer</type>
+            <points>6</points>
+            <define>
+                <group>Tactical Destroyer</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Electronic Attack Frigate</type>
+            <points>5</points>
+            <define>
+                <group>electronic attack ship</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Frigate, Faction</type>
+            <points>4</points>
+            <define>
+                <ship>daredevil</ship>
+                <ship>dramiel</ship>
+                <ship>cruor</ship>
+                <ship>succubus</ship>
+                <ship>worm</ship>
+                <ship>astero</ship>
+                <ship>garmur</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Assault Frigate</type>
+            <points>4</points>
+            <define>
+                <group>assault frigate</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Covert Ops Ship</type>
+            <points>4</points>
+            <define>
+                <group>Covert Ops</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Interdictor</type>
+            <points>4</points>
+            <define>
+                <group>interdictor</group>
+            </define>
+        </ship>
+        <ship>
+            <type>frigate, navy</type>
+            <points>3</points>
+            <define>
+                <ship>imperial navy slicer</ship>
+                <ship>caldari navy hookbill</ship>
+                <ship>federation navy comet</ship>
+                <ship>republic fleet firetail</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Tech 1 Disruption Frigate</type>
+            <points>3</points>
+            <define>
+                <ship>maulus</ship>
+                <ship>crucifier</ship>
+                <ship>griffin</ship>
+                <ship>vigil</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Bomber</type>
+            <points>3</points>
+            <define>
+                <group>stealth bomber</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Interceptor</type>
+            <points>3</points>
+            <define>
+                <group>interceptor</group>
+            </define>
+        </ship>
+        <ship>
+            <type>destroyer</type>
+            <points>3</points>
+            <define>
+                <group>destroyer</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Tech 1 Industrial Ships</type>
+            <points>2</points>
+            <define>
+                <group>industrial</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Tech 1 support frigate</type>
+            <points>2</points>
+            <define>
+                <ship>bantam</ship>
+                <ship>inquisitor</ship>
+                <ship>navitas</ship>
+                <ship>burst</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>frigate</type>
+            <points>2</points>
+            <define>
+                <group>frigate</group>
+            </define>
+        </ship>
+        <ship>
+            <type>Rookie ship, Pirate Faction</type>
+            <points>2</points>
+            <define>
+                <ship>Immolator</ship>
+                <ship>Hematos</ship>
+                <ship>Taipan</ship>
+                <ship>Violator</ship>
+            </define>
+        </ship>
+        <ship>
+            <type>Rookie ship</type>
+            <points>1</points>
+            <define>
+                <group>Rookie ship</group>
+            </define>
+        </ship>
+    </points>
+    <restrictions>
+        <restriction>
+            <type>twoShipsPerType</type>
+        </restriction>
+        <restriction>
+            <type>noT2Rigs</type>
+        </restriction>
+        <restriction>
+            <type>oneLogi</type>
+        </restriction>
+    </restrictions>
+</rules>

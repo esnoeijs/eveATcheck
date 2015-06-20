@@ -173,3 +173,9 @@ $app->get("/ships/autocomplete", function () use ($app) {
     $controller = new eveATcheck\controller\setup();
     $controller->action_shipAutocomplete($app);
 });
+
+// user admin
+$app->get("/user/admin", function () use ($app) {
+    $controller = new eveATcheck\controller\user();
+    $controller->action_admin($app);
+});

@@ -27,6 +27,9 @@
         <span id="user_mgmnt">
             {% if user.isLoggedin() %}
                 Welcome {{ user.getName() }} | <a href="/index.php/user/logout">Logout</a>
+		{% if user.isAdmin() %}
+			| <a href="/index.php/user/admin">Admin</a>
+		{% endif %}
             {% else %}
                 <a href="/index.php/user/register">Register</a> | <a href="/index.php/user/login">Login</a>
             {% endif %}
