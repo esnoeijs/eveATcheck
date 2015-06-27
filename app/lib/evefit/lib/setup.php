@@ -21,6 +21,7 @@ class setup
     protected $updateDate;
     protected $ownerId;
     protected $ownerName;
+    protected $shipSort;
 
     /**
      * @return \DateTime
@@ -161,6 +162,7 @@ class setup
     public function setFits($fits)
     {
         $this->fits = $fits;
+        $this->sortFits();
     }
 
     public function deleteFit($fitId)
@@ -180,6 +182,7 @@ class setup
     public function addFit($fit)
     {
         $this->fits[] = $fit;
+        $this->sortFits();
     }
 
     public function replaceFit($fitId, $newFit)
@@ -236,5 +239,39 @@ class setup
     public function getDeletedFits()
     {
         return $this->deletedFits;
+    }
+
+    /**
+     * Sorts the fits alphabetically
+     */
+    private function sortFits()
+    {
+        switch ($this->shipSort) {
+            case 'points':
+                usort($this->fits, function(fit $fitA, fit $fitB) {
+                    if ($fitA->getPoints() == $fitB->getPoints()) {
+                        return 0;
+                    }
+                    return ($fitA->getPoints() > $fitB->getPoints()) ? -1 : 1;
+                });
+                break;
+            case 'alpha':
+            default:
+                usort($this->fits, function(fit $fitA, fit $fitB) {
+                    if ($fitA->getType() == $fitB->getType()) {
+                        return 0;
+                    }
+                    return ($fitA->getType() < $fitB->getType()) ? -1 : 1;
+                });
+                break;
+        }
+    }
+
+    public function setSort($sortOrder)
+    {
+        if (!in_array($sortOrder, ['points','alpha'])) return;
+        $this->shipSort = $sortOrder;
+
+        $this->sortFits();
     }
 } 

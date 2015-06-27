@@ -27,9 +27,16 @@
         <span id="user_mgmnt">
             {% if user.isLoggedin() %}
                 Welcome {{ user.getName() }} | <a href="/index.php/user/logout">Logout</a>
-		{% if user.isAdmin() %}
-			| <a href="/index.php/user/admin">Admin</a>
-		{% endif %}
+                {% if user.isAdmin() %}
+                    | <a href="/index.php/user/admin">Admin</a>
+                {% endif %}
+                <form id="shipSortForm" style="padding-left: 15px;display: inline">
+                    <label>Sort ships: </label>
+                    <select name="shipSort" onchange="document.getElementById('shipSortForm').submit();return false;">
+                        <option {{ sortOrder == 'aplha' ? 'selected="selected"' }} value="alpha">Alpha</option>
+                        <option {{ sortOrder == 'points' ? 'selected="selected"' }} value="points">Points</option>
+                    </select>
+                </form>
             {% else %}
                 <a href="/index.php/user/register">Register</a> | <a href="/index.php/user/login">Login</a>
             {% endif %}

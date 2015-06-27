@@ -17,6 +17,9 @@ use eveATcheck\lib\user\user;
 class evefit
 {
     protected $fits   = array();
+    /**
+     * @var setup[]
+     */
     protected $setups = array();
 
     /**
@@ -35,6 +38,13 @@ class evefit
         $this->user  = $user;
 
         $this->loadSetups();
+    }
+
+    public function setSort($sortOrder)
+    {
+        foreach ($this->setups as $setup) {
+            $setup->setSort($sortOrder);
+        }
     }
 
     /**

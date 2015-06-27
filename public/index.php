@@ -41,7 +41,7 @@ $app->user  = new \eveATcheck\lib\user\user($app->model, new \eveATcheck\lib\use
 $app->evefit = new \eveATcheck\lib\evefit\evefit($app->model, $app->user);
 $app->rulechecker = new \eveATcheck\lib\rulechecker\rulechecker($app->model, $ruleDir . $activeTournament);
 
-
+$app->add(new \eveATcheck\lib\evefit\shipSortMiddleware());
 $app->add(new \eveATcheck\lib\rulechecker\rulecheckerMiddleware());
 
 require '../app/routes.php';
