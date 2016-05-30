@@ -13,7 +13,6 @@
         "slim/views": "*",
         "twig/twig": "*",
         "twig/extensions": "*",
-        "ircmaxell/password-compat": "dev-master",
         "phpunit/phpunit": "4.0.*"
     }
 }

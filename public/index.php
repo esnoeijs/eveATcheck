@@ -1,12 +1,12 @@
 <?php
 
-
 /**
  * @todo Add user with login/logout persistant fit storage
  * @todo Add check for fits and fleet setups and the fits within.
  */
 
-
+error_reporting(E_ALL);
+ini_set('display_errors', true);
 date_default_timezone_set('UTC');
 
 require '../config/config.php';
@@ -15,7 +15,6 @@ require '../vendor/slim/slim/Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 require '../vendor/twig/twig/lib/Twig/Autoloader.php';
 Twig_Autoloader::register();
-
 $twig = new \Slim\Views\Twig();
 $twig->parserOptions = $twigOptions;
 $twig->parserExtensions = array(

@@ -1,4 +1,5 @@
 .idea/
 vendor/
+mysqlData/
 config/config.php
 composer.phar

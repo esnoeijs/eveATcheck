@@ -1,4 +1,5 @@
-
+CREATE DATABASE IF NOT EXISTS eveATcheck;
+use eveATcheck;
 
 CREATE TABLE IF NOT EXISTS `fit` (
 `id`          int(11) NOT NULL AUTO_INCREMENT,
@@ -36,11 +37,12 @@ CREATE TABLE IF NOT EXISTS `setup` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-
 CREATE TABLE IF NOT EXISTS `user` (
-`id`        int(11) NOT NULL AUTO_INCREMENT,
-`username`  varchar(64) NOT NULL,
-`password`  varchar(64) NOT NULL,
+`id`       int(11) NOT NULL AUTO_INCREMENT,
+`username` varchar(64) NOT NULL,
+`password` varchar(64) NOT NULL,
+`valid`    BOOL DEFAULT 0,
+`admin`    BOOL DEFAULT 0,
 PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
