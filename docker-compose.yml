@@ -1,15 +1,15 @@
 web:
-  container_name: web1
+  container_name: atWeb1
   build: .
   volumes:
     - ./:/var/www/
   ports:
-    - "80:80"
+    - "9080:80"
   links:
     - mysql
 
 mysql:
-  container_name: mysql
+  container_name: atMysql
   image: mysql:latest
   volumes:
     - ./mysqlData:/var/lib/mysql

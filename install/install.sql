@@ -1,15 +1,16 @@
 CREATE DATABASE IF NOT EXISTS eveATcheck;
 use eveATcheck;
 
+DROP TABLE `fit`;
 CREATE TABLE IF NOT EXISTS `fit` (
 `id`          int(11) NOT NULL AUTO_INCREMENT,
 `setupId`     int(11) NOT NULL,
 `qty`         int(11) NOT NULL,
 `name`        varchar(255) NOT NULL,
 `description` text NOT NULL,
-`deleted`     datetime NOT NULL,
+`deleted`     datetime DEFAULT NULL,
 `publishDate` datetime NOT NULL,
-`updateDate`  datetime NOT NULL,
+`updateDate`  datetime DEFAULT NULL,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
