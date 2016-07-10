@@ -1,7 +1,6 @@
 CREATE DATABASE IF NOT EXISTS eveATcheck;
 use eveATcheck;
 
-DROP TABLE `fit`;
 CREATE TABLE IF NOT EXISTS `fit` (
 `id`          int(11) NOT NULL AUTO_INCREMENT,
 `setupId`     int(11) NOT NULL,
